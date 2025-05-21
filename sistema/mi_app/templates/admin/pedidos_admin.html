@@ -1,0 +1,104 @@
+
+
+<h1>Pedidos</h1>
+
+<form method="get" style="margin-bottom: 20px;">
+  <label for="estado">Filtrar por estado:</label>
+  <select id="estado" name="estado" onchange="this.form.submit()">
+    <option value="">Todos</option>
+    {% for key, label in pedidos.0.ESTADOS %}
+      <option value="{{ key }}" {% if request.GET.estado == key %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+<style>
+  .pedidos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+  }
+  .pedido-card {
+    border: 2px solid #444;
+    border-radius: 8px;
+    padding: 15px;
+    background: #f8f8f8;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  }
+  .pedido-card h2 {
+    margin-top: 0;
+    font-size: 1.3rem;
+  }
+  .pedido-info {
+    margin: 8px 0;
+  }
+  .pedido-info strong {
+    display: inline-block;
+    width: 90px;
+  }
+  .pedido-actions a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: #2a9d8f;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  .pedido-actions a:hover {
+    background: #21867a;
+  }
+  .productos-list {
+    margin: 10px 0;
+    padding-left: 18px;
+  }
+  .productos-list li {
+    margin-bottom: 5px;
+  }
+</style>
+
+<div class="pedidos-grid">
+  {% for pedido in pedidos %}
+    <div class="pedido-card">
+      <h2>Pedido #{{ pedido.id }}</h2>
+      <div class="pedido-info"><strong>Cliente:</strong> {{ pedido.cliente_nombre }}</div>
+      <div class="pedido-info"><strong>Dirección:</strong> {{ pedido.cliente_direccion }}</div>
+      <div class="pedido-info"><strong>Teléfono:</strong> {{ pedido.cliente_telefono }}</div>
+      <div class="pedido-estado" style="margin-top: 10px;">
+        <form method="post" action="{% url 'cambiar_estado_pedido' pedido.id %}">
+          {% csrf_token %}
+          <select name="estado" onchange="this.form.submit()">
+            {% for key, label in pedido.ESTADOS %}
+              <option value="{{ key }}" {% if pedido.estado == key %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </div>
+      <div class="pedido-info"><strong>Total:</strong> ${{ pedido.total }}</div>
+      
+      <div class="pedido-info"><strong>Productos:</strong></div>
+      <ul class="productos-list">
+        {% for item in pedido.items.all %}
+          <li>
+            {{ item.cantidad }}x {{ item.producto.nombre }} 
+            {% if item.opciones_seleccionadas.all %}
+              (Opciones: 
+              {% for op in item.opciones_seleccionadas.all %}
+                {{ op.nombre }}{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+              )
+            {% endif %}
+            - ${{ item.subtotal|floatformat:2 }}
+          </li>
+        {% endfor %}
+      </ul>
+
+      <div class="pedido-actions">
+        <a href="{% url 'imprimir_pedido' pedido.id %}" target="_blank">🖨️ Imprimir</a>
+      </div>
+    </div>
+  {% empty %}
+    <p>No hay pedidos para mostrar.</p>
+  {% endfor %}
+</div>
