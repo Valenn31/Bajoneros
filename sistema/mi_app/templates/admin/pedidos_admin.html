@@ -65,7 +65,7 @@
       <div class="pedido-info"><strong>Cliente:</strong> {{ pedido.cliente_nombre }}</div>
       <div class="pedido-info"><strong>Dirección:</strong> {{ pedido.cliente_direccion }}</div>
       <div class="pedido-info"><strong>Teléfono:</strong> {{ pedido.cliente_telefono }}</div>
-      <div class="pedido-estado" style="margin-top: 10px;">
+      <div class="pedido-estado" style="margin-top: 10px;"><strong>Estado:</strong>
         <form method="post" action="{% url 'cambiar_estado_pedido' pedido.id %}">
           {% csrf_token %}
           <select name="estado" onchange="this.form.submit()">
