@@ -1,15 +1,20 @@
 Cosas a agregar: 🔄🔲✔
 
+
+🔲Eliminar productos del carrito
 ✔Imagenes para los productos
+
 🔲Distintas tablas 
 🔲Agragar las funciones del admin desde el panel de pedidos
-🔲Agregar el nombre de la tienda en la parte superior
+    🔲Agregar el nombre de la tienda en la parte superior
+
 🔲Cambio de color segun el estado de la orden
 🔲Cambiar las opciones de la visualizacion del cliente desde el panel de pedidos (como si fuera configuracion)
 ✔Poder elegir mas de una opcion por cada personalizacion
 
 
-PAGINA CLIENTE
+
+PAGINA CLIENTE IDEAS
 
 🔲Ver los pedidos y el estado del pedido que hizo la persona
 
