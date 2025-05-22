@@ -1,6 +1,6 @@
 PAGINA LOCAL (con login de admin para el negocio)
 
-	-Tabla de pedidos (
+	-Tabla de pedidos 
 		-ID
 		-INFORMACION DEL PEDIDO
 			-PRODUCTOS  CON SUS PRECIOS

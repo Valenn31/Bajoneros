@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mi Sistema{% endblock %}</title>
+    <link rel="stylesheet" href="/static/styles.css">  <!-- opcional -->
+</head>
+<body>
+    <header>
+        <h1>Mi Sistema de Pedidos</h1>
+        <nav>
+            <a href="{% url 'catalogo_cliente' %}">Catálogo</a> |
+            <a href="{% url 'ver_carrito' %}">Carrito</a>
+        </nav>
+    </header>
+    <hr>
+    
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <hr>
+        <p>&copy; 2025 - Sistema de Pedidos</p>
+    </footer>
+</body>
+</html>

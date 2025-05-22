@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{ producto.nombre }}</h1>
+<p>{{ producto.descripcion }}</p>
+<p>Precio base: ${{ producto.precio }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" name="cantidad" value="1" min="1" required>
+
+    {% for campo_info in campos_y_opciones %}
+        <fieldset>
+            <legend>{{ campo_info.campo.nombre }}</legend>
+            {% for opcion in campo_info.opciones %}
+                <label>
+                    <input type="radio" name="campo_{{ campo_info.campo.id }}" value="{{ opcion.id }}" {% if forloop.first %}checked{% endif %}>
+                    {{ opcion.nombre }} {% if opcion.precio_extra > 0 %}(+$ {{ opcion.precio_extra }}){% endif %}
+                </label><br>
+            {% endfor %}
+        </fieldset>
+    {% endfor %}
+
+    <button type="submit">Agregar al carrito</button>
+</form>
+
+<a href="{% url 'catalogo_cliente' %}">Volver al catálogo</a>
+
+{% endblock %}

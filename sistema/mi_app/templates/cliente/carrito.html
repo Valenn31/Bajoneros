@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Carrito</h2>
+
+{% if items %}
+<table>
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Personalizaciones</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.producto.nombre }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>
+                {% if item.opciones %}
+                    <ul>
+                    {% for opcion in item.opciones %}
+                        <li>{{ opcion.nombre }} (+${{ opcion.precio_extra }})</li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <em>Sin personalización</em>
+                {% endif %}
+            </td>
+            <td>${{ item.subtotal }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+            <td><strong>${{ total }}</strong></td>
+        </tr>
+    </tfoot>
+</table>
+
+<form method="post" action="{% url 'realizar_pedido' %}">
+    {% csrf_token %}
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" id="nombre" required><br>
+
+    <label for="direccion">Dirección:</label>
+    <input type="text" name="direccion" id="direccion" required><br>
+
+    <label for="telefono">Teléfono:</label>
+    <input type="text" name="telefono" id="telefono"><br>
+
+    <button type="submit">Realizar pedido</button>
+</form>
+
+{% else %}
+<p>Tu carrito está vacío.</p>
+{% endif %}
+{% endblock %}
