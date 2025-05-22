@@ -85,29 +85,45 @@ def ver_carrito(request):
     carrito = request.session.get('carrito', [])  # lista de dicts
     items = []
     total = 0
-    nuevos_items = []  # para limpiar el carrito automáticamente
+    nuevos_items = []
 
     for item in carrito:
         producto_id = item.get('producto_id')
         cantidad = item.get('cantidad', 1)
-        opciones = item.get('opciones', [])
+        opciones_ids = item.get('opciones', [])
 
         try:
             producto = Producto.objects.get(id=producto_id)
         except Producto.DoesNotExist:
-            continue  # simplemente ignorar productos inexistentes
+            continue
 
-        subtotal = producto.precio * cantidad
+        opciones_obj = []
+        precio_extra_total = 0
+        for opcion_id in opciones_ids:
+            try:
+                opcion = PersonalizacionOpcion.objects.get(id=opcion_id)
+                opciones_obj.append(opcion)
+                precio_extra_total += opcion.precio_extra
+            except PersonalizacionOpcion.DoesNotExist:
+                pass
+
+        subtotal = (producto.precio + precio_extra_total) * cantidad
         total += subtotal
 
         items.append({
             'producto': producto,
             'cantidad': cantidad,
-            'opciones': opciones,
+            'opciones': opciones_obj,
             'subtotal': subtotal,
         })
 
-        nuevos_items.append(item)  # solo guardamos los que siguen existiendo
+        nuevos_items.append(item)
+
+    if nuevos_items != carrito:
+        request.session['carrito'] = nuevos_items
+        request.session.modified = True
+
+    return render(request, 'cliente/carrito.html', {'items': items, 'total': total})
 
     # Limpia el carrito automáticamente si hubo productos inválidos
     if nuevos_items != carrito:
@@ -170,7 +186,8 @@ def detalle_producto(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     
     campos_y_opciones = []
-    for campo in producto.campos_personalizacion.all():
+    campos = producto.campos_personalizacion.prefetch_related('opciones').all()
+    for campo in campos:
         opciones = campo.opciones.all()
         campos_y_opciones.append({'campo': campo, 'opciones': opciones})
     
@@ -178,12 +195,11 @@ def detalle_producto(request, producto_id):
         cantidad = int(request.POST.get('cantidad', 1))
         personalizaciones = []
 
-        for campo in producto.campos_personalizacion.all():
+        for campo in campos:
             opcion_id = request.POST.get(f"campo_{campo.id}")
             if opcion_id:
                 personalizaciones.append(int(opcion_id))
 
-        # Guardamos el carrito como lista de ítems dict
         carrito = request.session.get('carrito', [])
         carrito.append({
             'producto_id': producto.id,
@@ -191,6 +207,7 @@ def detalle_producto(request, producto_id):
             'opciones': personalizaciones,
         })
         request.session['carrito'] = carrito
+        request.session.modified = True  # asegurar guardar sesión
 
         return redirect('ver_carrito')
 

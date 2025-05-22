@@ -16,7 +16,7 @@
             {% for opcion in campo_info.opciones %}
                 <label>
                     <input type="radio" name="campo_{{ campo_info.campo.id }}" value="{{ opcion.id }}" {% if forloop.first %}checked{% endif %}>
-                    {{ opcion.nombre }} {% if opcion.precio_extra > 0 %}(+$ {{ opcion.precio_extra }}){% endif %}
+                    {{ opcion.nombre }} {% if opcion.precio_extra > 0 %}(+${{ opcion.precio_extra|floatformat:2 }}){% endif %}
                 </label><br>
             {% endfor %}
         </fieldset>
@@ -28,3 +28,4 @@
 <a href="{% url 'catalogo_cliente' %}">Volver al catálogo</a>
 
 {% endblock %}
+

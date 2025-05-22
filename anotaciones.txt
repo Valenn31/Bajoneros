@@ -9,4 +9,4 @@ Cosas a agregar:
 
 Cosas a tener en cuenta:
 
-
+-Poder elegir mas de una opcion por cada personalizacion

@@ -3,12 +3,13 @@
 <h1>Catálogo</h1>
 <div class="grid">
   {% for producto in productos %}
-    <div style="border: 1px solid #232525; padding: 10px; margin: 30px 20px 30px 20px; border-radius: 10px;">
-      <h3>{{ producto.nombre }}</h3>
-      <p>{{ producto.descripcion }}</p>
-      <p><strong>${{ producto.precio }}</strong></p>
-      <a href="{% url 'agregar_al_carrito' producto.id %}">Agregar al carrito</a>
-    </div>
+    <a href="{% url 'detalle_producto' producto.id %}" style="text-decoration: none; color: inherit;">
+      <div style="border: 1px solid #232525; padding: 10px; margin: 30px 20px 30px 20px; border-radius: 10px;">
+        <h3>{{ producto.nombre }}</h3>
+        <p>{{ producto.descripcion }}</p>
+        <p><strong>${{ producto.precio }}</strong></p>
+      </div>
+    </a>
   {% endfor %}
 </div>
 <a href="{% url 'ver_carrito' %}">🛒 Ver carrito</a>

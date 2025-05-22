@@ -9,33 +9,30 @@
         <tr>
             <th>Producto</th>
             <th>Cantidad</th>
-            <th>Personalizaciones</th>
             <th>Subtotal</th>
         </tr>
     </thead>
     <tbody>
         {% for item in items %}
         <tr>
-            <td>{{ item.producto.nombre }}</td>
-            <td>{{ item.cantidad }}</td>
             <td>
+                {{ item.producto.nombre }}
                 {% if item.opciones %}
-                    <ul>
+                <ul style="list-style-type: none; margin: 5px 0 0 15px; padding: 0;">
                     {% for opcion in item.opciones %}
-                        <li>{{ opcion.nombre }} (+${{ opcion.precio_extra }})</li>
+                    <li>- {{ opcion.nombre }}{% if opcion.precio_extra > 0 %} (+${{ opcion.precio_extra }}){% endif %}</li>
                     {% endfor %}
-                    </ul>
-                {% else %}
-                    <em>Sin personalización</em>
+                </ul>
                 {% endif %}
             </td>
+            <td>{{ item.cantidad }}</td>
             <td>${{ item.subtotal }}</td>
         </tr>
         {% endfor %}
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+            <td colspan="2" style="text-align: right;"><strong>Total:</strong></td>
             <td><strong>${{ total }}</strong></td>
         </tr>
     </tfoot>
