@@ -1,11 +1,16 @@
+html, body {
+    margin: 0;
+    padding: 0;
+  }
+
 /* Imagen del producto ocupa ancho completo y sin bordes ni margen */
 .producto-imagen {
     width: 100%;
-    max-height: 350px; /* para que no sea demasiado alta */
-    object-fit: cover; /* recorta la imagen si es necesario sin deformar */
+    max-height: 350px;
+    object-fit: cover;
     display: block;
-    margin: 0; /* sin margen */
-    border-radius: 0; /* sin bordes redondeados */
+    border-radius: 0;
+    margin: 0 auto;
   }
   
   /* Encabezado y descripción centrados */
@@ -146,15 +151,17 @@ form label {
 /* Checkboxes y radios estilos más limpios */
 input[type="checkbox"],
 input[type="radio"] {
-    /* tamaño más grande y limpio */
-    width: 18px;
-    height: 18px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #999;
+    border-radius: 4px; /* círculo para radio abajo */
+    background-color: white;
     cursor: pointer;
-    appearance: none; /* quita estilo por defecto */
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    position: relative;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    vertical-align: middle;
 }
 
 /* Radios en forma de círculo */
@@ -162,53 +169,32 @@ input[type="radio"] {
     border-radius: 50%;
 }
 
-/* Estado checked */
+/* Hover y focus */
+input[type="checkbox"]:hover,
+input[type="radio"]:hover,
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+    border-color: #c0392b;
+}
+
+/* Estado seleccionado */
 input[type="checkbox"]:checked,
 input[type="radio"]:checked {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #e74c3c;
+    border-color: #e74c3c;
 }
 
-/* Marca dentro del checkbox */
-input[type="checkbox"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 6px;
-    width: 4px;
-    height: 9px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
+.producto-imagen {
+    width: calc(100% + 20px); /* 100% + 10px left + 10px right */
+    margin-left: -10px;
+    margin-right: -10px;
+    max-height: 350px;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+  }
 
-/* Marca para radio */
-input[type="radio"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 8px;
-    height: 8px;
-    background: white;
-    border-radius: 50%;
-}
-
-/* Cambio hover para mejorar interacción */
-input[type="checkbox"]:hover,
-input[type="radio"]:hover {
-    border-color: #0056b3;
-}
-
-/* Marca dentro del checkbox */
-input[type="checkbox"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 6px;
-    height: 12px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: translate(-50%, -50%) rotate(45deg);
-}
+  body {
+    padding-bottom: 60px; /* altura de .bottom-nav */
+  }
+  
