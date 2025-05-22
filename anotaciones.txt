@@ -1,4 +1,4 @@
-Cosas a agregar
+Cosas a agregar:
 
 -Imagenes para los productos
 -Distintas tablas 
@@ -8,3 +8,5 @@ Cosas a agregar
 
 
 Cosas a tener en cuenta
+
+

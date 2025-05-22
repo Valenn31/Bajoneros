@@ -1,0 +1,37 @@
+PAGINA LOCAL (con login de admin para el negocio)
+
+	-Tabla de pedidos (
+		-ID
+		-INFORMACION DEL PEDIDO
+			-PRODUCTOS  CON SUS PRECIOS
+			-TOTAL
+			-DATOS DEL CLIENTE
+				-DIRECCION
+				-NOMBRE
+
+	- Opciones:
+		-BOTON PARA IMPRIMIR LA ORDEN DEL PEDIDO (lo vemos después)
+		-ESTADO DE LA ORDEN (estado cambia a en proceso al imprimir ticket)
+		-LLEVAR LA CUENTA DE LOS PEDIDOS Q LLEVA EL DELIVERY
+
+
+
+PAGINA CLIENTE (Tamaño teléfono lo mas flexible posible)
+	-CARRITO
+		-MOSTRAR PEDIDOS
+		-PAGAR PEDIDO
+
+	-Crear producto personalizado (opcional)
+
+	-Categorías de productos
+		-Productos
+			-Personalización del pedido (ingredientes, aderezos, etc)
+			-Cantidad
+		-Estado del local
+		-Crear cuenta (beta)
+		
+
+			
+MODELOS
+	PRODUCTO
+	PEDIDO
