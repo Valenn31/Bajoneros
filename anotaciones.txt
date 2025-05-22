@@ -7,6 +7,6 @@ Cosas a agregar:
 -Cambio de color segun el estado de la orden
 
 
-Cosas a tener en cuenta
+Cosas a tener en cuenta:
 
 
