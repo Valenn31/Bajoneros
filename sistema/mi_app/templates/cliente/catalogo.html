@@ -1,21 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/catalogo.css' %}">
+
 <h1>Catálogo</h1>
+
 <div class="grid">
   {% for producto in productos %}
     <a href="{% url 'detalle_producto' producto.id %}" style="text-decoration: none; color: inherit;">
-      <div style="display: flex; border: 1px solid #232525; padding: 10px; margin: 30px 20px; border-radius: 10px; align-items: center; max-width: 600px;">
+      <div class="producto-card">
         {% if producto.imagen %}
-          <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px; margin-right: 15px;">
+          <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
         {% endif %}
-        <div>
-          <h3 style="margin: 0 0 5px 0;">{{ producto.nombre }}</h3>
-          <p style="margin: 0 0 5px 0;">{{ producto.descripcion }}</p>
-          <p style="margin: 0;"><strong>${{ producto.precio }}</strong></p>
+        <div class="producto-info">
+          <h3>{{ producto.nombre }}</h3>
+          <p>{{ producto.descripcion }}</p>
+          <p><strong>${{ producto.precio }}</strong></p>
         </div>
       </div>
     </a>
   {% endfor %}
 </div>
-<a href="{% url 'ver_carrito' %}">🛒 Ver carrito</a>
 {% endblock %}
+

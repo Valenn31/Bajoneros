@@ -1,17 +1,21 @@
-Cosas a agregar:
+Cosas a agregar: 🔄🔲✔
 
--Imagenes para los productos
--Distintas tablas 
--Agragar las funciones del admin desde el panel de pedidos
--Agregar el nombre de la tienda en la parte superior
--Cambio de color segun el estado de la orden
-
-
-Cosas a tener en cuenta:
-
--Poder elegir mas de una opcion por cada personalizacion
+✔Imagenes para los productos
+🔲Distintas tablas 
+🔲Agragar las funciones del admin desde el panel de pedidos
+🔲Agregar el nombre de la tienda en la parte superior
+🔲Cambio de color segun el estado de la orden
+🔲Cambiar las opciones de la visualizacion del cliente desde el panel de pedidos (como si fuera configuracion)
+✔Poder elegir mas de una opcion por cada personalizacion
 
 
 PAGINA CLIENTE
 
--Ver los pedidos y el estado del pedido que hizo la persona
+🔲Ver los pedidos y el estado del pedido que hizo la persona
+
+FUNCIONES A AGREGAR
+🔲PEDIDO (DELIVERY)
+    MOSTRAR EN LA ORDEN SI ES DELIVERY O PASO A RETIRA
+    MOSTRAR EN EL CARRITO O EN LA PAGINA DE PAGO LA MODALIDAD
+        SI LA MODALIDAD ES PASO A RETIRAR NO MOSTRAR EL CAMPO DE DIRECCION
+    

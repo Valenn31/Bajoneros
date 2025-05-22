@@ -1,27 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Mi Sistema{% endblock %}</title>
-    <link rel="stylesheet" href="/static/styles.css">  <!-- opcional -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <header>
-        <h1>Mi Sistema de Pedidos</h1>
-        <nav>
-            <a href="{% url 'catalogo_cliente' %}">Catálogo</a> |
-            <a href="{% url 'ver_carrito' %}">Carrito</a>
-        </nav>
+    <header class="main-header">
+        <div class="header-content">
+            <h1 class="app-title">🍔 Mi Sistema de Pedidos</h1>
+        </div>
     </header>
-    <hr>
-    
-    <main>
+
+    <main class="main-content">
         {% block content %}{% endblock %}
     </main>
 
-    <footer>
-        <hr>
+    <!-- Barra de navegación inferior estilo app móvil -->
+    <nav class="bottom-nav">
+        <a href="{% url 'catalogo_cliente' %}" class="nav-item">
+            <span class="material-icons">home</span>
+            <span>Inicio</span>
+        </a>
+        <a href="{% url 'ver_carrito' %}" class="nav-item">
+            <span class="material-icons">shopping_cart</span>
+            <span>Carrito</span>
+        </a>
+    </nav>
+
+    <footer class="main-footer">
         <p>&copy; 2025 - Sistema de Pedidos</p>
     </footer>
+
+    <!-- Google Material Icons (solo si no usás otra librería) -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </body>
 </html>

@@ -1,55 +1,49 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/carrito.css' %}">
+
 <h2>Carrito</h2>
 
 {% if items %}
-<table>
-    <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in items %}
-        <tr>
-          <td>{{ item.producto.nombre }}</td>
-          <td>{{ item.cantidad }}</td>
-          <td>${{ item.subtotal }}</td>
-        </tr>
-        {% if item.opciones %}
-        <tr>
-          <td colspan="3" style="padding-left: 30px; font-style: italic;">
-            <ul style="margin: 5px 0; padding-left: 15px;">
+<div class="carrito-cards">
+    {% for item in items %}
+      <div class="carrito-card">
+        {% if item.producto.imagen %}
+          <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
+        {% endif %}
+        <div class="carrito-detalles">
+          <h3>{{ item.producto.nombre }}</h3>
+          <p><strong>Cantidad:</strong> {{ item.cantidad }}</p>
+          <p><strong>Subtotal:</strong> ${{ item.subtotal }}</p>
+  
+          {% if item.opciones %}
+            <ul class="opciones-lista">
               {% for opcion in item.opciones %}
-                <li>- {{ opcion.nombre }}{% if opcion.precio_extra > 0 %} (+${{ opcion.precio_extra }}){% endif %}</li>
+                <li>{{ opcion.nombre }}{% if opcion.precio_extra > 0 %} (+${{ opcion.precio_extra }}){% endif %}</li>
               {% endfor %}
             </ul>
-          </td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-      </tbody>
-</table>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 
-<form method="post" action="{% url 'realizar_pedido' %}">
+  <form method="post" action="{% url 'realizar_pedido' %}" class="form-pedido">
     {% csrf_token %}
-
     <label for="nombre">Nombre:</label>
-    <input type="text" name="nombre" id="nombre" required><br>
+    <input type="text" name="nombre" id="nombre" required>
 
     <label for="direccion">Dirección:</label>
-    <input type="text" name="direccion" id="direccion" required><br>
+    <input type="text" name="direccion" id="direccion" required>
 
     <label for="telefono">Teléfono:</label>
-    <input type="text" name="telefono" id="telefono"><br>
+    <input type="text" name="telefono" id="telefono">
 
-    <button type="submit">Realizar pedido</button>
-</form>
-
+    <button type="submit" class="btn-pedido">Realizar pedido</button>
+  </form>
 {% else %}
-<p>Tu carrito está vacío.</p>
+  <p>Tu carrito está vacío.</p>
 {% endif %}
+
 {% endblock %}

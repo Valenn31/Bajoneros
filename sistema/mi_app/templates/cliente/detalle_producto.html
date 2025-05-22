@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
+
+
+<link rel="stylesheet" href="{% static 'css/detalle_producto.css' %}">
+
 
 <h1>{{ producto.nombre }}</h1>
 <p>{{ producto.descripcion }}</p>
