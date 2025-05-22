@@ -8,8 +8,9 @@ class Producto(models.Model):
     categoria = models.CharField(max_length=50)
     disponible = models.BooleanField(default=True)
     personalizable = models.BooleanField(default=False)
-    # Relación ManyToMany a campos de personalización reutilizables
     campos_personalizacion = models.ManyToManyField('PersonalizacionCampo', blank=True, related_name='productos')
+
+    imagen = models.ImageField(upload_to='productos/', blank=True, null=True)  # 👈 campo nuevo
 
     def __str__(self):
         return self.nombre
@@ -18,6 +19,7 @@ class Producto(models.Model):
 # Campo de personalización (ej: "Aderezo", "Tipo de pan")
 class PersonalizacionCampo(models.Model):
     nombre = models.CharField(max_length=100)
+    es_multiple = models.BooleanField(default=False)  # NUEVO CAMPO
 
     def __str__(self):
         return self.nombre

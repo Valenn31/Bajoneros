@@ -11,16 +11,20 @@
     <input type="number" id="cantidad" name="cantidad" value="1" min="1" required>
 
     {% for campo_info in campos_y_opciones %}
-        <fieldset>
-            <legend>{{ campo_info.campo.nombre }}</legend>
-            {% for opcion in campo_info.opciones %}
-                <label>
+    <fieldset>
+        <legend>{{ campo_info.campo.nombre }}</legend>
+        {% for opcion in campo_info.opciones %}
+            <label>
+                {% if campo_info.campo.es_multiple %}
+                    <input type="checkbox" name="campo_{{ campo_info.campo.id }}" value="{{ opcion.id }}">
+                {% else %}
                     <input type="radio" name="campo_{{ campo_info.campo.id }}" value="{{ opcion.id }}" {% if forloop.first %}checked{% endif %}>
-                    {{ opcion.nombre }} {% if opcion.precio_extra > 0 %}(+${{ opcion.precio_extra|floatformat:2 }}){% endif %}
-                </label><br>
-            {% endfor %}
-        </fieldset>
-    {% endfor %}
+                {% endif %}
+                {{ opcion.nombre }} {% if opcion.precio_extra > 0 %}(+${{ opcion.precio_extra }}){% endif %}
+            </label><br>
+        {% endfor %}
+    </fieldset>
+{% endfor %}
 
     <button type="submit">Agregar al carrito</button>
 </form>

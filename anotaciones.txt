@@ -10,3 +10,8 @@ Cosas a agregar:
 Cosas a tener en cuenta:
 
 -Poder elegir mas de una opcion por cada personalizacion
+
+
+PAGINA CLIENTE
+
+-Ver los pedidos y el estado del pedido que hizo la persona

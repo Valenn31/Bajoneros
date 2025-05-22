@@ -196,9 +196,13 @@ def detalle_producto(request, producto_id):
         personalizaciones = []
 
         for campo in campos:
-            opcion_id = request.POST.get(f"campo_{campo.id}")
-            if opcion_id:
-                personalizaciones.append(int(opcion_id))
+            if campo.es_multiple:
+                opcion_ids = request.POST.getlist(f"campo_{campo.id}")
+                personalizaciones.extend([int(op_id) for op_id in opcion_ids])
+            else:
+                opcion_id = request.POST.get(f"campo_{campo.id}")
+                if opcion_id:
+                    personalizaciones.append(int(opcion_id))
 
         carrito = request.session.get('carrito', [])
         carrito.append({

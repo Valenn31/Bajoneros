@@ -2,7 +2,8 @@
 from django.contrib import admin
 from django.urls import path
 from mi_app import views  # asegurate de que esto esté bien
-
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),  # esto es el panel automático de Django
     path('panel/pedidos/', views.pedidos_admin, name='pedidos_admin'),
@@ -15,5 +16,5 @@ urlpatterns = [
     path('realizar-pedido/', views.realizar_pedido, name='realizar_pedido'),
     
     path('producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
