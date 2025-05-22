@@ -3,6 +3,8 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/carrito.css' %}">
 
+<!-- Botón Volver -->
+<a href="{% url 'catalogo_cliente' %}" class="btn-volver">← Volver</a>
 <h2>Carrito</h2>
 
 {% if items %}
@@ -16,7 +18,7 @@
           <h3>{{ item.producto.nombre }}</h3>
           <p><strong>Cantidad:</strong> {{ item.cantidad }}</p>
           <p><strong>Subtotal:</strong> ${{ item.subtotal }}</p>
-  
+
           {% if item.opciones %}
             <ul class="opciones-lista">
               {% for opcion in item.opciones %}
