@@ -9,7 +9,10 @@
 {% if items %}
 <div class="carrito-cards">
     {% for item in items %}
-      <div class="carrito-card">
+      <div class="carrito-card" style="position:relative;">
+        <a href="{% url 'eliminar_del_carrito' forloop.counter0 %}" class="eliminar-item" title="Eliminar">
+          <span class="material-icons">close</span>
+        </a>
         {% if item.producto.imagen %}
           <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
         {% endif %}

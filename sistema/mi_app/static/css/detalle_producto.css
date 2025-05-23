@@ -114,7 +114,6 @@ html, body {
     text-align: center;
     color: #d32f2f;
     font-weight: 600;
-    margin-top: 35px;
     text-decoration: none;
     font-size: 1.1em;
     transition: color 0.2s ease;
@@ -194,7 +193,4 @@ input[type="radio"]:checked {
     border-radius: 0;
   }
 
-  body {
-    padding-bottom: 60px; /* altura de .bottom-nav */
-  }
   

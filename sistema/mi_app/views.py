@@ -220,5 +220,17 @@ def detalle_producto(request, producto_id):
         'campos_y_opciones': campos_y_opciones
     })
 
-
-#BORRAR
+def eliminar_del_carrito(request, item_index):
+    """
+    Elimina un producto del carrito por su índice en la lista de la sesión.
+    """
+    try:
+        item_index = int(item_index)
+        carrito = request.session.get('carrito', [])
+        if 0 <= item_index < len(carrito):
+            del carrito[item_index]
+            request.session['carrito'] = carrito
+            request.session.modified = True
+    except (ValueError, TypeError):
+        pass
+    return redirect('ver_carrito')
