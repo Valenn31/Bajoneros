@@ -1,6 +1,6 @@
 Cosas a agregar: 🔄🔲✔
 
-
+🔲Las opciones no funcionan bien (los aderezos no se agregan)
 🔲Eliminar productos del carrito
 ✔Imagenes para los productos
 
