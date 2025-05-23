@@ -1,7 +1,4 @@
-{% extends 'base.html' %}
 {% load static %}
-
-{% block content %}
 
 <link rel="stylesheet" href="{% static 'css/detalle_producto.css' %}">
 
@@ -10,13 +7,14 @@
 
 <h1>{{ producto.nombre }}</h1>
 <p>{{ producto.descripcion }}</p>
-<p>Precio base: ${{ producto.precio }}</p>
 
-<form method="post">
+<!-- Botón flotante de regreso al catálogo (cuadrado, flecha solo punta SVG) -->
+<a href="{% url 'catalogo_cliente' %}" class="btn-flecha-atras" title="Volver al catálogo">
+    <svg class="flecha" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d32f2f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+</a>
+
+<form method="post" id="form-detalle-producto">
     {% csrf_token %}
-    <label for="cantidad">Cantidad:</label>
-    <input type="number" id="cantidad" name="cantidad" value="1" min="1" required>
-
     {% for campo_info in campos_y_opciones %}
     <fieldset>
         <legend>{{ campo_info.campo.nombre }}</legend>
@@ -32,10 +30,32 @@
         {% endfor %}
     </fieldset>
     {% endfor %}
-
-    <button type="submit">Agregar al carrito</button>
+    <div class="barra-inferior">
+        <div class="cantidad-control-personalizada">
+            <button type="button" class="btn-cantidad" id="restar-cantidad">-</button>
+            <span id="cantidad-mostrar">1</span>
+            <button type="button" class="btn-cantidad" id="sumar-cantidad">+</button>
+            <input type="hidden" id="cantidad" name="cantidad" value="1">
+        </div>
+        <button type="submit">Agregar al carrito</button>
+    </div>
 </form>
-
-
-
-{% endblock %}
+<script>
+    const restarBtn = document.getElementById('restar-cantidad');
+    const sumarBtn = document.getElementById('sumar-cantidad');
+    const cantidadMostrar = document.getElementById('cantidad-mostrar');
+    const cantidadInput = document.getElementById('cantidad');
+    let cantidad = 1;
+    restarBtn.addEventListener('click', function() {
+        if (cantidad > 1) {
+            cantidad--;
+            cantidadMostrar.textContent = cantidad;
+            cantidadInput.value = cantidad;
+        }
+    });
+    sumarBtn.addEventListener('click', function() {
+        cantidad++;
+        cantidadMostrar.textContent = cantidad;
+        cantidadInput.value = cantidad;
+    });
+</script>

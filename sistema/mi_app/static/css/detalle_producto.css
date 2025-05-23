@@ -193,4 +193,143 @@ input[type="radio"]:checked {
     border-radius: 0;
   }
 
-  
+/* Barra inferior fija */
+.barra-inferior {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    background: #fff;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.07);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 18px 0 18px 0;
+    z-index: 100;
+}
+
+.cantidad-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.barra-inferior label {
+    margin: 0;
+    font-weight: 600;
+    color: #444;
+    font-size: 1.1em;
+}
+
+.barra-inferior input[type="number"] {
+    width: 70px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    margin-bottom: 0;
+}
+
+.barra-inferior button[type="submit"] {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 15px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.15em;
+    transition: background-color 0.3s ease;
+    margin: 0;
+}
+
+.barra-inferior button[type="submit"]:hover {
+    background-color: #b71c1c;
+}
+
+/* Ajuste para que el form no tenga margen inferior extra */
+form {
+    margin-bottom: 100px;
+}
+
+/* Botón flotante para regresar al catálogo */
+.btn-flecha-atras {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 200;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.13);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    /* Asegura que el SVG esté perfectamente centrado */
+    box-sizing: border-box;
+}
+
+.btn-flecha-atras:hover {
+    background: #f5f5f5;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+.btn-flecha-atras .flecha {
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin: auto;
+    /* Centrado vertical y horizontal extra */
+    position: relative;
+    left: 0;
+    top: 0;
+}
+
+/* Estilos para el control de cantidad personalizado */
+.cantidad-control-personalizada {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #ccc;
+    border-radius: 12px;
+    background: #fff;
+    padding: 0 8px;
+    height: 48px;
+    min-width: 120px;
+    box-sizing: border-box;
+    gap: 0;
+}
+
+.btn-cantidad {
+    background: none;
+    border: none;
+    color: #d32f2f;
+    font-size: 1.7em;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cantidad:hover {
+    background: #f5f5f5;
+}
+
+#cantidad-mostrar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #333;
+    user-select: none;
+}
+
