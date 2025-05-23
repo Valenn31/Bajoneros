@@ -23,7 +23,7 @@
         {% for opcion in campo_info.opciones %}
             <label>
                 {% if campo_info.campo.es_multiple %}
-                    <input type="checkbox" name="campo_{{ campo_info.campo.id }}[]" value="{{ opcion.id }}">
+                    <input type="checkbox" name="campo_{{ campo_info.campo.id }}" value="{{ opcion.id }}">
                 {% else %}
                     <input type="radio" name="campo_{{ campo_info.campo.id }}" value="{{ opcion.id }}" {% if forloop.first %}checked{% endif %}>
                 {% endif %}
