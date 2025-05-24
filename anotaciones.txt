@@ -42,6 +42,8 @@ PAGINA CLIENTE IDEAS
 
         🔲Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
           al lado aparezca para seleccionar la cantidad (como pedidos ya)
+        🔲Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
+        Ir mostrando el total dentro del producto mientras se personaliza
 
         ✔Poder elegir mas de una opcion por cada personalizacion
         ✔Imagenes para los productos
