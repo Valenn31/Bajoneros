@@ -57,3 +57,7 @@ PAGINA CLIENTE IDEAS
 FUENTES
 
 Jockey One
+
+ABRIR SERVIDOR (DAPHNE)
+
+daphne -b 0.0.0.0 -p 8000 sistema.asgi:application
