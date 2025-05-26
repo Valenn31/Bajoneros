@@ -8,11 +8,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Pedido
 from .forms import ProductoForm, PersonalizacionCampoForm, PersonalizacionOpcionFormSet
 from .models import Producto
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 #PAGINA DEL LOCAL ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def pedidos_admin(request):
     estado = request.GET.get('estado')
-    pedidos = Pedido.objects.all().order_by('-fecha_creacion')  # <-- Ordena del más nuevo al más viejo
+    # Excluye los pedidos entregados
+    pedidos = Pedido.objects.exclude(estado='entregado').order_by('-fecha_creacion')
     if estado:
         pedidos = pedidos.filter(estado=estado)
     return render(request, 'admin/pedidos_admin.html', {'pedidos': pedidos})

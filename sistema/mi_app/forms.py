@@ -9,12 +9,18 @@ class ProductoForm(forms.ModelForm):
             'campos_personalizacion': forms.CheckboxSelectMultiple,
         }
 
+class PersonalizacionCampoForm(forms.ModelForm):
+    class Meta:
+        model = PersonalizacionCampo
+        fields = '__all__'
+
 class PersonalizacionOpcionForm(forms.ModelForm):
     class Meta:
         model = PersonalizacionOpcion
         fields = ['nombre', 'precio_extra']
 
-PersonalizacionOpcionFormSet = forms.inlineformset_factory(
+from django.forms import inlineformset_factory
+PersonalizacionOpcionFormSet = inlineformset_factory(
     PersonalizacionCampo,
     PersonalizacionOpcion,
     form=PersonalizacionOpcionForm,
