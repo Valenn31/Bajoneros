@@ -6,8 +6,8 @@ from django.views.decorators.http import require_POST
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Pedido
-from .forms import ProductoForm
-
+from .forms import ProductoForm, PersonalizacionCampoForm
+from .models import Producto
 #PAGINA DEL LOCAL ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def pedidos_admin(request):
@@ -45,7 +45,42 @@ def cambiar_estado_pedido(request, pedido_id):
         pedido.estado = nuevo_estado
         pedido.save()
     return redirect('pedidos_admin')
+def agregar_producto_admin(request):
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('pedidos_admin')
+    else:
+        form = ProductoForm()
+    return render(request, 'admin/agregar_producto_admin.html', {'form': form})
 
+def agregar_personalizacion_admin(request):
+    if request.method == 'POST':
+        form = PersonalizacionCampoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('agregar_producto_admin')
+    else:
+        form = PersonalizacionCampoForm()
+    return render(request, 'admin/agregar_personalizacion_admin.html', {'form': form})
+
+
+
+def productos_admin(request):
+    productos = Producto.objects.all()
+    return render(request, 'admin/productos_admin.html', {'productos': productos})
+
+def editar_producto_admin(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        if form.is_valid():
+            form.save()
+            return redirect('productos_admin')
+    else:
+        form = ProductoForm(instance=producto)
+    return render(request, 'admin/editar_producto_admin.html', {'form': form, 'producto': producto})
 #PAGINA DEL CLIENTE ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -269,12 +304,4 @@ def mis_pedidos(request):
     request.session['telefono'] = telefono  # Así el cliente puede ver sus pedidos
     return render(request, 'cliente/mis_pedidos.html', {'pedidos': pedidos})
 
-def agregar_producto_admin(request):
-    if request.method == 'POST':
-        form = ProductoForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('pedidos_admin')
-    else:
-        form = ProductoForm()
-    return render(request, 'admin/agregar_producto_admin.html', {'form': form})
+

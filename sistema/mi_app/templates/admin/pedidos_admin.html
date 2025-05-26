@@ -1,11 +1,12 @@
 {% load static %}
-
+<link rel="stylesheet" href="{% static 'css/admin_panel.css' %}">
 <!-- Menú horizontal arriba -->
-<nav style="display: flex; gap: 30px; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
-  <a href="{% url 'pedidos_admin' %}" style="font-weight: bold; color: #d32f2f;">Pedidos</a>
-  <a href="{% url 'agregar_producto_admin' %}" style="font-weight: bold; color: #2a9d8f;">Agregar producto</a>
+<nav class="admin-menu">
+  <a href="{% url 'pedidos_admin' %}">Pedidos</a>
+  <a href="{% url 'productos_admin' %}">Productos</a>
+  <a href="{% url 'agregar_producto_admin' %}">Agregar producto</a>
+  <a href="{% url 'agregar_personalizacion_admin' %}">Agregar personalización</a>
 </nav>
-
 <h1>Pedidos</h1>
 
 <link rel="stylesheet" href="{% static 'css/pedidos_admin.css' %}">
@@ -19,52 +20,6 @@
     {% endfor %}
   </select>
 </form>
-
-<style>
-  .pedidos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 15px;
-  }
-  .pedido-card {
-    border: 2px solid #444;
-    border-radius: 0px;
-    padding: 15px;
-    background:rgb(224, 224, 224);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-  }
-  .pedido-card h2 {
-    margin-top: 0;
-    font-size: 1.3rem;
-  }
-  .pedido-info {
-    margin: 8px 0;
-  }
-  .pedido-info strong {
-    display: inline-block;
-    width: 90px;
-  }
-  .pedido-actions a {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 6px 10px;
-    background: #2a9d8f;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: bold;
-  }
-  .pedido-actions a:hover {
-    background: #21867a;
-  }
-  .productos-list {
-    margin: 10px 0;
-    padding-left: 18px;
-  }
-  .productos-list li {
-    margin-bottom: 5px;
-  }
-</style>
 
 <div class="pedidos-grid">
   {% for pedido in pedidos %}
