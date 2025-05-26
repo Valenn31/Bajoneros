@@ -58,19 +58,30 @@ def agregar_producto_admin(request):
         form = ProductoForm()
     return render(request, 'admin/agregar_producto_admin.html', {'form': form})
 
-def agregar_personalizacion_admin(request):
+def lista_personalizaciones_admin(request):
+    from .models import PersonalizacionCampo
+    personalizaciones = PersonalizacionCampo.objects.all()
+    return render(request, 'admin/lista_personalizaciones_admin.html', {'personalizaciones': personalizaciones})
+
+def agregar_personalizacion_admin(request, pk=None):
+    from .models import PersonalizacionCampo
+    from django.shortcuts import get_object_or_404
+    if pk:
+        campo = get_object_or_404(PersonalizacionCampo, pk=pk)
+    else:
+        campo = None
     if request.method == 'POST':
-        form = PersonalizacionCampoForm(request.POST)
-        formset = PersonalizacionOpcionFormSet(request.POST)
+        form = PersonalizacionCampoForm(request.POST, instance=campo)
+        formset = PersonalizacionOpcionFormSet(request.POST, instance=campo)
         if form.is_valid() and formset.is_valid():
             campo = form.save()
             formset.instance = campo
             formset.save()
-            return redirect('agregar_producto_admin')
+            return redirect('lista_personalizaciones_admin')
     else:
-        form = PersonalizacionCampoForm()
-        formset = PersonalizacionOpcionFormSet()
-    return render(request, 'admin/agregar_personalizacion_admin.html', {'form': form, 'formset': formset})
+        form = PersonalizacionCampoForm(instance=campo)
+        formset = PersonalizacionOpcionFormSet(instance=campo)
+    return render(request, 'admin/agregar_personalizacion_admin.html', {'form': form, 'formset': formset, 'editando': pk is not None})
 
 
 

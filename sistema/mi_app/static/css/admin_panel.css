@@ -91,11 +91,7 @@ h1 {
 
 /* --- Formularios --- */
 form {
-  background-color: white;
-  padding: 20px;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  margin-bottom: 20px;
+
 }
 
 form label {
@@ -165,4 +161,75 @@ button#add-opcion:hover {
 
 #opciones-table td label {
   margin-right: 5px;
+}
+
+/* TABLA DE PERSONALIZACIONES*/
+.tabla-admin-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.tabla-admin {
+  width: 100%;
+  margin-bottom: 30px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.07);
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.tabla-admin thead {
+  background: #1976d2;
+  color: #fff;
+}
+
+.tabla-admin th, .tabla-admin td {
+  padding: 12px 8px;
+  text-align: left;
+}
+
+.tabla-admin tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.tabla-admin tbody tr:last-child {
+  border-bottom: none;
+}
+
+.tabla-admin .opcion-tag {
+  background: #e3f2fd;
+  color: #1976d2;
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-right: 4px;
+  font-size: 0.97em;
+  display: inline-block;
+}
+
+.admin-btn {
+  background: #2196f3;
+  color: #fff;
+  padding: 7px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1em;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.12);
+  transition: background 0.2s, box-shadow 0.2s;
+  border: none;
+  display: inline-block;
+}
+
+.admin-btn:hover {
+  background: #1565c0;
+  box-shadow: 0 4px 16px rgba(33,150,243,0.18);
+}
+
+.fijo-abajo-izq {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 200;
 }

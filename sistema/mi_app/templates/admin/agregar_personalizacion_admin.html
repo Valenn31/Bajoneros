@@ -12,22 +12,23 @@
 <form method="post" style="max-width: 600px;">
   {% csrf_token %}
   {{ form.as_p }}
-
   <h3>Opciones de la personalización</h3>
   {{ formset.management_form }}
-  {% for form in formset %}
-    <tr class="opcion-form">
-      <td>{{ form.nombre.label_tag }} {{ form.nombre }}</td>
-      <td>{{ form.precio_extra.label_tag }} {{ form.precio_extra }}</td>
-      <td>
-        {% if form.instance.pk %}
-          {{ form.DELETE }} Eliminar
-        {% else %}
+  <table id="opciones-table">
+    <tbody>
+      {% for form in formset %}
+      <tr class="opcion-form">
+        <td>{{ form.nombre.label_tag }} {{ form.nombre }}</td>
+        <td>{{ form.precio_extra.label_tag }} {{ form.precio_extra }}</td>
+        <td>
           <button type="button" class="remove-opcion" style="background: none; border: none; color: #d32f2f; font-size: 1.3em; cursor: pointer;">&#10060;</button>
-        {% endif %}
-      </td>
-    </tr>
-  {% endfor %}
+        </td>
+        <td style="display:none;">
+          {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
   <button type="button" id="add-opcion" style="margin: 10px 0; background: #eee; color: #1976d2; border: 1px solid #1976d2; padding: 6px 12px; border-radius: 4px;">Agregar opción</button>
   <button type="submit" style="margin-top: 10px; background: #1976d2; color: white; border: none; padding: 8px 16px; border-radius: 4px;">Guardar</button>
@@ -54,11 +55,8 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const addBtn = document.getElementById('add-opcion');
-  const table = document.getElementById('opciones-table');
-  let totalForms = document.getElementById('id_opciones_set-TOTAL_FORMS');
-  if (!totalForms) {
-    totalForms = document.getElementById('id_personalizacionopcion_set-TOTAL_FORMS');
-  }
+  const table = document.getElementById('opciones-table').getElementsByTagName('tbody')[0];
+  let totalForms = document.getElementById('id_personalizacionopcion_set-TOTAL_FORMS') || document.getElementById('id_opciones_set-TOTAL_FORMS');
 
   // Guarda la plantilla del formulario vacío
   const emptyFormTemplate = document.getElementById('empty-form-template').outerHTML;

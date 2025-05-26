@@ -18,6 +18,8 @@ PAGINA ADMIN IDEAS
 
         ✔No se muestran los campos al agregar una personalizacion
 
+        🔲Editar las personalizaciones ya creadas
+
 PAGINA CLIENTE IDEAS
 
     ✔Ver los pedidos y el estado del pedido que hizo la persona

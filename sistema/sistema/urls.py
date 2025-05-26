@@ -29,6 +29,11 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('mis-pedidos/', views.mis_pedidos, name='mis_pedidos'),
 
+    # Rutas para personalizaciones
+    path('panel/personalizaciones/', views.lista_personalizaciones_admin, name='lista_personalizaciones_admin'),
+    path('panel/personalizaciones/agregar/', views.agregar_personalizacion_admin, name='agregar_personalizacion_admin'),
+    path('panel/personalizaciones/editar/<int:pk>/', views.agregar_personalizacion_admin, name='editar_personalizacion_admin'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
