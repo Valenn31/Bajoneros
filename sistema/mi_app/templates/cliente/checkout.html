@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/carrito.css' %}">
+
+<h2>Finalizar pedido</h2>
+
+<form method="post" class="form-pedido">
+    {% csrf_token %}
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" id="nombre" required>
+
+    <label for="direccion">Dirección:</label>
+    <input type="text" name="direccion" id="direccion" required>
+
+    <label for="telefono">Teléfono:</label>
+    <input type="text" name="telefono" id="telefono">
+
+    
+    <button type="submit" class="btn-pedido">Realizar pedido</button>
+</form>
+{% endblock %}

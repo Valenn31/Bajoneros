@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Mis pedidos</h2>
+{% if pedidos %}
+    <div class="carrito-cards">
+        {% for pedido in pedidos %}
+            <div class="carrito-card">
+                <div class="carrito-detalles">
+                    <h3>Pedido #{{ pedido.id }}</h3>
+                    <p><strong>Fecha:</strong> {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}</p>
+                    <p><strong>Estado:</strong> {{ pedido.get_estado_display }}</p>
+                    <p><strong>Total:</strong> ${{ pedido.total }}</p>
+                    <p><strong>Dirección:</strong> {{ pedido.cliente_direccion }}</p>
+                    <p><strong>Teléfono:</strong> {{ pedido.cliente_telefono }}</p> 
+                    <p><strong>Nombre:</strong> {{ pedido.cliente_nombre }}</p>
+                    <ul class="opciones-lista">
+                        {% for item in pedido.items.all %}
+                            <li>
+                                {{ item.cantidad }}x {{ item.producto.nombre }}
+                                {% if item.opciones_seleccionadas.all %}
+                                    (Opciones:
+                                    {% for op in item.opciones_seleccionadas.all %}
+                                        {{ op.nombre }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                    )
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <br>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No tienes pedidos realizados.</p>
+{% endif %}
+{% endblock %}

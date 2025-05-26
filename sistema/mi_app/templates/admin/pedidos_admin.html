@@ -1,5 +1,11 @@
 {% load static %}
 
+<!-- Menú horizontal arriba -->
+<nav style="display: flex; gap: 30px; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+  <a href="{% url 'pedidos_admin' %}" style="font-weight: bold; color: #d32f2f;">Pedidos</a>
+  <a href="{% url 'agregar_producto_admin' %}" style="font-weight: bold; color: #2a9d8f;">Agregar producto</a>
+</nav>
+
 <h1>Pedidos</h1>
 
 <link rel="stylesheet" href="{% static 'css/pedidos_admin.css' %}">

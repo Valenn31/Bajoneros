@@ -1,0 +1,8 @@
+{% extends "admin/base.html" %}
+{% block branding %}
+  <h1 id="site-name"><a href="{% url 'admin:index' %}">Sistema de Pedidos</a></h1>
+  <div style="margin-top:10px;">
+    <a href="{% url 'admin:mi_app_pedido_changelist' %}" style="margin-right:20px;">PEDIDOS</a>
+    <a href="{% url 'admin:mi_app_producto_add' %}">AGREGAR PRODUCTOS</a>
+  </div>
+{% endblock %}

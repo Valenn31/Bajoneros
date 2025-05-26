@@ -20,7 +20,7 @@ PAGINA ADMIN IDEAS
 
 PAGINA CLIENTE IDEAS
 
-    🔲Ver los pedidos y el estado del pedido que hizo la persona
+    ✔Ver los pedidos y el estado del pedido que hizo la persona
 
     -Carrito / pago
 
@@ -29,10 +29,10 @@ PAGINA CLIENTE IDEAS
             MOSTRAR EN EL CARRITO O EN LA PAGINA DE PAGO LA MODALIDAD
                 SI LA MODALIDAD ES PASO A RETIRAR NO MOSTRAR EL CAMPO DE DIRECCION
 
-        🔲Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
+        ✔Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
           al lado aparezca para seleccionar la cantidad (como pedidos ya)
 
-        🔲Eliminar productos del carrito
+        ✔CEliminar productos del carrito
 
     -Catalogo
 

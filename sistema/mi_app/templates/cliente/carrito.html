@@ -1,17 +1,21 @@
-{% extends "base.html" %}
 {% load static %}
-{% block content %}
-<link rel="stylesheet" href="{% static 'css/carrito.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link rel="stylesheet" href="{% static 'css/carrito.css' %}">
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
 <!-- Botón Volver -->
 <h2>Carrito</h2>
+
+<a href="{% url 'catalogo_cliente' %}" class="btn-flecha-atras" title="Volver al catálogo">
+    <svg class="flecha" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d32f2f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+</a>
 
 {% if items %}
 <div class="carrito-cards">
     {% for item in items %}
       <div class="carrito-card" style="position:relative;">
         <a href="{% url 'eliminar_del_carrito' forloop.counter0 %}" class="eliminar-item" title="Eliminar">
-          <span class="material-icons">close</span>
+          <span class="material-icons">x</span>
         </a>
         {% if item.producto.imagen %}
           <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
@@ -32,22 +36,10 @@
       </div>
     {% endfor %}
   </div>
-
-  <form method="post" action="{% url 'realizar_pedido' %}" class="form-pedido">
-    {% csrf_token %}
-    <label for="nombre">Nombre:</label>
-    <input type="text" name="nombre" id="nombre" required>
-
-    <label for="direccion">Dirección:</label>
-    <input type="text" name="direccion" id="direccion" required>
-
-    <label for="telefono">Teléfono:</label>
-    <input type="text" name="telefono" id="telefono">
-
-    <button type="submit" class="btn-pedido">Realizar pedido</button>
+  <form action="{% url 'checkout' %}" method="get" style="text-align:center; margin-top: 30px;">
+    <button type="submit" class="btn-pedido">Finalizar pedido</button>
   </form>
 {% else %}
   <p>Tu carrito está vacío.</p>
 {% endif %}
 
-{% endblock %}

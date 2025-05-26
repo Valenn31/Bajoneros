@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Pedido
+from .forms import ProductoForm
 
 #PAGINA DEL LOCAL ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -175,6 +176,9 @@ def realizar_pedido(request):
         pedido.total = total
         pedido.save()
 
+        # GUARDA EL TELÉFONO EN LA SESIÓN AQUÍ 👇
+        request.session['telefono'] = telefono
+
         request.session['carrito'] = []
         request.session.modified = True
 
@@ -234,3 +238,43 @@ def eliminar_del_carrito(request, item_index):
     except (ValueError, TypeError):
         pass
     return redirect('ver_carrito')
+
+def checkout(request):
+    carrito = request.session.get('carrito', [])
+    if not carrito:
+        messages.error(request, 'Tu carrito está vacío.')
+        return redirect('catalogo_cliente')
+
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre', '').strip()
+        direccion = request.POST.get('direccion', '').strip()
+        telefono = request.POST.get('telefono', '').strip()
+
+        if not nombre or not direccion:
+            messages.error(request, 'Nombre y dirección son obligatorios.')
+            return redirect('checkout')
+
+        # Aquí puedes reutilizar la lógica de realizar_pedido
+        return realizar_pedido(request)
+
+    return render(request, 'cliente/checkout.html')
+
+def mis_pedidos(request):
+    # Aquí puedes usar el nombre, teléfono o una cookie/sesión para filtrar los pedidos del cliente.
+    # Ejemplo simple: por teléfono guardado en sesión (ajusta según tu lógica de autenticación).
+    telefono = request.session.get('telefono')
+    pedidos = []
+    if telefono:
+        pedidos = Pedido.objects.filter(cliente_telefono=telefono).order_by('-fecha_creacion')
+    request.session['telefono'] = telefono  # Así el cliente puede ver sus pedidos
+    return render(request, 'cliente/mis_pedidos.html', {'pedidos': pedidos})
+
+def agregar_producto_admin(request):
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('pedidos_admin')
+    else:
+        form = ProductoForm()
+    return render(request, 'admin/agregar_producto_admin.html', {'form': form})
