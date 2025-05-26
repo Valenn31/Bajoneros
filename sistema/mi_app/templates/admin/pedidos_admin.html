@@ -3,9 +3,8 @@
 <!-- Menú horizontal arriba -->
 <nav class="admin-menu">
   <a href="{% url 'pedidos_admin' %}">Pedidos</a>
+  <a href="{% url 'pedidos_entregados_admin' %}">Entregados</a>
   <a href="{% url 'productos_admin' %}">Productos</a>
-  <a href="{% url 'agregar_producto_admin' %}">Agregar producto</a>
-  <a href="{% url 'agregar_personalizacion_admin' %}">Agregar personalización</a>
 </nav>
 <h1>Pedidos</h1>
 
@@ -65,3 +64,19 @@
     <p>No hay pedidos para mostrar.</p>
   {% endfor %}
 </div>
+
+<script>
+const ws = new WebSocket(
+    'ws://' + window.location.host + '/ws/pedidos/'
+);
+
+ws.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+    if (data.message === 'nuevo_pedido') {
+        // Solo recarga si la URL es exactamente la de pedidos
+        if (window.location.pathname === '/panel/pedidos/') {
+            window.location.reload();
+        }
+    }
+};
+</script>

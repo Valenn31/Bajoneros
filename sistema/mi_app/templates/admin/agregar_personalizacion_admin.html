@@ -3,10 +3,10 @@
 
 <nav class="admin-menu">
   <a href="{% url 'pedidos_admin' %}">Pedidos</a>
+  <a href="{% url 'pedidos_entregados_admin' %}">Entregados</a>
   <a href="{% url 'productos_admin' %}">Productos</a>
-  <a href="{% url 'agregar_producto_admin' %}">Agregar producto</a>
-  <a href="{% url 'agregar_personalizacion_admin' %}">Agregar personalización</a>
 </nav>
+
 <h1>Agregar personalización</h1>
 
 <form method="post" style="max-width: 600px;">
@@ -15,20 +15,19 @@
 
   <h3>Opciones de la personalización</h3>
   {{ formset.management_form }}
-  <table id="opciones-table">
-    {% for form in formset %}
-      <tr class="opcion-form">
-        <td>{{ form.nombre.label_tag }} {{ form.nombre }}</td>
-        <td>{{ form.precio_extra.label_tag }} {{ form.precio_extra }}</td>
-        <td>
-          {% if form.instance.pk %}
-            {{ form.DELETE }} Eliminar
-          {% else %}
-            <button type="button" class="remove-opcion" style="background: none; border: none; color: #d32f2f; font-size: 1.3em; cursor: pointer;">&#10060;</button>
-          {% endif %}
-        </td>
-      </tr>
-    {% endfor %}
+  {% for form in formset %}
+    <tr class="opcion-form">
+      <td>{{ form.nombre.label_tag }} {{ form.nombre }}</td>
+      <td>{{ form.precio_extra.label_tag }} {{ form.precio_extra }}</td>
+      <td>
+        {% if form.instance.pk %}
+          {{ form.DELETE }} Eliminar
+        {% else %}
+          <button type="button" class="remove-opcion" style="background: none; border: none; color: #d32f2f; font-size: 1.3em; cursor: pointer;">&#10060;</button>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
   </table>
   <button type="button" id="add-opcion" style="margin: 10px 0; background: #eee; color: #1976d2; border: 1px solid #1976d2; padding: 6px 12px; border-radius: 4px;">Agregar opción</button>
   <button type="submit" style="margin-top: 10px; background: #1976d2; color: white; border: none; padding: 8px 16px; border-radius: 4px;">Guardar</button>
@@ -36,17 +35,20 @@
 
 <!-- Plantilla oculta para nuevas opciones -->
 <table style="display:none;">
-  <tr id="empty-form-template" class="opcion-form">
-    <td>
-      {{ formset.empty_form.nombre.label_tag }} {{ formset.empty_form.nombre }}
-    </td>
-    <td>
-      {{ formset.empty_form.precio_extra.label_tag }} {{ formset.empty_form.precio_extra }}
-    </td>
-    <td>
-      <button type="button" class="remove-opcion" style="background: none; border: none; color: #d32f2f; font-size: 1.3em; cursor: pointer;">&#10060;</button>
-    </td>
-  </tr>
+  <tbody>
+    <tr id="empty-form-template" class="opcion-form">
+      <td>{{ formset.empty_form.nombre.label_tag }} {{ formset.empty_form.nombre }}</td>
+      <td>{{ formset.empty_form.precio_extra.label_tag }} {{ formset.empty_form.precio_extra }}</td>
+      <td>
+        <button type="button" class="remove-opcion">&#10060;</button>
+      </td>
+      <td style="display:none;">
+        {% for hidden in formset.empty_form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 <script>
@@ -68,6 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let tempDiv = document.createElement('tbody');
     tempDiv.innerHTML = newRow;
     let newForm = tempDiv.firstElementChild;
+    // Quita cualquier estilo display:none heredado
+    newForm.style.display = '';
     // Agrega el evento de eliminar
     newForm.querySelector('.remove-opcion').addEventListener('click', function() {
       newForm.remove();

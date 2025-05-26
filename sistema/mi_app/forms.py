@@ -9,11 +9,6 @@ class ProductoForm(forms.ModelForm):
             'campos_personalizacion': forms.CheckboxSelectMultiple,
         }
 
-class PersonalizacionCampoForm(forms.ModelForm):
-    class Meta:
-        model = PersonalizacionCampo
-        fields = ['nombre', 'es_multiple']
-
 class PersonalizacionOpcionForm(forms.ModelForm):
     class Meta:
         model = PersonalizacionOpcion

@@ -3,9 +3,8 @@
 <link rel="stylesheet" href="{% static 'css/admin_panel.css' %}">
 <nav class="admin-menu">
   <a href="{% url 'pedidos_admin' %}">Pedidos</a>
+  <a href="{% url 'pedidos_entregados_admin' %}">Entregados</a>
   <a href="{% url 'productos_admin' %}">Productos</a>
-  <a href="{% url 'agregar_producto_admin' %}">Agregar producto</a>
-  <a href="{% url 'agregar_personalizacion_admin' %}">Agregar personalización</a>
 </nav>
 
 <h1>Productos</h1>
@@ -25,6 +24,12 @@
   {% empty %}
     <p>No hay productos cargados.</p>
   {% endfor %}
+</div>
+
+<!-- Botones fijos abajo a la izquierda -->
+<div class="admin-fixed-buttons">
+  <a href="{% url 'agregar_producto_admin' %}" class="admin-btn">+ Agregar producto</a>
+  <a href="{% url 'agregar_personalizacion_admin' %}" class="admin-btn">+ Agregar personalización</a>
 </div>
 
 <style>
@@ -76,5 +81,30 @@
 }
 .editar-btn:hover {
   background: #1565c0;
+}
+.admin-fixed-buttons {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  display: flex;
+  gap: 16px;
+  z-index: 200;
+}
+.admin-btn {
+  background: #2196f3;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.05em;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.12);
+  transition: background 0.2s, box-shadow 0.2s;
+  border: none;
+  display: inline-block;
+}
+.admin-btn:hover {
+  background: #1565c0;
+  box-shadow: 0 4px 16px rgba(33,150,243,0.18);
 }
 </style>

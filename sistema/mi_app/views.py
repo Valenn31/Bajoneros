@@ -6,13 +6,13 @@ from django.views.decorators.http import require_POST
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Pedido
-from .forms import ProductoForm, PersonalizacionCampoForm
+from .forms import ProductoForm, PersonalizacionCampoForm, PersonalizacionOpcionFormSet
 from .models import Producto
 #PAGINA DEL LOCAL ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def pedidos_admin(request):
     estado = request.GET.get('estado')
-    pedidos = Pedido.objects.all()
+    pedidos = Pedido.objects.all().order_by('-fecha_creacion')  # <-- Ordena del más nuevo al más viejo
     if estado:
         pedidos = pedidos.filter(estado=estado)
     return render(request, 'admin/pedidos_admin.html', {'pedidos': pedidos})
@@ -58,12 +58,16 @@ def agregar_producto_admin(request):
 def agregar_personalizacion_admin(request):
     if request.method == 'POST':
         form = PersonalizacionCampoForm(request.POST)
-        if form.is_valid():
-            form.save()
+        formset = PersonalizacionOpcionFormSet(request.POST)
+        if form.is_valid() and formset.is_valid():
+            campo = form.save()
+            formset.instance = campo
+            formset.save()
             return redirect('agregar_producto_admin')
     else:
         form = PersonalizacionCampoForm()
-    return render(request, 'admin/agregar_personalizacion_admin.html', {'form': form})
+        formset = PersonalizacionOpcionFormSet()
+    return render(request, 'admin/agregar_personalizacion_admin.html', {'form': form, 'formset': formset})
 
 
 
@@ -214,6 +218,13 @@ def realizar_pedido(request):
         # GUARDA EL TELÉFONO EN LA SESIÓN AQUÍ 👇
         request.session['telefono'] = telefono
 
+        # Notificar a través de WebSocket
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            "pedidos",
+            {"type": "nuevo_pedido"}
+        )
+
         request.session['carrito'] = []
         request.session.modified = True
 
@@ -303,5 +314,9 @@ def mis_pedidos(request):
         pedidos = Pedido.objects.filter(cliente_telefono=telefono).order_by('-fecha_creacion')
     request.session['telefono'] = telefono  # Así el cliente puede ver sus pedidos
     return render(request, 'cliente/mis_pedidos.html', {'pedidos': pedidos})
+
+def pedidos_entregados_admin(request):
+    pedidos = Pedido.objects.filter(estado='entregado').order_by('-fecha_creacion')
+    return render(request, 'admin/pedidos_entregados_admin.html', {'pedidos': pedidos})
 
 

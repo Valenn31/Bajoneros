@@ -6,17 +6,17 @@ PAGINA ADMIN IDEAS
 
     -Admin
 
-        🔲Distintas tablas 
+        ✔Distintas tablas 
 
-        🔲Agragar las funciones del admin desde el panel de pedidos
+        ✔Agragar las funciones del admin desde el panel de pedidos
 
         🔲Cambio de color segun el estado de la orden
 
         🔲Cambiar las opciones de la visualizacion del cliente desde el panel de pedidos (como si fuera configuracion)
 
+        ✔Actualizar el admin productos cuando se hace una nueva orden
 
-
-
+        ✔No se muestran los campos al agregar una personalizacion
 
 PAGINA CLIENTE IDEAS
 
@@ -29,22 +29,20 @@ PAGINA CLIENTE IDEAS
             MOSTRAR EN EL CARRITO O EN LA PAGINA DE PAGO LA MODALIDAD
                 SI LA MODALIDAD ES PASO A RETIRAR NO MOSTRAR EL CAMPO DE DIRECCION
 
-        ✔Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
-          al lado aparezca para seleccionar la cantidad (como pedidos ya)
-
         ✔CEliminar productos del carrito
-
+-
     -Catalogo
 
     -Base
 
     -Detalle Producto
 
-        🔲Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
+        ✔Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
           al lado aparezca para seleccionar la cantidad (como pedidos ya)
         🔲Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
-        Ir mostrando el total dentro del producto mientras se personaliza
 
+        🔲Ir mostrando el total dentro del producto mientras se personaliza
+        
         ✔Poder elegir mas de una opcion por cada personalizacion
         ✔Imagenes para los productos
         ✔Las opciones no funcionan bien (los aderezos no se agregan)
