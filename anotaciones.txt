@@ -6,19 +6,24 @@ PAGINA ADMIN IDEAS
 
     -Admin
 
-        ✔Distintas tablas 
 
-        ✔Agragar las funciones del admin desde el panel de pedidos
 
         🔲Cambio de color segun el estado de la orden
 
         🔲Cambiar las opciones de la visualizacion del cliente desde el panel de pedidos (como si fuera configuracion)
 
-        ✔Actualizar el admin productos cuando se hace una nueva orden
-
-        ✔No se muestran los campos al agregar una personalizacion
+  
 
         🔲Editar las personalizaciones ya creadas
+
+        🔲Animacion / Sonido al entrar un pedido nuevo
+
+        ✔Actualizar el admin productos cuando se hace una nueva orden
+        ✔No se muestran los campos al agregar una personalizacion
+        ✔Distintas tablas 
+        ✔Agragar las funciones del admin desde el panel de pedidos
+
+
 
 PAGINA CLIENTE IDEAS
 
@@ -41,7 +46,7 @@ PAGINA CLIENTE IDEAS
 
         ✔Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
           al lado aparezca para seleccionar la cantidad (como pedidos ya)
-        🔲Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
+
 
         🔲Ir mostrando el total dentro del producto mientras se personaliza
         
