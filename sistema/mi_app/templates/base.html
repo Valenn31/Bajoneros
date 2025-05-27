@@ -15,10 +15,32 @@
 </head>
 <body>
     <header class="main-header">
-        <div class="header-content">
+        <div class="header-content" style="justify-content: flex-start; display: flex; align-items: center;">
+            <!-- Botón de cuenta -->
+            <button id="btn-cuenta" style="background:none; border:none; cursor:pointer; margin-right: 12px;">
+                <span class="material-icons" style="font-size: 2em; color: #d32f2f;">account_circle</span>
+            </button>
             <h1 class="app-title">🍔 Mi Sistema de Pedidos</h1>
         </div>
     </header>
+
+    <!-- Modal de cuenta -->
+    <div id="modal-cuenta" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:9999; align-items:center; justify-content:center;">
+        <div style="background:#fff; border-radius:12px; padding:32px 24px; min-width:260px; max-width:90vw; box-shadow:0 4px 24px rgba(0,0,0,0.18); position:relative;">
+            <button id="cerrar-modal-cuenta" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:1.5em; color:#d32f2f; cursor:pointer;">&times;</button>
+            <h2 style="margin-top:0; margin-bottom:18px; font-size:1.2em;">Mi cuenta</h2>
+            {% if user.is_authenticated %}
+                <p><strong>Teléfono:</strong> {{ user.telefono }}</p>
+                <form method="post" action="{% url 'logout_cliente' %}">
+                    {% csrf_token %}
+                    <button type="submit" style="margin-top:18px; background:#d32f2f; color:#fff; border:none; border-radius:6px; padding:8px 18px; font-weight:bold; cursor:pointer;">Cerrar sesión</button>
+                </form>
+            {% else %}
+                <p>No has iniciado sesión.</p>
+                <a href="{% url 'login_cliente' %}" style="color:#d32f2f; font-weight:bold;">Iniciar sesión</a>
+            {% endif %}
+        </div>
+    </div>
 
     <main class="main-content">
         {% block content %}{% endblock %}
@@ -47,6 +69,15 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register("{% static 'sw.js' %}");
     }
+    document.getElementById('btn-cuenta').onclick = function() {
+        document.getElementById('modal-cuenta').style.display = 'flex';
+    };
+    document.getElementById('cerrar-modal-cuenta').onclick = function() {
+        document.getElementById('modal-cuenta').style.display = 'none';
+    };
+    document.getElementById('modal-cuenta').onclick = function(e) {
+        if (e.target === this) this.style.display = 'none';
+    };
     </script>
 </body>
 </html>

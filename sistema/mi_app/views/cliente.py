@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from ..models import Producto, PersonalizacionOpcion
 from django.contrib import messages
 from ..forms import RegistroClienteForm
@@ -68,3 +68,7 @@ def login_cliente(request):
         else:
             error = "Teléfono o contraseña incorrectos"
     return render(request, 'login/login.html', {'error': error})
+
+def logout_cliente(request):
+    logout(request)
+    return redirect('login_cliente')

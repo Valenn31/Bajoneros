@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.urls import path
 from mi_app import views
 from mi_app.views import cliente as views_cliente
+from mi_app.views.cliente import logout_cliente
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
@@ -39,6 +40,7 @@ urlpatterns = [
     # Rutas para registro y login de clientes
     path('registro/', views_cliente.registro_cliente, name='registro_cliente'),
     path('login/', views_cliente.login_cliente, name='login_cliente'),
+    path('logout/', logout_cliente, name='logout_cliente'),
 
     # Redirección de login
     path('accounts/login/', RedirectView.as_view(url='/login/', permanent=False)),
