@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login, authenticate
 from ..models import Producto, PersonalizacionOpcion
 from django.contrib import messages
+from ..forms import RegistroClienteForm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def catalogo_cliente(request):
     productos = Producto.objects.filter(disponible=True)
     return render(request, 'cliente/catalogo.html', {'productos': productos})
 
+@login_required
 def detalle_producto(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     campos_y_opciones = []
@@ -37,3 +42,29 @@ def detalle_producto(request, producto_id):
         'producto': producto,
         'campos_y_opciones': campos_y_opciones
     })
+
+def registro_cliente(request):
+    if request.method == 'POST':
+        form = RegistroClienteForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            login(request, user)
+            return redirect('catalogo_cliente')  # Cambia por la vista principal del cliente
+    else:
+        form = RegistroClienteForm()
+    return render(request, 'login/registro.html', {'form': form})
+
+def login_cliente(request):
+    error = None
+    if request.method == 'POST':
+        telefono = request.POST['telefono']
+        password = request.POST['password']
+        user = authenticate(request, telefono=telefono, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('catalogo_cliente')
+        else:
+            error = "Teléfono o contraseña incorrectos"
+    return render(request, 'login/login.html', {'error': error})

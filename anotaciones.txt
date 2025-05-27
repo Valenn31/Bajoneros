@@ -12,6 +12,8 @@ PAGINA ADMIN IDEAS
 
         🔲Animacion / Sonido al entrar un pedido nuevo
 
+        🔲Poder borrar productos y personalizaciones
+
         ✔Editar las personalizaciones ya creadas
         ✔Cambio de color segun el estado de la orden
         ✔Actualizar el admin productos cuando se hace una nueva orden
@@ -19,9 +21,11 @@ PAGINA ADMIN IDEAS
         ✔Distintas tablas 
         ✔Agragar las funciones del admin desde el panel de pedidos
 
-
+        
 
 PAGINA CLIENTE IDEAS
+
+    ✔Inicio de sesion que guarde los pedidos de la persona en su cuenta
 
     ✔Ver los pedidos y el estado del pedido que hizo la persona
 
@@ -52,9 +56,9 @@ PAGINA CLIENTE IDEAS
 
     -Pedidos (falta crear)
 
-        🔲Pagina que muestre los pedidos realizados por la persona
-
-
+        🔲Los pedidos aparecen todavia dependiendo del telefono que se ingrese en el ultimo pedido
+        
+        ✔Pagina que muestre los pedidos realizados por la persona
 
 
 FUENTES

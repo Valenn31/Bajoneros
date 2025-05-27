@@ -2,8 +2,10 @@
 from django.contrib import admin
 from django.urls import path
 from mi_app import views
+from mi_app.views import cliente as views_cliente
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # Admin clásico de Django
@@ -33,6 +35,13 @@ urlpatterns = [
     path('panel/personalizaciones/', views.lista_personalizaciones_admin, name='lista_personalizaciones_admin'),
     path('panel/personalizaciones/agregar/', views.agregar_personalizacion_admin, name='agregar_personalizacion_admin'),
     path('panel/personalizaciones/editar/<int:pk>/', views.agregar_personalizacion_admin, name='editar_personalizacion_admin'),
+
+    # Rutas para registro y login de clientes
+    path('registro/', views_cliente.registro_cliente, name='registro_cliente'),
+    path('login/', views_cliente.login_cliente, name='login_cliente'),
+
+    # Redirección de login
+    path('accounts/login/', RedirectView.as_view(url='/login/', permanent=False)),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
