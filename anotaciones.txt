@@ -1,6 +1,6 @@
 Cosas a agregar:                             Iconos: [  🔄  🔲  ✔  ]
-
-
+        
+        🔲requirements.txt agrega todo lo instalado en la pc (habria que hacer una maquina virtual)
 
 PAGINA ADMIN IDEAS
 
@@ -8,7 +8,7 @@ PAGINA ADMIN IDEAS
 
         🔲Cambiar las opciones de la visualizacion del cliente desde el panel de pedidos (como si fuera configuracion)
 
-        🔲Al agregar personalizaciones solo se agregan de a 1 los items
+        🔄Al agregar personalizaciones solo se agregan de a 1 los items
 
         🔲Animacion / Sonido al entrar un pedido nuevo
 
@@ -25,11 +25,13 @@ PAGINA ADMIN IDEAS
 
 PAGINA CLIENTE IDEAS
 
+    ✔Agregar un login
+
     -Carrito / pago
 
         🔲PEDIDO (DELIVERY)
-            MOSTRAR EN LA ORDEN SI ES DELIVERY O PASO A RETIRA
-            MOSTRAR EN EL CARRITO O EN LA PAGINA DE PAGO LA MODALIDAD
+            MOSTRAR EN LA ORDEN SI ES DELIVERY O PASO A RETIRAR
+            MOSTRAR EN EL CARRITO O EN LA PAGINA DE PAGO LA MODALIDAD DE ENVIO
                 SI LA MODALIDAD ES PASO A RETIRAR NO MOSTRAR EL CAMPO DE DIRECCION
 
         ✔Eliminar productos del carrito
@@ -57,8 +59,8 @@ PAGINA CLIENTE IDEAS
 
 FUENTES
 
-Jockey One
+- Jockey One
 
 ABRIR SERVIDOR (DAPHNE)
 
-daphne -b 0.0.0.0 -p 8000 sistema.asgi:application
+    daphne -b 0.0.0.0 -p 8000 sistema.asgi:application
