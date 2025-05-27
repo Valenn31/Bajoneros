@@ -25,6 +25,7 @@ h1 {
 
 .admin-menu a {
   text-decoration: none;
+  color: black;
   font-weight: bold;
   font-size: 1.1rem;
 }
@@ -77,6 +78,20 @@ h1 {
 
 .pedido-actions a:hover {
   background: #21867a;
+}
+
+/* Colores suaves para estados de pedido */
+.pedido-estado-pendiente {
+  background: #fffbe6; /* amarillo muy suave */
+}
+.pedido-estado-proceso {
+  background: #e6f7ff; /* celeste muy suave */
+}
+.pedido-estado-entregado {
+  background: #e8f5e9; /* verde muy suave */
+}
+.pedido-estado-cancelado {
+  background: #fbe9e7; /* rojo muy suave */
 }
 
 /* Lista de productos */

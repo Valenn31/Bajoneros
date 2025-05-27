@@ -1,0 +1,73 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from ..models import Producto, Pedido, PedidoProducto
+from django.contrib import messages
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
+def realizar_pedido(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre', '').strip()
+        direccion = request.POST.get('direccion', '').strip()
+        telefono = request.POST.get('telefono', '').strip()
+        if not nombre or not direccion:
+            messages.error(request, 'Nombre y dirección son obligatorios.')
+            return redirect('ver_carrito')
+        carrito = request.session.get('carrito', [])
+        if not carrito:
+            messages.error(request, 'Tu carrito está vacío.')
+            return redirect('catalogo_cliente')
+        pedido = Pedido.objects.create(
+            cliente_nombre=nombre,
+            cliente_direccion=direccion,
+            cliente_telefono=telefono,
+            estado='pendiente'
+        )
+        total = 0
+        for item in carrito:
+            producto_id = item.get('producto_id')
+            cantidad = item.get('cantidad', 1)
+            opciones_ids = item.get('opciones', [])
+            producto = get_object_or_404(Producto, id=producto_id)
+            pedido_item = PedidoProducto.objects.create(
+                pedido=pedido,
+                producto=producto,
+                cantidad=cantidad
+            )
+            if opciones_ids:
+                pedido_item.opciones_seleccionadas.set(opciones_ids)
+            total += pedido_item.subtotal()
+        pedido.total = total
+        pedido.save()
+        request.session['telefono'] = telefono
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            "pedidos",
+            {"type": "nuevo_pedido"}
+        )
+        request.session['carrito'] = []
+        request.session.modified = True
+        messages.success(request, 'Pedido realizado con éxito.')
+        return redirect('catalogo_cliente')
+
+def checkout(request):
+    carrito = request.session.get('carrito', [])
+    if not carrito:
+        messages.error(request, 'Tu carrito está vacío.')
+        return redirect('catalogo_cliente')
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre', '').strip()
+        direccion = request.POST.get('direccion', '').strip()
+        telefono = request.POST.get('telefono', '').strip()
+        if not nombre or not direccion:
+            messages.error(request, 'Nombre y dirección son obligatorios.')
+            return redirect('checkout')
+        return realizar_pedido(request)
+    return render(request, 'cliente/checkout.html')
+
+def mis_pedidos(request):
+    telefono = request.session.get('telefono')
+    pedidos = []
+    if telefono:
+        pedidos = Pedido.objects.filter(cliente_telefono=telefono).order_by('-fecha_creacion')
+    request.session['telefono'] = telefono
+    return render(request, 'cliente/mis_pedidos.html', {'pedidos': pedidos})

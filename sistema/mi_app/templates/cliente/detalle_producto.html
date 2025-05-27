@@ -18,6 +18,10 @@
 <form method="post" id="form-detalle-producto">
     {% csrf_token %}
     {% for campo_info in campos_y_opciones %}
+    <div id="total-producto" style="font-size:1.2em; font-weight:600; margin-top:10px;">
+    Total: $<span id="total-valor">{{ producto.precio }}</span>
+    </div>
+    <br>
     <fieldset>
         <legend>{{ campo_info.campo.nombre }}</legend>
         {% for opcion in campo_info.opciones %}
@@ -42,6 +46,7 @@
         <button type="submit">Agregar al carrito</button>
     </div>
 </form>
+
 <script>
     const restarBtn = document.getElementById('restar-cantidad');
     const sumarBtn = document.getElementById('sumar-cantidad');
@@ -60,4 +65,57 @@
         cantidadMostrar.textContent = cantidad;
         cantidadInput.value = cantidad;
     });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Precio base del producto
+    const precioBase = parseFloat({{ producto.precio|floatformat:2 }});
+    let cantidad = 1;
+
+    // Elementos
+    const totalValor = document.getElementById('total-valor');
+    const cantidadInput = document.getElementById('cantidad');
+
+    // Función para obtener el total de personalizaciones seleccionadas
+    function obtenerExtras() {
+        let totalExtras = 0;
+        {% for campo_info in campos_y_opciones %}
+            {% if campo_info.campo.es_multiple %}
+                document.querySelectorAll('input[name="campo_{{ campo_info.campo.id }}"]:checked').forEach(function(cb) {
+                    totalExtras += parseFloat(cb.dataset.precioExtra || "0");
+                });
+            {% else %}
+                let radio = document.querySelector('input[name="campo_{{ campo_info.campo.id }}"]:checked');
+                if (radio) {
+                    totalExtras += parseFloat(radio.dataset.precioExtra || "0");
+                }
+            {% endif %}
+        {% endfor %}
+        return totalExtras;
+    }
+
+    // Función para actualizar el total
+    function actualizarTotal() {
+        cantidad = parseInt(cantidadInput.value) || 1;
+        const extras = obtenerExtras();
+        const total = (precioBase + extras) * cantidad;
+        totalValor.textContent = total.toFixed(2);
+    }
+
+    // Escuchar cambios en personalizaciones y cantidad
+    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(function(input) {
+        input.addEventListener('change', actualizarTotal);
+    });
+    cantidadInput.addEventListener('change', actualizarTotal);
+
+    // Agrega data-precio-extra a cada input de opción
+    {% for campo_info in campos_y_opciones %}
+        {% for opcion in campo_info.opciones %}
+            document.querySelector('input[value="{{ opcion.id }}"][name="campo_{{ campo_info.campo.id }}"]').dataset.precioExtra = "{{ opcion.precio_extra|floatformat:2 }}";
+        {% endfor %}
+    {% endfor %}
+
+    // Inicializa el total
+    actualizarTotal();
+});
 </script>

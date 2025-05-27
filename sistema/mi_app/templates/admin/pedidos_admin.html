@@ -6,7 +6,12 @@
   <a href="{% url 'pedidos_entregados_admin' %}">Entregados</a>
   <a href="{% url 'productos_admin' %}">Productos</a>
 </nav>
+
+{% block titulo %}
 <h1>Pedidos</h1>
+{% endblock %}
+
+{% block content %}
 
 <link rel="stylesheet" href="{% static 'css/pedidos_admin.css' %}">
 
@@ -22,7 +27,7 @@
 
 <div class="pedidos-grid">
   {% for pedido in pedidos %}
-    <div class="pedido-card">
+    <div class="pedido-card pedido-estado-{{ pedido.estado }}">
       <h2>Pedido #{{ pedido.id }}</h2>
       <div class="pedido-info"><strong>Cliente:</strong> {{ pedido.cliente_nombre }}</div>
       <div class="pedido-info"><strong>Dirección:</strong> {{ pedido.cliente_direccion }}</div>
@@ -80,3 +85,5 @@ ws.onmessage = function(event) {
     }
 };
 </script>
+
+{% endblock %}

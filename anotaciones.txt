@@ -6,18 +6,14 @@ PAGINA ADMIN IDEAS
 
     -Admin
 
-
-
-        🔲Cambio de color segun el estado de la orden
-
         🔲Cambiar las opciones de la visualizacion del cliente desde el panel de pedidos (como si fuera configuracion)
 
-  
-
-        🔲Editar las personalizaciones ya creadas
+        🔲Al agregar personalizaciones solo se agregan de a 1 los items
 
         🔲Animacion / Sonido al entrar un pedido nuevo
 
+        ✔Editar las personalizaciones ya creadas
+        ✔Cambio de color segun el estado de la orden
         ✔Actualizar el admin productos cuando se hace una nueva orden
         ✔No se muestran los campos al agregar una personalizacion
         ✔Distintas tablas 
@@ -36,7 +32,7 @@ PAGINA CLIENTE IDEAS
             MOSTRAR EN EL CARRITO O EN LA PAGINA DE PAGO LA MODALIDAD
                 SI LA MODALIDAD ES PASO A RETIRAR NO MOSTRAR EL CAMPO DE DIRECCION
 
-        ✔CEliminar productos del carrito
+        ✔Eliminar productos del carrito
 -
     -Catalogo
 
