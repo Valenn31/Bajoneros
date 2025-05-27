@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" href="{% static 'css/detalle_producto.css' %}">
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
 
 <!-- Imagen arriba ocupando todo el ancho -->
 <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="producto-imagen">
@@ -18,9 +19,6 @@
 <form method="post" id="form-detalle-producto">
     {% csrf_token %}
     {% for campo_info in campos_y_opciones %}
-    <div id="total-producto" style="font-size:1.2em; font-weight:600; margin-top:10px;">
-    Total: $<span id="total-valor">{{ producto.precio }}</span>
-    </div>
     <br>
     <fieldset>
         <legend>{{ campo_info.campo.nombre }}</legend>
@@ -36,6 +34,12 @@
         {% endfor %}
     </fieldset>
     {% endfor %}
+
+    <!-- SOLAPA DEL TOTAL -->
+    <div id="total-producto">
+        Total: $<span id="total-valor">{{ producto.precio }}</span>
+    </div>
+
     <div class="barra-inferior">
         <div class="cantidad-control-personalizada">
             <button type="button" class="btn-cantidad" id="restar-cantidad">-</button>

@@ -1,6 +1,6 @@
 Cosas a agregar:                             Iconos: [  🔄  🔲  ✔  ]
-
-
+        
+        🔲requirements.txt agrega todo lo instalado en la pc (habria que hacer una maquina virtual)
 
 PAGINA ADMIN IDEAS
 
@@ -8,9 +8,11 @@ PAGINA ADMIN IDEAS
 
         🔲Cambiar las opciones de la visualizacion del cliente desde el panel de pedidos (como si fuera configuracion)
 
-        🔲Al agregar personalizaciones solo se agregan de a 1 los items
+        🔄Al agregar personalizaciones solo se agregan de a 1 los items
 
         🔲Animacion / Sonido al entrar un pedido nuevo
+
+        🔲Poder borrar productos y personalizaciones
 
         ✔Editar las personalizaciones ya creadas
         ✔Cambio de color segun el estado de la orden
@@ -19,21 +21,23 @@ PAGINA ADMIN IDEAS
         ✔Distintas tablas 
         ✔Agragar las funciones del admin desde el panel de pedidos
 
-
+        
 
 PAGINA CLIENTE IDEAS
 
-    ✔Ver los pedidos y el estado del pedido que hizo la persona
+    ✔Agregar un login
 
     -Carrito / pago
 
         🔲PEDIDO (DELIVERY)
-            MOSTRAR EN LA ORDEN SI ES DELIVERY O PASO A RETIRA
-            MOSTRAR EN EL CARRITO O EN LA PAGINA DE PAGO LA MODALIDAD
+            MOSTRAR EN LA ORDEN SI ES DELIVERY O PASO A RETIRAR
+            MOSTRAR EN EL CARRITO O EN LA PAGINA DE PAGO LA MODALIDAD DE ENVIO
                 SI LA MODALIDAD ES PASO A RETIRAR NO MOSTRAR EL CAMPO DE DIRECCION
 
         ✔Eliminar productos del carrito
--
+-       ✔Inicio de sesion que guarde los pedidos de la persona en su cuenta
+        ✔Ver los pedidos y el estado del pedido que hizo la persona
+
     -Catalogo
 
     -Base
@@ -42,25 +46,21 @@ PAGINA CLIENTE IDEAS
 
         ✔Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
           al lado aparezca para seleccionar la cantidad (como pedidos ya)
-
-
-        🔲Ir mostrando el total dentro del producto mientras se personaliza
-        
+        ✔Ir mostrando el total dentro del producto mientras se personaliza
         ✔Poder elegir mas de una opcion por cada personalizacion
         ✔Imagenes para los productos
         ✔Las opciones no funcionan bien (los aderezos no se agregan)
 
     -Pedidos (falta crear)
 
-        🔲Pagina que muestre los pedidos realizados por la persona
-
-
+        ✔Los pedidos aparecen todavia dependiendo del telefono que se ingrese en el ultimo pedido
+        ✔Pagina que muestre los pedidos realizados por la persona
 
 
 FUENTES
 
-Jockey One
+- Jockey One
 
 ABRIR SERVIDOR (DAPHNE)
 
-daphne -b 0.0.0.0 -p 8000 sistema.asgi:application
+    daphne -b 0.0.0.0 -p 8000 sistema.asgi:application

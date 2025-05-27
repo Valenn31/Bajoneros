@@ -1,4 +1,6 @@
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from django.conf import settings
 
 # Producto del menú
 class Producto(models.Model):
@@ -45,6 +47,12 @@ class Pedido(models.Model):
         ('cancelado', 'Cancelado'),
     ]
 
+    cliente = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='pedidos',
+        null=True, blank=True
+    )
     cliente_nombre = models.CharField(max_length=100)
     cliente_direccion = models.CharField(max_length=200)
     cliente_telefono = models.CharField(max_length=20, blank=True)
@@ -74,3 +82,36 @@ class PedidoProducto(models.Model):
 
     def __str__(self):
         return f"{self.cantidad}x {self.producto.nombre} para Pedido #{self.pedido.id}"
+
+
+class ClienteManager(BaseUserManager):
+    def create_user(self, telefono, password=None):
+        if not telefono:
+            raise ValueError('El teléfono es obligatorio')
+        user = self.model(telefono=telefono)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, telefono, password):
+        user = self.create_user(telefono, password)
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
+
+class Cliente(AbstractBaseUser, PermissionsMixin):  # <--- AGREGÁ PermissionsMixin
+    telefono = models.CharField(max_length=20, unique=True)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'telefono'
+    REQUIRED_FIELDS = []
+
+    objects = ClienteManager()
+
+    def __str__(self):
+        return self.telefono
+
+    @property
+    def is_staff(self):
+        return self.is_admin

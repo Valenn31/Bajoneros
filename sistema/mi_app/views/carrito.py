@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from ..models import Producto, PersonalizacionOpcion
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def agregar_al_carrito(request, producto_id):
     producto_id_str = str(producto_id)
     carrito = request.session.get('carrito', [])
@@ -23,6 +25,7 @@ def agregar_al_carrito(request, producto_id):
     request.session.modified = True
     return redirect('catalogo_cliente')
 
+@login_required
 def ver_carrito(request):
     carrito = request.session.get('carrito', [])
     items = []
@@ -59,6 +62,7 @@ def ver_carrito(request):
         request.session.modified = True
     return render(request, 'cliente/carrito.html', {'items': items, 'total': total})
 
+@login_required
 def eliminar_del_carrito(request, item_index):
     try:
         item_index = int(item_index)

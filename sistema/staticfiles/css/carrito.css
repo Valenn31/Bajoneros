@@ -1,10 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Jockey+One&display=swap');
+
+body, h1, h2, h3, h4, h5, h6, p, a, span, div, input, button, select, textarea {
+    font-family: 'Jockey One', Arial, sans-serif !important;
+  }
+  
+
 h2 {
     margin: 20px 0 10px;
     font-size: 1.6em;
     text-align: center;
     color: #d32f2f;
   }
-  
+
   /* Lista de productos del carrito */
   .carrito-lista {
     display: flex;
@@ -146,12 +153,14 @@ h2 {
     font-size: 1.2em;
     margin: 0;
     color: #d32f2f;
+    font-family: 'Jockey One', Arial, sans-serif;
   }
   
   .carrito-detalles p {
     margin: 0;
     color: #555;
     font-size: 0.95em;
+    font-family: 'Jockey One', Arial, sans-serif;
   }
   
   .opciones-lista {

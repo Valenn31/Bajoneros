@@ -1,5 +1,5 @@
 from django import forms
-from .models import Producto, PersonalizacionCampo, PersonalizacionOpcion
+from .models import Producto, PersonalizacionCampo, PersonalizacionOpcion, Cliente
 
 class ProductoForm(forms.ModelForm):
     class Meta:
@@ -27,3 +27,10 @@ PersonalizacionOpcionFormSet = inlineformset_factory(
     extra=1,
     can_delete=True
 )
+
+class RegistroClienteForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+
+    class Meta:
+        model = Cliente
+        fields = ['telefono', 'password']

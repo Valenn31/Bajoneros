@@ -1,0 +1,10 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<form method="post" class="form-registro">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Registrarse</button>
+</form>
+<a href="{% url 'login_cliente' %}">¿Ya tienes cuenta? Iniciar sesión</a>

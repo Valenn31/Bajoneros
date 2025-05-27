@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<form method="post" class="form-login">
+    {% csrf_token %}
+    <input type="text" name="telefono" placeholder="Teléfono" required>
+    <input type="password" name="password" placeholder="Contraseña" required>
+    <button type="submit">Iniciar sesión</button>
+    {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
+</form>
+<a href="{% url 'registro_cliente' %}">¿No tienes cuenta? Regístrate</a>

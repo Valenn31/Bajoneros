@@ -3,6 +3,7 @@ from ..models import Producto, Pedido, PedidoProducto
 from django.contrib import messages
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from django.contrib.auth.decorators import login_required
 
 def realizar_pedido(request):
     if request.method == 'POST':
@@ -17,6 +18,7 @@ def realizar_pedido(request):
             messages.error(request, 'Tu carrito está vacío.')
             return redirect('catalogo_cliente')
         pedido = Pedido.objects.create(
+            cliente=request.user if request.user.is_authenticated else None,
             cliente_nombre=nombre,
             cliente_direccion=direccion,
             cliente_telefono=telefono,
@@ -64,10 +66,7 @@ def checkout(request):
         return realizar_pedido(request)
     return render(request, 'cliente/checkout.html')
 
+@login_required
 def mis_pedidos(request):
-    telefono = request.session.get('telefono')
-    pedidos = []
-    if telefono:
-        pedidos = Pedido.objects.filter(cliente_telefono=telefono).order_by('-fecha_creacion')
-    request.session['telefono'] = telefono
+    pedidos = Pedido.objects.filter(cliente=request.user).order_by('-fecha_creacion')
     return render(request, 'cliente/mis_pedidos.html', {'pedidos': pedidos})

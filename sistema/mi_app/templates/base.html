@@ -4,17 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Mi Sistema{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% block extra_css %}{% endblock %}
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <meta name="theme-color" content="#d32f2f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="{% static 'img/icon-192.png' %}">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="main-header">
-        <div class="header-content">
+        <div class="header-content" style="justify-content: flex-start; display: flex; align-items: center;">
+            <!-- Botón de cuenta -->
             <h1 class="app-title">🍔 Mi Sistema de Pedidos</h1>
         </div>
     </header>
+
+    <!-- Modal de cuenta -->
+    <div id="modal-cuenta" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:9999; align-items:center; justify-content:center;">
+        <div style="background:#fff; border-radius:12px; padding:32px 24px; min-width:260px; max-width:90vw; box-shadow:0 4px 24px rgba(0,0,0,0.18); position:relative;">
+            <button id="cerrar-modal-cuenta" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:1.5em; color:#d32f2f; cursor:pointer;">&times;</button>
+            <h2 style="margin-top:0; margin-bottom:18px; font-size:1.2em;">Mi cuenta</h2>
+            {% if user.is_authenticated %}
+                <p><strong>Teléfono:</strong> {{ user.telefono }}</p>
+                <form method="post" action="{% url 'logout_cliente' %}">
+                    {% csrf_token %}
+                    <button type="submit" style="margin-top:18px; background:#d32f2f; color:#fff; border:none; border-radius:6px; padding:8px 18px; font-weight:bold; cursor:pointer;">Cerrar sesión</button>
+                </form>
+            {% else %}
+                <p>No has iniciado sesión.</p>
+                <a href="{% url 'login_cliente' %}" style="color:#d32f2f; font-weight:bold;">Iniciar sesión</a>
+            {% endif %}
+        </div>
+    </div>
 
     <main class="main-content">
         {% block content %}{% endblock %}
@@ -22,21 +48,38 @@
 
     <!-- Barra de navegación inferior estilo app móvil -->
     <nav class="bottom-nav">
-        <a href="{% url 'catalogo_cliente' %}" class="nav-item">
-            <span class="material-icons">home</span>
+        <a href="{% url 'catalogo_cliente' %}" class="nav-item{% if nav_active == 'inicio' %} active{% endif %}">
+            <img src="{% static 'icons/inicio.png' %}" alt="Inicio" style="width:24px;height:24px;">
             <span>Inicio</span>
         </a>
-        <a href="{% url 'ver_carrito' %}" class="nav-item">
-            <span class="material-icons">shopping_cart</span>
+        <a href="{% url 'ver_carrito' %}" class="nav-item{% if nav_active == 'carrito' %} active{% endif %}">
+            <img src="{% static 'icons/carrito.png' %}" alt="Carrito" style="width:24px;height:24px;">
             <span>Carrito</span>
         </a>
-        <a href="{% url 'mis_pedidos' %}" class="nav-item">
-            <span class="material-icons">receipt_long</span>
+        <a href="{% url 'mis_pedidos' %}" class="nav-item{% if nav_active == 'pedidos' %} active{% endif %}">
+            <img src="{% static 'icons/pedidos.png' %}" alt="Pedidos" style="width:24px;height:24px;">
             <span>Pedidos</span>
+        </a>
+        <a href="javascript:void(0);" id="btn-cuenta-nav" class="nav-item{% if nav_active == 'cuenta' %} active{% endif %}">
+            <img src="{% static 'icons/cuenta.png' %}" alt="Cuenta" style="width:24px;height:24px;">
+            <span>Cuenta</span>
         </a>
     </nav>
 
-    <!-- Google Material Icons (solo si no usás otra librería) -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register("{% static 'sw.js' %}");
+    }
+    // Botón de cuenta en barra inferior
+    document.getElementById('btn-cuenta-nav').onclick = function() {
+        document.getElementById('modal-cuenta').style.display = 'flex';
+    };
+    document.getElementById('cerrar-modal-cuenta').onclick = function() {
+        document.getElementById('modal-cuenta').style.display = 'none';
+    };
+    document.getElementById('modal-cuenta').onclick = function(e) {
+        if (e.target === this) this.style.display = 'none';
+    };
+    </script>
 </body>
 </html>
