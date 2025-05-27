@@ -25,10 +25,6 @@ PAGINA ADMIN IDEAS
 
 PAGINA CLIENTE IDEAS
 
-    ✔Inicio de sesion que guarde los pedidos de la persona en su cuenta
-
-    ✔Ver los pedidos y el estado del pedido que hizo la persona
-
     -Carrito / pago
 
         🔲PEDIDO (DELIVERY)
@@ -37,7 +33,9 @@ PAGINA CLIENTE IDEAS
                 SI LA MODALIDAD ES PASO A RETIRAR NO MOSTRAR EL CAMPO DE DIRECCION
 
         ✔Eliminar productos del carrito
--
+-       ✔Inicio de sesion que guarde los pedidos de la persona en su cuenta
+        ✔Ver los pedidos y el estado del pedido que hizo la persona
+
     -Catalogo
 
     -Base
@@ -46,18 +44,14 @@ PAGINA CLIENTE IDEAS
 
         ✔Cambiar el boton Agregar al carrito por un boton fijo en la pantalla y que 
           al lado aparezca para seleccionar la cantidad (como pedidos ya)
-
-
-        🔲Ir mostrando el total dentro del producto mientras se personaliza
-        
+        ✔Ir mostrando el total dentro del producto mientras se personaliza
         ✔Poder elegir mas de una opcion por cada personalizacion
         ✔Imagenes para los productos
         ✔Las opciones no funcionan bien (los aderezos no se agregan)
 
     -Pedidos (falta crear)
 
-        🔲Los pedidos aparecen todavia dependiendo del telefono que se ingrese en el ultimo pedido
-        
+        ✔Los pedidos aparecen todavia dependiendo del telefono que se ingrese en el ultimo pedido
         ✔Pagina que muestre los pedidos realizados por la persona
 
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Mi Sistema{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
     <link rel="manifest" href="{% static 'manifest.json' %}">
@@ -12,14 +12,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="apple-touch-icon" href="{% static 'img/icon-192.png' %}">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="main-header">
         <div class="header-content" style="justify-content: flex-start; display: flex; align-items: center;">
             <!-- Botón de cuenta -->
-            <button id="btn-cuenta" style="background:none; border:none; cursor:pointer; margin-right: 12px;">
-                <span class="material-icons" style="font-size: 2em; color: #d32f2f;">account_circle</span>
-            </button>
             <h1 class="app-title">🍔 Mi Sistema de Pedidos</h1>
         </div>
     </header>
@@ -48,28 +48,30 @@
 
     <!-- Barra de navegación inferior estilo app móvil -->
     <nav class="bottom-nav">
-        <a href="{% url 'catalogo_cliente' %}" class="nav-item">
-            <span class="material-icons">home</span>
+        <a href="{% url 'catalogo_cliente' %}" class="nav-item{% if nav_active == 'inicio' %} active{% endif %}">
+            <img src="{% static 'icons/inicio.png' %}" alt="Inicio" style="width:24px;height:24px;">
             <span>Inicio</span>
         </a>
-        <a href="{% url 'ver_carrito' %}" class="nav-item">
-            <span class="material-icons">shopping_cart</span>
+        <a href="{% url 'ver_carrito' %}" class="nav-item{% if nav_active == 'carrito' %} active{% endif %}">
+            <img src="{% static 'icons/carrito.png' %}" alt="Carrito" style="width:24px;height:24px;">
             <span>Carrito</span>
         </a>
-        <a href="{% url 'mis_pedidos' %}" class="nav-item">
-            <span class="material-icons">receipt_long</span>
+        <a href="{% url 'mis_pedidos' %}" class="nav-item{% if nav_active == 'pedidos' %} active{% endif %}">
+            <img src="{% static 'icons/pedidos.png' %}" alt="Pedidos" style="width:24px;height:24px;">
             <span>Pedidos</span>
+        </a>
+        <a href="javascript:void(0);" id="btn-cuenta-nav" class="nav-item{% if nav_active == 'cuenta' %} active{% endif %}">
+            <img src="{% static 'icons/cuenta.png' %}" alt="Cuenta" style="width:24px;height:24px;">
+            <span>Cuenta</span>
         </a>
     </nav>
 
-    <!-- Google Material Icons (solo si no usás otra librería) -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
     <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register("{% static 'sw.js' %}");
     }
-    document.getElementById('btn-cuenta').onclick = function() {
+    // Botón de cuenta en barra inferior
+    document.getElementById('btn-cuenta-nav').onclick = function() {
         document.getElementById('modal-cuenta').style.display = 'flex';
     };
     document.getElementById('cerrar-modal-cuenta').onclick = function() {

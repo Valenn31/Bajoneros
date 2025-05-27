@@ -57,34 +57,43 @@ document.addEventListener('DOMContentLoaded', function() {
   const addBtn = document.getElementById('add-opcion');
   const table = document.getElementById('opciones-table').getElementsByTagName('tbody')[0];
   let totalForms = document.getElementById('id_personalizacionopcion_set-TOTAL_FORMS') || document.getElementById('id_opciones_set-TOTAL_FORMS');
-
-  // Guarda la plantilla del formulario vacío
   const emptyFormTemplate = document.getElementById('empty-form-template').outerHTML;
+
+  function updateFormIndices() {
+    const forms = table.querySelectorAll('.opcion-form');
+    forms.forEach(function(row, idx) {
+      row.querySelectorAll('input, label, select').forEach(function(el) {
+        // Reemplaza todos los índices en name, id y htmlFor (no solo el primero)
+        if (el.name) el.name = el.name.replace(/-\d+-/g, '-' + idx + '-');
+        if (el.id) el.id = el.id.replace(/-\d+-/g, '-' + idx + '-');
+        if (el.htmlFor) el.htmlFor = el.htmlFor.replace(/-\d+-/g, '-' + idx + '-');
+      });
+    });
+    totalForms.value = forms.length;
+  }
 
   addBtn.addEventListener('click', function() {
     const formNum = table.querySelectorAll('.opcion-form').length;
-    let newRow = emptyFormTemplate.replace(/__prefix__/g, formNum);
-    // Convierte el string HTML en un nodo
+    let newRowHtml = emptyFormTemplate.replace(/__prefix__/g, formNum);
     let tempDiv = document.createElement('tbody');
-    tempDiv.innerHTML = newRow;
+    tempDiv.innerHTML = newRowHtml;
     let newForm = tempDiv.firstElementChild;
-    // Quita cualquier estilo display:none heredado
+    if (newForm.hasAttribute('id')) newForm.removeAttribute('id');
     newForm.style.display = '';
-    // Agrega el evento de eliminar
     newForm.querySelector('.remove-opcion').addEventListener('click', function() {
       newForm.remove();
-      totalForms.value = table.querySelectorAll('.opcion-form').length;
+      updateFormIndices();
     });
     table.appendChild(newForm);
-    totalForms.value = table.querySelectorAll('.opcion-form').length;
+    updateFormIndices();
   });
 
-  // Eliminar opción al hacer click en la cruz
+  // Eliminar opción al hacer click en la cruz (para los formularios ya existentes)
   table.querySelectorAll('.remove-opcion').forEach(function(btn) {
     btn.addEventListener('click', function() {
       const row = btn.closest('.opcion-form');
       row.remove();
-      totalForms.value = table.querySelectorAll('.opcion-form').length;
+      updateFormIndices();
     });
   });
 });

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from django.conf import settings
 
 # Producto del menú
 class Producto(models.Model):
@@ -46,6 +47,12 @@ class Pedido(models.Model):
         ('cancelado', 'Cancelado'),
     ]
 
+    cliente = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='pedidos',
+        null=True, blank=True
+    )
     cliente_nombre = models.CharField(max_length=100)
     cliente_direccion = models.CharField(max_length=200)
     cliente_telefono = models.CharField(max_length=20, blank=True)
