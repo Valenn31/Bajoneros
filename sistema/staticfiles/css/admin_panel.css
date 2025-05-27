@@ -82,18 +82,20 @@ h1 {
 
 /* Colores suaves para estados de pedido */
 .pedido-estado-pendiente {
-  background: #fffbe6; /* amarillo muy suave */
+  background: #f7de60a1; /* amarillo muy suave */
 }
 .pedido-estado-proceso {
-  background: #e6f7ff; /* celeste muy suave */
+  background: #73d3ffa1; /* celeste muy suave */
 }
 .pedido-estado-entregado {
-  background: #e8f5e9; /* verde muy suave */
+  background: #45ff54a1; /* verde muy suave */
 }
 .pedido-estado-cancelado {
-  background: #fbe9e7; /* rojo muy suave */
+  background: #ff6b5aa1; /* rojo muy suave */
 }
-
+.pedido-estado-listo {
+  background: #fd84ffa1; /* rojo muy suave */
+}
 /* Lista de productos */
 .productos-list {
   margin: 10px 0;
@@ -105,9 +107,6 @@ h1 {
 }
 
 /* --- Formularios --- */
-form {
-
-}
 
 form label {
   font-weight: bold;

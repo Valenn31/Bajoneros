@@ -36,6 +36,7 @@ urlpatterns = [
     path('panel/personalizaciones/', views.lista_personalizaciones_admin, name='lista_personalizaciones_admin'),
     path('panel/personalizaciones/agregar/', views.agregar_personalizacion_admin, name='agregar_personalizacion_admin'),
     path('panel/personalizaciones/editar/<int:pk>/', views.agregar_personalizacion_admin, name='editar_personalizacion_admin'),
+    path('panel/personalizaciones/eliminar/<int:pk>/', views.eliminar_personalizacion_admin, name='eliminar_personalizacion_admin'),
 
     # Rutas para registro y login de clientes
     path('registro/', views_cliente.registro_cliente, name='registro_cliente'),

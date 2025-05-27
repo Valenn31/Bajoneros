@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from ..models import Pedido, Producto
-from ..forms import ProductoForm, PersonalizacionCampoForm, PersonalizacionOpcionFormSet
+from ..models import Pedido, Producto,PersonalizacionCampo
+from ..forms import ProductoForm, PersonalizacionCampoForm,PersonalizacionOpcionFormSet
 
 def pedidos_admin(request):
     estado = request.GET.get('estado')
@@ -51,9 +51,10 @@ def agregar_personalizacion_admin(request, pk=None):
         campo = get_object_or_404(PersonalizacionCampo, pk=pk)
     else:
         campo = None
+
     if request.method == 'POST':
         form = PersonalizacionCampoForm(request.POST, instance=campo)
-        formset = PersonalizacionOpcionFormSet(request.POST, instance=campo)
+        formset = PersonalizacionOpcionFormSet(request.POST, instance=campo, prefix='opciones')
         if form.is_valid() and formset.is_valid():
             campo = form.save()
             formset.instance = campo
@@ -61,8 +62,13 @@ def agregar_personalizacion_admin(request, pk=None):
             return redirect('lista_personalizaciones_admin')
     else:
         form = PersonalizacionCampoForm(instance=campo)
-        formset = PersonalizacionOpcionFormSet(instance=campo)
-    return render(request, 'admin/agregar_personalizacion_admin.html', {'form': form, 'formset': formset, 'editando': pk is not None})
+        formset = PersonalizacionOpcionFormSet(instance=campo, prefix='opciones')
+
+    return render(request, 'admin/agregar_personalizacion_admin.html', {
+        'form': form,
+        'formset': formset,
+        'editando': pk is not None
+    })
 
 def productos_admin(request):
     productos = Producto.objects.all()
@@ -82,3 +88,17 @@ def editar_producto_admin(request, pk):
 def pedidos_entregados_admin(request):
     pedidos = Pedido.objects.filter(estado='entregado').order_by('-fecha_creacion')
     return render(request, 'admin/pedidos_entregados_admin.html', {'pedidos': pedidos})
+
+
+
+@require_POST
+def eliminar_personalizacion_admin(request, pk):
+    personalizacion = get_object_or_404(PersonalizacionCampo, pk=pk)
+    personalizacion.delete()
+    return redirect('lista_personalizaciones_admin')
+
+@require_POST
+def eliminar_producto_admin(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    producto.delete()
+    return redirect('productos_admin')

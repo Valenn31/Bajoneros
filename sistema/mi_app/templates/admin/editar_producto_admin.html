@@ -15,3 +15,8 @@
   <button type="submit">Guardar cambios</button>
   <a href="{% url 'productos_admin' %}" style="margin-left: 15px;">Volver</a>
 </form>
+
+<form method="post" action="{% url 'eliminar_producto_admin' producto.id %}" style="margin-top:18px;">
+  {% csrf_token %}
+  <button type="submit" onclick="return confirm('¿Seguro que deseas eliminar este producto?')" style="background:#d32f2f;color:#fff;border:none;padding:8px 18px;border-radius:6px;font-weight:bold;cursor:pointer;">Eliminar producto</button>
+</form>

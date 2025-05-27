@@ -196,7 +196,7 @@ h2 {
   
   .btn-pedido {
     position: fixed;
-    bottom: 82px;
+    bottom: 30px;
     left: 15px;
     right: 15px;
     background-color: #d32f2f;
@@ -214,46 +214,6 @@ h2 {
   
   .btn-pedido:hover {
     background-color: #b71c1c;
-  }
-
-  .btn-volver {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 600;
-    color: #d32f2f;
-    font-size: 1em;
-    text-decoration: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 2px solid #d32f2f;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    margin: 15px;
-    user-select: none;
-    cursor: pointer;
-    max-width: fit-content;
-  }
-  
-  .btn-volver:hover {
-    background-color: #d32f2f;
-    color: white;
-    text-decoration: none;
-  }
-
-  .btn-volver {
-    display: inline-block;
-    margin: 10px 15px 5px 15px;
-    color: #d32f2f;
-    font-weight: bold;
-    font-size: 1.3em;
-    text-decoration: none;
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.2s ease;
-  }
-  
-  .btn-volver:hover {
-    color: #b71c1c;
   }
 
   .eliminar-item {
@@ -287,10 +247,7 @@ h2 {
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 200;
-    background: #ffffff00;
-    
-    
+    z-index: 9999;
     width: 48px;
     height: 48px;
     display: flex;
@@ -302,8 +259,7 @@ h2 {
 }
 
 .btn-flecha-atras:hover {
-    background: #f5f5f5;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  width: 55px;
 }
 
 .btn-flecha-atras .flecha {
@@ -315,4 +271,25 @@ h2 {
     position: relative;
     left: 0;
     top: 0;
+}
+
+.carrito-vacio {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icono-carrito-vacio {
+  margin-bottom: 18px;
+  opacity: 0.5;
+}
+
+.carrito-vacio p {
+  color: #d32f2f;
+  font-size: 1.25em;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
 }

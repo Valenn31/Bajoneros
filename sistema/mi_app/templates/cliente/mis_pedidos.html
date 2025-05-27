@@ -18,16 +18,16 @@
                             <li>
                                 {{ item.cantidad }}x {{ item.producto.nombre }}
                                 {% if item.opciones_seleccionadas.all %}
-                                    (Opciones:
-                                    {% for op in item.opciones_seleccionadas.all %}
-                                        {{ op.nombre }}{% if not forloop.last %}, {% endif %}
-                                    {% endfor %}
-                                    )
+                                    <ul>
+                                        {% for op in item.opciones_seleccionadas.all %}
+                                            <li>{{ op.nombre }}</li>
+                                        {% endfor %}
+                                    </ul>
                                 {% endif %}
                             </li>
                         {% endfor %}
                     </ul>
-                    <br>
+                    <hr>
                 </div>
             </div>
         {% endfor %}

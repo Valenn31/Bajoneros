@@ -53,48 +53,47 @@
 </table>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const addBtn = document.getElementById('add-opcion');
-  const table = document.getElementById('opciones-table').getElementsByTagName('tbody')[0];
-  let totalForms = document.getElementById('id_personalizacionopcion_set-TOTAL_FORMS') || document.getElementById('id_opciones_set-TOTAL_FORMS');
-  const emptyFormTemplate = document.getElementById('empty-form-template').outerHTML;
-
-  function updateFormIndices() {
-    const forms = table.querySelectorAll('.opcion-form');
-    forms.forEach(function(row, idx) {
-      row.querySelectorAll('input, label, select').forEach(function(el) {
-        // Reemplaza todos los índices en name, id y htmlFor (no solo el primero)
-        if (el.name) el.name = el.name.replace(/-\d+-/g, '-' + idx + '-');
-        if (el.id) el.id = el.id.replace(/-\d+-/g, '-' + idx + '-');
-        if (el.htmlFor) el.htmlFor = el.htmlFor.replace(/-\d+-/g, '-' + idx + '-');
+  document.addEventListener('DOMContentLoaded', function() {
+    const addBtn = document.getElementById('add-opcion');
+    const table = document.getElementById('opciones-table').getElementsByTagName('tbody')[0];
+    const totalFormsInput = document.querySelector('input[name$="-TOTAL_FORMS"]');
+    const emptyFormTemplate = document.getElementById('empty-form-template').outerHTML;
+  
+    function updateFormIndices() {
+      const forms = table.querySelectorAll('.opcion-form');
+      forms.forEach(function(row, idx) {
+        row.querySelectorAll('input, label, select').forEach(function(el) {
+          if (el.name) el.name = el.name.replace(/-\d+-/g, '-' + idx + '-');
+          if (el.id) el.id = el.id.replace(/-\d+-/g, '-' + idx + '-');
+          if (el.htmlFor) el.htmlFor = el.htmlFor.replace(/-\d+-/g, '-' + idx + '-');
+        });
+      });
+      totalFormsInput.value = forms.length;
+    }
+  
+    addBtn.addEventListener('click', function() {
+      const formNum = table.querySelectorAll('.opcion-form').length;
+      let newRowHtml = emptyFormTemplate.replace(/__prefix__/g, formNum);
+      let tempDiv = document.createElement('tbody');
+      tempDiv.innerHTML = newRowHtml;
+      let newForm = tempDiv.firstElementChild;
+      if (newForm.hasAttribute('id')) newForm.removeAttribute('id');
+      newForm.style.display = '';
+      newForm.querySelector('.remove-opcion').addEventListener('click', function() {
+        newForm.remove();
+        updateFormIndices();
+      });
+      table.appendChild(newForm);
+      updateFormIndices();
+    });
+  
+    // Eliminar opción al hacer click en la cruz (para los formularios ya existentes)
+    table.querySelectorAll('.remove-opcion').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const row = btn.closest('.opcion-form');
+        row.remove();
+        updateFormIndices();
       });
     });
-    totalForms.value = forms.length;
-  }
-
-  addBtn.addEventListener('click', function() {
-    const formNum = table.querySelectorAll('.opcion-form').length;
-    let newRowHtml = emptyFormTemplate.replace(/__prefix__/g, formNum);
-    let tempDiv = document.createElement('tbody');
-    tempDiv.innerHTML = newRowHtml;
-    let newForm = tempDiv.firstElementChild;
-    if (newForm.hasAttribute('id')) newForm.removeAttribute('id');
-    newForm.style.display = '';
-    newForm.querySelector('.remove-opcion').addEventListener('click', function() {
-      newForm.remove();
-      updateFormIndices();
-    });
-    table.appendChild(newForm);
-    updateFormIndices();
   });
-
-  // Eliminar opción al hacer click en la cruz (para los formularios ya existentes)
-  table.querySelectorAll('.remove-opcion').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      const row = btn.closest('.opcion-form');
-      row.remove();
-      updateFormIndices();
-    });
-  });
-});
-</script>
+  </script>

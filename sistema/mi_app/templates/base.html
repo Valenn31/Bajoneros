@@ -71,15 +71,24 @@
       navigator.serviceWorker.register("{% static 'sw.js' %}");
     }
     // Botón de cuenta en barra inferior
-    document.getElementById('btn-cuenta-nav').onclick = function() {
+    var btnCuenta = document.getElementById('btn-cuenta-nav');
+    if (btnCuenta) {
+      btnCuenta.onclick = function() {
         document.getElementById('modal-cuenta').style.display = 'flex';
-    };
-    document.getElementById('cerrar-modal-cuenta').onclick = function() {
+      };
+    }
+    var cerrarModal = document.getElementById('cerrar-modal-cuenta');
+    if (cerrarModal) {
+      cerrarModal.onclick = function() {
         document.getElementById('modal-cuenta').style.display = 'none';
-    };
-    document.getElementById('modal-cuenta').onclick = function(e) {
+      };
+    }
+    var modalCuenta = document.getElementById('modal-cuenta');
+    if (modalCuenta) {
+      modalCuenta.onclick = function(e) {
         if (e.target === this) this.style.display = 'none';
-    };
+      };
+    }
     </script>
 </body>
 </html>

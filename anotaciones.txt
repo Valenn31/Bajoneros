@@ -8,12 +8,10 @@ PAGINA ADMIN IDEAS
 
         🔲Cambiar las opciones de la visualizacion del cliente desde el panel de pedidos (como si fuera configuracion)
 
-        🔄Al agregar personalizaciones solo se agregan de a 1 los items
-
         🔲Animacion / Sonido al entrar un pedido nuevo
 
-        🔲Poder borrar productos y personalizaciones
-
+        ✔Al agregar personalizaciones solo se agregan de a 1 los itemsPoder borrar productos y personalizaciones
+        ✔Al agregar personalizaciones solo se agregan de a 1 los items
         ✔Editar las personalizaciones ya creadas
         ✔Cambio de color segun el estado de la orden
         ✔Actualizar el admin productos cuando se hace una nueva orden
@@ -25,7 +23,10 @@ PAGINA ADMIN IDEAS
 
 PAGINA CLIENTE IDEAS
 
-    ✔Agregar un login
+    🔲Pedir la direccion de la persona al abrir la app luego del login
+    y autocompletar en el pedido
+
+    
 
     -Carrito / pago
 
@@ -56,6 +57,9 @@ PAGINA CLIENTE IDEAS
         ✔Los pedidos aparecen todavia dependiendo del telefono que se ingrese en el ultimo pedido
         ✔Pagina que muestre los pedidos realizados por la persona
 
+    -Login / Register
+
+        ✔Agregar un login
 
 FUENTES
 

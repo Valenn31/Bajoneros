@@ -33,6 +33,10 @@
       </td>
       <td>
         <a href="{% url 'editar_personalizacion_admin' p.id %}" class="admin-btn">Editar</a>
+        <form method="post" action="{% url 'eliminar_personalizacion_admin' p.id %}" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" title="Eliminar" onclick="return confirm('¿Seguro que deseas eliminar esta personalización?')" style="background:none;border:none;color:#d32f2f;font-size:1.3em;cursor:pointer;vertical-align:middle;">&#10060;</button>
+        </form>
       </td>
     </tr>
     {% empty %}
