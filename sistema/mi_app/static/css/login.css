@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Jockey+One&display=swap');
+
+body, h1, h2, h3, h4, h5, h6, p, a, span, div, input, button, select, textarea {
+    font-family: 'Jockey One', Arial, sans-serif !important;
+  }
+  
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Jockey One', Arial, sans-serif !important;
     background: #f4f4f4;
     margin: 0;
     padding: 0;
