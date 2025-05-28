@@ -27,12 +27,47 @@
 
 <div class="pedidos-grid">
   {% for pedido in pedidos %}
-    <div class="pedido-card pedido-estado-{{ pedido.estado }}">
-      <h2>Pedido #{{ pedido.id }}</h2>
-      <div class="pedido-info"><strong>Cliente:</strong> {{ pedido.cliente_nombre }}</div>
-      <div class="pedido-info"><strong>Dirección:</strong> {{ pedido.cliente_direccion }}</div>
-      <div class="pedido-info"><strong>Teléfono:</strong> {{ pedido.cliente_telefono }}</div>
-      <div class="pedido-estado" style="margin-top: 10px;"><strong>Estado:</strong>
+    <div class="recibo-pedido-admin">
+      <div class="recibo-header-admin">
+        <span class="recibo-numero-admin">Pedido #{{ pedido.id }}</span>
+        <span class="recibo-estado-admin pedido-estado-{{ pedido.estado }}">{{ pedido.get_estado_display }}</span>
+      </div>
+      <div class="recibo-fecha-admin">
+        {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}
+      </div>
+      <div class="recibo-datos-admin">
+        <div><strong>Cliente:</strong> {{ pedido.cliente_nombre }}</div>
+        <div><strong>Dirección:</strong> {{ pedido.cliente_direccion }}</div>
+        <div><strong>Teléfono:</strong> {{ pedido.cliente_telefono }}</div>
+      </div>
+      <div class="recibo-articulos-admin">
+        <h4>Artículos</h4>
+        <ul class="opciones-lista-admin">
+          {% for item in pedido.items.all %}
+            <li>
+              {{ item.cantidad }}x {{ item.nombre_producto }}
+              <span style="color:#888; font-size:0.97em;">
+                (${{ item.precio_producto }})
+              </span>
+              {% if item.opciones_seleccionadas.all %}
+                <ul>
+                  {% for op in item.opciones_seleccionadas.all %}
+                    <li>{{ op.nombre }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% empty %}
+            <li>No hay artículos en este pedido.</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="recibo-total-admin">
+        <span>Total:</span>
+        <span class="recibo-total-monto-admin">${{ pedido.total }}</span>
+      </div>
+      <div class="pedido-estado" style="margin-top: 10px;">
+        <strong>Estado:</strong>
         <form method="post" action="{% url 'cambiar_estado_pedido' pedido.id %}">
           {% csrf_token %}
           <select name="estado" onchange="this.form.submit()">
@@ -42,25 +77,6 @@
           </select>
         </form>
       </div>
-      <div class="pedido-info"><strong>Total:</strong> ${{ pedido.total }}</div>
-      
-      <div class="pedido-info"><strong>Productos:</strong></div>
-      <ul class="productos-list">
-        {% for item in pedido.items.all %}
-          <li>
-            {{ item.cantidad }}x {{ item.producto.nombre }} 
-            {% if item.opciones_seleccionadas.all %}
-              (Opciones: 
-              {% for op in item.opciones_seleccionadas.all %}
-                {{ op.nombre }}{% if not forloop.last %}, {% endif %}
-              {% endfor %}
-              )
-            {% endif %}
-            - ${{ item.subtotal|floatformat:2 }}
-          </li>
-        {% endfor %}
-      </ul>
-
       <div class="pedido-actions">
         <a href="{% url 'imprimir_pedido' pedido.id %}" target="_blank">🖨️ Imprimir</a>
       </div>

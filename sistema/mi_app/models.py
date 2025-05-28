@@ -76,7 +76,10 @@ class PedidoProducto(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=1)
     opciones_seleccionadas = models.ManyToManyField(PersonalizacionOpcion, blank=True)
-
+        # Nuevos campos para mantener datos históricos
+    nombre_producto = models.CharField(max_length=200)
+    precio_producto = models.DecimalField(max_digits=10, decimal_places=2)
+    
     def subtotal(self):
         subtotal_base = self.producto.precio * self.cantidad
         extras = sum([op.precio_extra for op in self.opciones_seleccionadas.all()])
@@ -103,6 +106,7 @@ class ClienteManager(BaseUserManager):
 
 class Cliente(AbstractBaseUser, PermissionsMixin):  # <--- AGREGÁ PermissionsMixin
     telefono = models.CharField(max_length=20, unique=True)
+    nombre = models.CharField(max_length=100)  # <-- NUEVO CAMPO
     fecha_nacimiento = models.DateField(null=True, blank=True)  # NUEVO CAMPO
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

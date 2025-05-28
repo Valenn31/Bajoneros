@@ -8,12 +8,13 @@ body, h1, h2, h3, h4, h5, h6, p, a, span, div, input, button, select, textarea {
     margin: 0;
     background-color: #f9f9f9;
     color: #333;
+    padding: 0 !important;; 
   }
   
   .main-header {
-    background-color: #ffffff;
+    background-color: #4a0808;
     border-bottom: 1px solid #ddd;
-    padding: 10px 15px;
+    padding: 10px 0px;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -30,7 +31,7 @@ body, h1, h2, h3, h4, h5, h6, p, a, span, div, input, button, select, textarea {
   .app-title {
     font-size: 1.5em;
     margin: 5px 0;
-    color: #d32f2f;
+    color: #ffffff;
     font-weight: normal;
     letter-spacing: 1px;
   }

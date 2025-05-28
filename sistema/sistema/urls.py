@@ -19,6 +19,7 @@ urlpatterns = [
     path('panel/pedidos/imprimir/<int:pedido_id>/', views.imprimir_pedido, name='imprimir_pedido'),
     path('panel/productos/', views.productos_admin, name='productos_admin'),
     path('panel/productos/<int:pk>/editar/', views.editar_producto_admin, name='editar_producto_admin'),
+    path('panel/productos/<int:pk>/eliminar/', views.eliminar_producto_admin, name='eliminar_producto_admin'),
     path('panel/pedidos/entregados/', views.pedidos_entregados_admin, name='pedidos_entregados_admin'),
     # Catalogo y carrito
     path('catalogo/', views.catalogo_cliente, name='catalogo_cliente'),

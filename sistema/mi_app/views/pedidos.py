@@ -35,7 +35,9 @@ def realizar_pedido(request):
             pedido_item = PedidoProducto.objects.create(
                 pedido=pedido,
                 producto=producto,
-                cantidad=cantidad
+                cantidad=cantidad,
+                nombre_producto=producto.nombre,
+                precio_producto=producto.precio,
             )
             if opciones_ids:
                 pedido_item.opciones_seleccionadas.set(opciones_ids)

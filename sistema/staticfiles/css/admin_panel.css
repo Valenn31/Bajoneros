@@ -247,3 +247,84 @@ button#add-opcion:hover {
   bottom: 24px;
   z-index: 200;
 }
+
+/* Recibo estilo cliente para admin */
+.recibo-pedido-admin {
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(80,80,80,0.04);
+  padding: 22px 22px 14px 22px;
+  margin-bottom: 24px;
+  font-family: 'Menlo', 'Consolas', monospace, Arial, sans-serif;
+  position: relative;
+}
+.recibo-header-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px dashed #d0d0d0;
+  padding-bottom: 7px;
+  margin-bottom: 2px;
+}
+.recibo-numero-admin {
+  font-weight: bold;
+  color: #d32f2f;
+  font-size: 1.08em;
+}
+.recibo-fecha-admin {
+  font-size: 0.97em;
+  color: #666;
+  margin-bottom: 10px;
+  margin-left: 2px;
+}
+.recibo-estado-admin {
+  background: #ffeaea;
+  color: #d32f2f;
+  border-radius: 6px;
+  padding: 2px 10px;
+  font-size: 0.97em;
+  margin-left: 6px;
+  font-weight: bold;
+}
+.recibo-datos-admin {
+  margin-bottom: 10px;
+  font-size: 0.98em;
+  color: #444;
+}
+.recibo-articulos-admin h4 {
+  margin: 10px 0 6px 0;
+  font-size: 1.08em;
+  color: #222;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.opciones-lista-admin {
+  margin: 0 0 0 10px;
+  padding: 0;
+  list-style: disc inside;
+  font-size: 0.99em;
+}
+.opciones-lista-admin ul {
+  margin: 0 0 0 18px;
+  padding: 0;
+  list-style: circle inside;
+  font-size: 0.97em;
+  color: #888;
+}
+.recibo-total-admin {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-top: 1.5px dashed #e0e0e0;
+  margin-top: 14px;
+  padding-top: 8px;
+  font-size: 1.13em;
+  font-weight: bold;
+  color: #222;
+}
+.recibo-total-monto-admin {
+  color: #d32f2f;
+  margin-left: 10px;
+  font-size: 1.18em;
+}
