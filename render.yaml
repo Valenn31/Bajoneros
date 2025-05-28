@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: Sistema-Pedidos
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn sistema.asgi:application -k uvicorn.workers.UvicornWorker
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: sistema.settings
+      - key: PYTHON_VERSION
+        value: 3.11
