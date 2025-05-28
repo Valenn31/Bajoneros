@@ -67,4 +67,14 @@ FUENTES
 
 ABRIR SERVIDOR (DAPHNE)
 
-    daphne -b 0.0.0.0 -p 8000 sistema.asgi:application
+    #Maquina virtual
+    -   .\venv\Scripts\Activate 
+    -   deactivate     /Desactivar maquina virtual
+
+    #Abrir Servidor
+    -   daphne -b 0.0.0.0 -p 8000 sistema.asgi:application
+
+
+
+    #Instalar Requerimientos
+    -   pip install -r requirements.txt
