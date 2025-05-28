@@ -1,4 +1,3 @@
-
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/carrito.css' %}">
 <meta charset="UTF-8">
@@ -17,15 +16,20 @@
 
 <form method="post" class="form-pedido">
     {% csrf_token %}
-    <label for="nombre">Nombre:</label>
-    <input type="text" name="nombre" id="nombre" required>
-
-    <label for="direccion">Dirección:</label>
-    <input type="text" name="direccion" id="direccion" required>
+    <label for="nombre">Nombre/s y Apellido/s:</label>
+    <input type="text" name="nombre" id="nombre" value="{{ user.nombre|default:'' }}" required>
 
     <label for="telefono">Teléfono:</label>
-    <input type="text" name="telefono" id="telefono">
+    <input type="text" name="telefono" id="telefono" value="{{ user.telefono }}" required>
 
-    
+    <label for="direccion">Dirección:</label>
+    <select name="direccion" id="direccion" required>
+        <option value="">Selecciona una dirección</option>
+        {% for direccion in direcciones %}
+            <option value="{{ direccion.id }}">{{ direccion.nombre }} - {{ direccion.direccion }}</option>
+        {% endfor %}
+    </select>
+    <a href="{% url 'mis_direcciones' %}" class="btn-agregar-direccion">Agregar nueva dirección</a>
+
     <button type="submit" class="btn-pedido">Realizar pedido</button>
 </form>

@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
+from datetime import date
 
 # Producto del menú
 class Producto(models.Model):
@@ -101,6 +103,7 @@ class ClienteManager(BaseUserManager):
 
 class Cliente(AbstractBaseUser, PermissionsMixin):  # <--- AGREGÁ PermissionsMixin
     telefono = models.CharField(max_length=20, unique=True)
+    fecha_nacimiento = models.DateField(null=True, blank=True)  # NUEVO CAMPO
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -115,3 +118,20 @@ class Cliente(AbstractBaseUser, PermissionsMixin):  # <--- AGREGÁ PermissionsMi
     @property
     def is_staff(self):
         return self.is_admin
+
+    def edad(self):
+        if self.fecha_nacimiento:
+            today = date.today()
+            return today.year - self.fecha_nacimiento.year - (
+                (today.month, today.day) < (self.fecha_nacimiento.month, self.fecha_nacimiento.day)
+            )
+        return None
+
+class Direccion(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='direcciones')
+    nombre = models.CharField(max_length=100, help_text="Ej: Casa, Trabajo, etc.")
+    direccion = models.CharField(max_length=200)
+    referencia = models.CharField(max_length=200, blank=True)
+    # Puedes agregar más campos si necesitas (ej: ciudad, provincia)
+    def __str__(self):
+        return f"{self.nombre}: {self.direccion}"

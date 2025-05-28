@@ -49,6 +49,9 @@ urlpatterns = [
     # Mi cuenta
     path('cuenta/', mi_cuenta, name='mi_cuenta'),
 
+    # Rutas para direcciones
+    path('direcciones/', views_cliente.mis_direcciones, name='mis_direcciones'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

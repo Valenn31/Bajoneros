@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from ..models import Producto, Pedido, PedidoProducto
+from ..models import Producto, Pedido, PedidoProducto, Direccion
 from django.contrib import messages
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
@@ -17,10 +17,12 @@ def realizar_pedido(request):
         if not carrito:
             messages.error(request, 'Tu carrito está vacío.')
             return redirect('catalogo_cliente')
+        direccion_id = request.POST.get('direccion')
+        direccion_obj = Direccion.objects.get(id=direccion_id)
         pedido = Pedido.objects.create(
             cliente=request.user if request.user.is_authenticated else None,
             cliente_nombre=nombre,
-            cliente_direccion=direccion,
+            cliente_direccion=f"{direccion_obj.nombre} - {direccion_obj.direccion}",
             cliente_telefono=telefono,
             estado='pendiente'
         )
@@ -56,15 +58,19 @@ def checkout(request):
     if not carrito:
         messages.error(request, 'Tu carrito está vacío.')
         return redirect('catalogo_cliente')
+    direcciones = Direccion.objects.filter(cliente=request.user)
     if request.method == 'POST':
         nombre = request.POST.get('nombre', '').strip()
-        direccion = request.POST.get('direccion', '').strip()
+        direccion_id = request.POST.get('direccion')
         telefono = request.POST.get('telefono', '').strip()
-        if not nombre or not direccion:
+        if not nombre or not direccion_id:
             messages.error(request, 'Nombre y dirección son obligatorios.')
             return redirect('checkout')
         return realizar_pedido(request)
-    return render(request, 'cliente/checkout.html')
+    return render(request, 'cliente/checkout.html', {
+        'user': request.user,
+        'direcciones': direcciones,
+    })
 
 @login_required
 def mis_pedidos(request):
