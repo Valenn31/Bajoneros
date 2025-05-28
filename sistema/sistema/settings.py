@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-(ymh*b1bj6-#t^a_hcwgmg+wosfy0zsa%sr-s@!8xbc=rh+rz%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.53', '172.20.10.9','10.0.14.43','192.168.0.36']
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.53', '172.20.10.9','10.0.14.43','192.168.0.36']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 # O para permitir cualquier IP en desarrollo (no recomendado en producción):
 # ALLOWED_HOSTS = ['*']
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mi_app',
     'channels',
+    'whitenoise',
 ]
 
 MIDDLEWARE = [
@@ -119,7 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -139,3 +142,6 @@ CHANNEL_LAYERS = {
 AUTH_USER_MODEL = 'mi_app.Cliente'
 
 LOGIN_URL = '/login/'
+
+# Whitenoise
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
