@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path
 from mi_app import views
 from mi_app.views import cliente as views_cliente
-from mi_app.views.cliente import logout_cliente
+from mi_app.views.cliente import logout_cliente, mi_cuenta
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
@@ -45,6 +45,9 @@ urlpatterns = [
 
     # Redirección de login
     path('accounts/login/', RedirectView.as_view(url='/login/', permanent=False)),
+
+    # Mi cuenta
+    path('cuenta/', mi_cuenta, name='mi_cuenta'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

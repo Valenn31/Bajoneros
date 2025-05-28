@@ -26,7 +26,7 @@ PAGINA CLIENTE IDEAS
     🔲Pedir la direccion de la persona al abrir la app luego del login
     y autocompletar en el pedido
 
-    
+    🔲Agregar a mi cuenta: Direcciones, fecha de nacimiento
 
     -Carrito / pago
 

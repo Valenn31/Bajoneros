@@ -24,24 +24,6 @@
         </div>
     </header>
 
-    <!-- Modal de cuenta -->
-    <div id="modal-cuenta" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:9999; align-items:center; justify-content:center;">
-        <div style="background:#fff; border-radius:12px; padding:32px 24px; min-width:260px; max-width:90vw; box-shadow:0 4px 24px rgba(0,0,0,0.18); position:relative;">
-            <button id="cerrar-modal-cuenta" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:1.5em; color:#d32f2f; cursor:pointer;">&times;</button>
-            <h2 style="margin-top:0; margin-bottom:18px; font-size:1.2em;">Mi cuenta</h2>
-            {% if user.is_authenticated %}
-                <p><strong>Teléfono:</strong> {{ user.telefono }}</p>
-                <form method="post" action="{% url 'logout_cliente' %}">
-                    {% csrf_token %}
-                    <button type="submit" style="margin-top:18px; background:#d32f2f; color:#fff; border:none; border-radius:6px; padding:8px 18px; font-weight:bold; cursor:pointer;">Cerrar sesión</button>
-                </form>
-            {% else %}
-                <p>No has iniciado sesión.</p>
-                <a href="{% url 'login_cliente' %}" style="color:#d32f2f; font-weight:bold;">Iniciar sesión</a>
-            {% endif %}
-        </div>
-    </div>
-
     <main class="main-content">
         {% block content %}{% endblock %}
     </main>
@@ -60,7 +42,7 @@
             <img src="{% static 'icons/pedidos.png' %}" alt="Pedidos" style="width:24px;height:24px;">
             <span>Pedidos</span>
         </a>
-        <a href="javascript:void(0);" id="btn-cuenta-nav" class="nav-item{% if nav_active == 'cuenta' %} active{% endif %}">
+        <a href="{% url 'mi_cuenta' %}" id="btn-cuenta-nav" class="nav-item{% if nav_active == 'cuenta' %} active{% endif %}">
             <img src="{% static 'icons/cuenta.png' %}" alt="Cuenta" style="width:24px;height:24px;">
             <span>Cuenta</span>
         </a>
@@ -69,25 +51,6 @@
     <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register("{% static 'sw.js' %}");
-    }
-    // Botón de cuenta en barra inferior
-    var btnCuenta = document.getElementById('btn-cuenta-nav');
-    if (btnCuenta) {
-      btnCuenta.onclick = function() {
-        document.getElementById('modal-cuenta').style.display = 'flex';
-      };
-    }
-    var cerrarModal = document.getElementById('cerrar-modal-cuenta');
-    if (cerrarModal) {
-      cerrarModal.onclick = function() {
-        document.getElementById('modal-cuenta').style.display = 'none';
-      };
-    }
-    var modalCuenta = document.getElementById('modal-cuenta');
-    if (modalCuenta) {
-      modalCuenta.onclick = function(e) {
-        if (e.target === this) this.style.display = 'none';
-      };
     }
     </script>
 </body>

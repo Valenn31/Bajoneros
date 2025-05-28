@@ -72,3 +72,7 @@ def login_cliente(request):
 def logout_cliente(request):
     logout(request)
     return redirect('login_cliente')
+
+@login_required
+def mi_cuenta(request):
+    return render(request, 'cliente/mi_cuenta.html')
