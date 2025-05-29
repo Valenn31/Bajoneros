@@ -2,14 +2,17 @@ services:
   - type: web
     name: sistema-pedidos
     env: python
+    rootDir: sistema              # 👈 Importante: es donde está manage.py y requirements.txt
     buildCommand: pip install -r requirements.txt
     startCommand: daphne -b 0.0.0.0 -p 10000 sistema.asgi:application
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: sistema.settings
       - key: SECRET_KEY
-        value: tu_clave_secreta
+        value: pon_una_clave_segura
       - key: ALLOWED_HOSTS
         value: sistema-pedidos.onrender.com
 
 
+
+        
