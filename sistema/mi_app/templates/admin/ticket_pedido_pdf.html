@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: "DejaVu Sans", sans-serif; font-size: 13px; }
+        .titulo { font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
+        .linea { border-bottom: 1px dashed #888; margin: 10px 0; }
+        .total { font-size: 1.1em; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="titulo">Ticket Pedido #{{ pedido.id }}</div>
+    <div>Fecha: {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}</div>
+    <div>Cliente: {{ pedido.cliente_nombre }}</div>
+    <div>Teléfono: {{ pedido.cliente_telefono }}</div>
+    <div>Dirección: {{ pedido.cliente_direccion }}</div>
+    <div class="linea"></div>
+    <div>
+        <strong>Artículos:</strong>
+        <ul>
+            {% for item in pedido.items.all %}
+                <li>
+                    {{ item.cantidad }}x {{ item.nombre_producto }} (${{ item.precio_producto }})
+                    {% if item.opciones_seleccionadas.all %}
+                        <ul>
+                        {% for op in item.opciones_seleccionadas.all %}
+                            <li>{{ op.nombre }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="linea"></div>
+    <div class="total">Total: ${{ pedido.total }}</div>
+</body>
+</html>

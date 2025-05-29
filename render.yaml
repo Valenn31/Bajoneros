@@ -11,5 +11,7 @@ services:
         value: tu_clave_secreta
       - key: ALLOWED_HOSTS
         value: sistema-pedidos.onrender.com
+    scripts:
+      postinstall: ./render-build.sh
 
 

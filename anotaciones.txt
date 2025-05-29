@@ -79,3 +79,8 @@ ABRIR SERVIDOR (DAPHNE)
 
     #Instalar Requerimientos
     -   pip install -r requirements.txt
+
+
+Instalar para los tickets digitales
+
+    https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases

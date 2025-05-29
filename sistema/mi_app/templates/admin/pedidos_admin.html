@@ -78,7 +78,7 @@
         </form>
       </div>
       <div class="pedido-actions">
-        <a href="{% url 'imprimir_pedido' pedido.id %}" target="_blank">🖨️ Imprimir</a>
+        <a href="{% url 'imprimir_pedido_pdf' pedido.id %}" target="_blank">🖨️ Ticket PDF</a>
       </div>
     </div>
   {% empty %}

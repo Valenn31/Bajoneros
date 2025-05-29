@@ -1,0 +1,30 @@
+.btn-imprimir-admin {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 0;
+    margin-top: 20px;
+    background: #fff;
+    color: #222;
+    border: 2px solid #222; /* igual que el login */
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+    position: relative;
+    bottom: 0;
+}
+
+.btn-imprimir-admin:hover {
+    background: #222;
+    color: #fff;
+}
+
+/* Para que el botón quede al fondo del contenedor */
+.pedido-actions {
+    margin-top: auto;
+    display: flex;
+    align-items: flex-end;
+}
