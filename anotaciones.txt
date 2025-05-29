@@ -1,6 +1,8 @@
 Cosas a agregar:                             Iconos: [  🔄  🔲  ✔  ]
-        
-        🔲requirements.txt agrega todo lo instalado en la pc (habria que hacer una maquina virtual)
+
+GENERAL IDEAS
+
+        ✔requirements.txt agrega todo lo instalado en la pc (habria que hacer una maquina virtual)
 
 PAGINA ADMIN IDEAS
 
@@ -26,7 +28,7 @@ PAGINA CLIENTE IDEAS
     🔲Pedir la direccion de la persona al abrir la app luego del login
     y autocompletar en el pedido
 
-    🔲Agregar a mi cuenta: Direcciones, fecha de nacimiento
+    ✔Agregar a mi cuenta: Direcciones, fecha de nacimiento
 
     -Carrito / pago
 
