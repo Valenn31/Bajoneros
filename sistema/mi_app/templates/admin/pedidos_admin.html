@@ -95,15 +95,16 @@
 </div>
 
 <script>
+const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
 const ws = new WebSocket(
-    'ws://' + window.location.host + '/ws/pedidos/'
+    ws_scheme + '://' + window.location.host + '/ws/pedidos/'
 );
 
 ws.onmessage = function(event) {
     const data = JSON.parse(event.data);
     if (data.message === 'nuevo_pedido') {
-        // Solo recarga si la URL es exactamente la de pedidos
-        if (window.location.pathname === '/panel/pedidos/') {
+        // Recarga si la URL es /panel/pedidos o /panel/pedidos/
+        if (window.location.pathname.startsWith('/panel/pedidos')) {
             window.location.reload();
         }
     }

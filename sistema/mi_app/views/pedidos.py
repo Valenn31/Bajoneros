@@ -91,3 +91,6 @@ def checkout(request):
 def mis_pedidos(request):
     pedidos = Pedido.objects.filter(cliente=request.user).order_by('-fecha_creacion')
     return render(request, 'cliente/mis_pedidos.html', {'pedidos': pedidos})
+
+def pedido_realizado(request):
+    return render(request, 'cliente/pedido_realizado.html')

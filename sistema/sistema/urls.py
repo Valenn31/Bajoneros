@@ -59,6 +59,9 @@ urlpatterns = [
 
     path('', lambda request: redirect('login_cliente'), name='root_redirect'),
 
+    # Nueva ruta para pedido realizado
+    path('pedido-realizado/', views.pedido_realizado, name='pedido_realizado'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

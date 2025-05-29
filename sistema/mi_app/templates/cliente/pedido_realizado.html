@@ -1,0 +1,70 @@
+<!-- filepath: c:\Mis cosas GIT\Valenn31.github.io\sistema\mi_app\templates\cliente\pedido_realizado.html -->
+{% load static %}
+<meta charset="UTF-8">
+<title>Pedido Realizao</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<link rel="manifest" href="{% static 'manifest.json' %}">
+<meta name="theme-color" content="#d32f2f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="{% static 'img/icon-192.png' %}">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pedido realizado</title>
+  <link rel="stylesheet" href="{% static 'css/carrito.css' %}">
+  <style>
+    body {
+      background: #4a0808;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pedido-realizado-overlay {
+      background: #fff;
+      border: 5px solid #4a0808;
+      border-radius: 18px;
+      padding: 48px 38px 38px 38px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(74,8,8,0.18);
+      animation: popIn 0.5s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .pedido-realizado-overlay h2 {
+      color: #4a0808;
+      margin-top: 18px;
+      font-size: 2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 1; }
+      20% { transform: scale(0.6); opacity: 1; }
+      40% { transform: scale(0.7); opacity: 1; }
+      60% { transform: scale(0.8); opacity: 1; }
+      80% { transform: scale(0.9); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="pedido-realizado-overlay">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="28" stroke="#4a0808" stroke-width="4" fill="#fff"/>
+      <path d="M18 32l8 8 16-16" stroke="#4a0808" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h2>¡Pedido realizado!</h2>
+    <p style="color:#4a0808; margin-top:10px;">En breve nos comunicaremos para confirmar tu pedido.</p>
+  </div>
+  <script>
+    setTimeout(function() {
+      window.location.href = "{% url 'catalogo_cliente' %}";
+    }, 2200);
+  </script>
+</body>
+</html>
