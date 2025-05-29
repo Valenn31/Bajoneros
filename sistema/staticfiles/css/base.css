@@ -114,7 +114,18 @@ body, h1, h2, h3, h4, h5, h6, p, a, span, div, input, button, select, textarea {
     font-weight: bold;
   }
 
-  /* Responsive */
+  /* Añade esto a tu archivo CSS base */
+main, #content, .content-container {
+    padding-bottom: 80px; /* Ajusta este valor según la altura de tu menú inferior */
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive */
   @media (max-width: 600px) {
     .header-content {
       align-items: flex-start;

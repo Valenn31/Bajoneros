@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from datetime import date
+from django.contrib.auth.models import User  # Nueva importación
 
 # Producto del menú
 class Producto(models.Model):
@@ -139,3 +140,13 @@ class Direccion(models.Model):
     # Puedes agregar más campos si necesitas (ej: ciudad, provincia)
     def __str__(self):
         return f"{self.nombre}: {self.direccion}"
+
+class DireccionCliente(models.Model):
+    # Usuario usando el modelo personalizado configurado
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='direcciones_cliente')
+    nombre = models.CharField(max_length=100)  # Ej: "Casa", "Trabajo"
+    direccion = models.TextField()
+    referencia = models.TextField(blank=True, null=True)
+    
+    def __str__(self):
+        return f"{self.nombre} - {self.usuario.telefono}"  # Usando telefono en lugar de username

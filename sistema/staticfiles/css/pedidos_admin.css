@@ -28,3 +28,15 @@
     display: flex;
     align-items: flex-end;
 }
+
+.recibo-articulos-admin {
+    min-width: 350px;
+    width: 440px;
+    max-width: 100%;
+}
+
+.opciones-lista-admin {
+    min-width: 320px;
+    width: 420px;
+    max-width: 100%;
+}

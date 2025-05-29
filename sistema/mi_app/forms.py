@@ -1,6 +1,6 @@
 from django import forms
 from .models import Producto, PersonalizacionCampo, PersonalizacionOpcion, Cliente
-from .models import Cliente, Direccion
+from .models import Cliente, DireccionCliente
 from datetime import date
 
 class ProductoForm(forms.ModelForm):
@@ -48,8 +48,12 @@ class RegistroClienteForm(forms.ModelForm):
 
 class DireccionForm(forms.ModelForm):
     class Meta:
-        model = Direccion
+        model = DireccionCliente
         fields = ['nombre', 'direccion', 'referencia']
+        widgets = {
+            'direccion': forms.TextInput(attrs={'class': 'form-control'}),
+            'referencia': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 class CheckoutForm(forms.Form):
     direccion = forms.ModelChoiceField(
@@ -62,4 +66,4 @@ class CheckoutForm(forms.Form):
     def __init__(self, *args, **kwargs):
         cliente = kwargs.pop('cliente')
         super().__init__(*args, **kwargs)
-        self.fields['direccion'].queryset = Direccion.objects.filter(cliente=cliente)
+        self.fields['direccion'].queryset = DireccionCliente.objects.filter(cliente=cliente)

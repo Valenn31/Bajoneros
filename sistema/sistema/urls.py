@@ -55,6 +55,7 @@ urlpatterns = [
 
     # Rutas para direcciones
     path('direcciones/', views_cliente.mis_direcciones, name='mis_direcciones'),
+    path('mis-direcciones/eliminar/<int:direccion_id>/', views.eliminar_direccion, name='eliminar_direccion'),
 
     path('', lambda request: redirect('login_cliente'), name='root_redirect'),
 

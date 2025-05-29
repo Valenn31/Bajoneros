@@ -1,31 +1,85 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
-<h2>Mis direcciones</h2>
 
-<div style="max-width:500px;margin:0 auto;">
-    <h3>Agregar nueva dirección</h3>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" style="background:#d32f2f;color:#fff;border:none;padding:8px 18px;border-radius:6px;font-weight:bold;cursor:pointer;">Guardar dirección</button>
-    </form>
+<link rel="stylesheet" href="{% static 'css/mis_direcciones.css' %}">
 
-    <hr>
+<div class="direcciones-container">
+    <h2>Mis direcciones</h2>
 
-    <h3>Direcciones guardadas</h3>
-    {% if direcciones %}
-        <ul>
-        {% for direccion in direcciones %}
-            <li>
-                <strong>{{ direccion.nombre }}</strong>: {{ direccion.direccion }}
-                {% if direccion.referencia %}<br><small>Referencia: {{ direccion.referencia }}</small>{% endif %}
-                <!-- Aquí podrías agregar un botón para eliminar o editar la dirección -->
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No tienes direcciones guardadas.</p>
-    {% endif %}
+    <div class="direcciones-card">
+        <h3>Agregar nueva dirección</h3>
+        <form method="post" class="form-direccion">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-guardar">Guardar dirección</button>
+        </form>
+    </div>
+
+    <div class="direcciones-card">
+        <h3>Direcciones guardadas</h3>
+        {% if direcciones %}
+            <ul class="direcciones-lista">
+            {% for direccion in direcciones %}
+                <li class="direccion-item">
+                    <div class="direccion-detalles">
+                        <strong class="direccion-nombre">{{ direccion.nombre }}</strong>
+                        <p class="direccion-texto">{{ direccion.direccion }}</p>
+                        {% if direccion.referencia %}
+                            <p class="direccion-referencia">Referencia: {{ direccion.referencia }}</p>
+                        {% endif %}
+                    </div>
+                    <button class="btn-borrar" onclick="confirmarBorrado({{ direccion.id }})">×</button>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-direcciones">No tienes direcciones guardadas.</p>
+        {% endif %}
+    </div>
+
+    <a href="{% url 'mi_cuenta' %}" class="volver-link">
+        ← Volver a mi cuenta
+    </a>
 </div>
-<a href="{% url 'mi_cuenta' %}">Volver a mi cuenta</a>
+
+<!-- Modal de confirmación -->
+<div id="modal-confirmacion" class="modal">
+    <div class="modal-contenido">
+        <h4>Confirmar eliminación</h4>
+        <p>¿Estás seguro que quieres eliminar esta dirección?</p>
+        <div class="modal-botones">
+            <button id="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+            <form id="form-borrar" method="post" action="">
+                {% csrf_token %}
+                <button type="submit" id="btn-confirmar">Eliminar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript para manejar el modal de confirmación
+    function confirmarBorrado(direccionId) {
+        // Mostrar el modal
+        document.getElementById('modal-confirmacion').style.display = 'flex';
+        
+        // Configurar la URL de acción del formulario
+        document.getElementById('form-borrar').action = "{% url 'eliminar_direccion' 0 %}".replace('0', direccionId);
+    }
+
+    function cerrarModal() {
+        // Ocultar el modal
+        document.getElementById('modal-confirmacion').style.display = 'none';
+    }
+
+    // Cerrar el modal si se hace clic fuera del contenido
+    window.onclick = function(event) {
+        var modal = document.getElementById('modal-confirmacion');
+        if (event.target == modal) {
+            cerrarModal();
+        }
+    }
+</script>
 {% endblock %}

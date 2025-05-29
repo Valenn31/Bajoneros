@@ -34,25 +34,33 @@ html, body {
     max-width: 600px;
     margin: 0 auto 40px auto;
     padding: 0 15px;
+    text-align: left; /* Asegura que el texto del formulario esté alineado a la izquierda */
   }
   
-  /* Quitar bordes a los fieldsets para diseño limpio */
+  /* Quitar bordes a los fieldsets para diseño limpio y alinear a la izquierda */
   fieldset {
     border: none;
-    padding: 0;
+    padding: 0 20px; /* Añadir padding horizontal para separar del borde */
     margin-bottom: 25px;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left !important; /* !important para forzar */
   }
   
-  /* Leyenda con estilo destacado, pero sin borde */
+  /* Leyenda con estilo destacado alineado a la izquierda */
   legend {
-    font-weight: 700;
+    font-weight: 600;
     color: #4a0808;
     font-size: 1.45em;
     margin-bottom: 10px;
+    padding-left: 0;
+    text-align: left !important; /* !important para forzar */
+    width: 100%;
     display: block;
   }
   
-  /* Opciones con espacio, sin borde ni fondo */
+  /* Opciones con espacio, alineadas a la izquierda */
   label {
     display: block;
     padding: 6px 0;
@@ -60,6 +68,18 @@ html, body {
     color: #444;
     cursor: pointer;
     transition: color 0.2s ease;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #444;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* espacio entre checkbox y texto */
+    margin-bottom: 6px;
+    text-align: left !important; /* !important para forzar */
+    justify-content: flex-start !important; /* !important para forzar */
+    padding-left: 0;
+    width: 100%;
   }
   
   label:hover {
@@ -145,6 +165,9 @@ form label {
     align-items: center;
     gap: 8px; /* espacio entre checkbox y texto */
     margin-bottom: 6px;
+    align-items: left;
+    justify-content: flex-start; /* Alineación izquierda para flex */
+    padding-left: 0; /* Quitar cualquier padding que pudiera centrar */
 }
 
 /* Checkboxes y radios estilos más limpios */
@@ -354,5 +377,78 @@ form {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* RESET COMPLETO para los elementos del formulario de personalización */
+
+/* Arregla el problema de anidación incorrecta en el CSS */
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal */
+#form-detalle-producto {
+    max-width: 600px;
+    margin-left: 10px;
+    padding: 0 15px;
+}
+
+/* Fieldsets y leyendas alineados a la izquierda */
+#form-detalle-producto fieldset {
+    border: none;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    text-align: left;
+    width: 100%;
+}
+
+#form-detalle-producto legend {
+    font-weight: 600;
+    color: #4a0808;
+    font-size: 1.45em;
+    margin-bottom: 10px;
+    text-align: left;
+    width: 100%;
+    display: block;
+}
+
+/* Etiquetas de opciones alineadas a la izquierda */
+#form-detalle-producto label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 6px 0;
+    margin-bottom: 6px;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #444;
+    cursor: pointer;
+    text-align: left;
+    gap: 8px;
+}
+
+/* Estilos para los inputs */
+#form-detalle-producto input[type="checkbox"],
+#form-detalle-producto input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #999;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+#form-detalle-producto input[type="radio"] {
+    border-radius: 50%;
+}
+
+#form-detalle-producto input[type="checkbox"]:checked,
+#form-detalle-producto input[type="radio"]:checked {
+    background-color: #4a0808;
+    border-color: #4a0808;
 }
 

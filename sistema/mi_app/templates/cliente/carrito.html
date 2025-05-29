@@ -33,16 +33,18 @@
         {% endif %}
         <div class="carrito-detalles">
           <h3>{{ item.producto.nombre }}</h3>
-          <p><strong>Cantidad:</strong> {{ item.cantidad }}</p>
-          <p><strong>Subtotal:</strong> ${{ item.subtotal }}</p>
-
+          <div class="carrito-precio-base" style="color:#888; font-size:0.97em;">
+            Precio hamburguesa: ${{ item.producto.precio|stringformat:".2f" }}
+          </div>
           {% if item.opciones %}
             <ul class="opciones-lista">
-              {% for opcion in item.opciones %}
-                <li>{{ opcion.nombre }}{% if opcion.precio_extra > 0 %} (+${{ opcion.precio_extra }}){% endif %}</li>
+              {% for op in item.opciones %}
+                <li>{{ op.nombre }} (+${{ op.precio_extra|stringformat:".2f" }})</li>
               {% endfor %}
             </ul>
           {% endif %}
+          <div class="carrito-cantidad">Cantidad: {{ item.cantidad }}</div>
+          <div class="carrito-subtotal">Subtotal: ${{ item.subtotal|stringformat:".2f" }}</div>
         </div>
       </div>
     {% endfor %}

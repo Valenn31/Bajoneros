@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from ..models import Producto, Pedido, PedidoProducto, Direccion
+from ..models import Producto, Pedido, PedidoProducto, Direccion, DireccionCliente
 from django.contrib import messages
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
@@ -8,21 +8,31 @@ from django.contrib.auth.decorators import login_required
 def realizar_pedido(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre', '').strip()
-        direccion = request.POST.get('direccion', '').strip()
+        direccion_id = request.POST.get('direccion', '').strip()
         telefono = request.POST.get('telefono', '').strip()
-        if not nombre or not direccion:
+        if not nombre or not direccion_id:
             messages.error(request, 'Nombre y dirección son obligatorios.')
             return redirect('ver_carrito')
         carrito = request.session.get('carrito', [])
         if not carrito:
             messages.error(request, 'Tu carrito está vacío.')
             return redirect('catalogo_cliente')
-        direccion_id = request.POST.get('direccion')
-        direccion_obj = Direccion.objects.get(id=direccion_id)
+        # Buscar dirección en ambos modelos
+        direccion_obj = None
+        try:
+            direccion_obj = Direccion.objects.get(id=direccion_id)
+            direccion_str = f"{direccion_obj.nombre} - {direccion_obj.direccion}"
+        except Direccion.DoesNotExist:
+            try:
+                direccion_cliente = DireccionCliente.objects.get(id=direccion_id)
+                direccion_str = f"{direccion_cliente.nombre} - {direccion_cliente.direccion}"
+            except DireccionCliente.DoesNotExist:
+                messages.error(request, 'La dirección seleccionada no existe.')
+                return redirect('checkout')
         pedido = Pedido.objects.create(
             cliente=request.user if request.user.is_authenticated else None,
             cliente_nombre=nombre,
-            cliente_direccion=f"{direccion_obj.nombre} - {direccion_obj.direccion}",
+            cliente_direccion=direccion_str,
             cliente_telefono=telefono,
             estado='pendiente'
         )
@@ -60,7 +70,10 @@ def checkout(request):
     if not carrito:
         messages.error(request, 'Tu carrito está vacío.')
         return redirect('catalogo_cliente')
-    direcciones = Direccion.objects.filter(cliente=request.user)
+    # Obtener direcciones de ambos modelos
+    direcciones_cliente = list(DireccionCliente.objects.filter(usuario=request.user))
+    direcciones_antiguas = list(Direccion.objects.filter(cliente=request.user))
+    direcciones = direcciones_cliente + direcciones_antiguas
     if request.method == 'POST':
         nombre = request.POST.get('nombre', '').strip()
         direccion_id = request.POST.get('direccion')

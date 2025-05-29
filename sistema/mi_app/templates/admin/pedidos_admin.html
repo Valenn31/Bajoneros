@@ -47,15 +47,23 @@
             <li>
               {{ item.cantidad }}x {{ item.nombre_producto }}
               <span style="color:#888; font-size:0.97em;">
-                (${{ item.precio_producto }})
+                (${{ item.precio_producto|stringformat:".2f" }})
               </span>
               {% if item.opciones_seleccionadas.all %}
                 <ul>
                   {% for op in item.opciones_seleccionadas.all %}
-                    <li>{{ op.nombre }}</li>
+                    <li>
+                      {{ op.nombre }}
+                      <span style="color:#888; font-size:0.97em;">
+                        (${{ op.precio_extra|stringformat:".2f" }})
+                      </span>
+                    </li>
                   {% endfor %}
                 </ul>
               {% endif %}
+              <div style="font-weight:600; color:#4a0808;">
+                Subtotal: ${{ item.subtotal|stringformat:".2f" }}
+              </div>
             </li>
           {% empty %}
             <li>No hay artículos en este pedido.</li>
