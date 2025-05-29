@@ -109,3 +109,8 @@ def checkout(request):
     else:
         form = CheckoutForm(cliente=request.user)
     return render(request, 'cliente/checkout.html', {'form': form})
+
+def root_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('catalogo_cliente')  # O la vista principal de tu app
+    return redirect('login_cliente')

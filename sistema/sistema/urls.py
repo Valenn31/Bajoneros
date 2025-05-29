@@ -7,6 +7,8 @@ from mi_app.views.cliente import logout_cliente, mi_cuenta
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
+from django.shortcuts import redirect
+from mi_app.views.admin import imprimir_pedido_pdf
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # Admin clásico de Django
@@ -17,6 +19,7 @@ urlpatterns = [
     path('panel/agregar-personalizacion/', views.agregar_personalizacion_admin, name='agregar_personalizacion_admin'),
     path('panel/pedidos/cambiar_estado/<int:pedido_id>/', views.cambiar_estado_pedido, name='cambiar_estado_pedido'),
     path('panel/pedidos/imprimir/<int:pedido_id>/', views.imprimir_pedido, name='imprimir_pedido'),
+    path('panel/pedidos/imprimir_pdf/<int:pedido_id>/', imprimir_pedido_pdf, name='imprimir_pedido_pdf'),
     path('panel/productos/', views.productos_admin, name='productos_admin'),
     path('panel/productos/<int:pk>/editar/', views.editar_producto_admin, name='editar_producto_admin'),
     path('panel/productos/<int:pk>/eliminar/', views.eliminar_producto_admin, name='eliminar_producto_admin'),
@@ -52,6 +55,8 @@ urlpatterns = [
 
     # Rutas para direcciones
     path('direcciones/', views_cliente.mis_direcciones, name='mis_direcciones'),
+
+    path('', lambda request: redirect('login_cliente'), name='root_redirect'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

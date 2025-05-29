@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from ..models import Pedido, Producto,PersonalizacionCampo
 from ..forms import ProductoForm, PersonalizacionCampoForm,PersonalizacionOpcionFormSet
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+from weasyprint import HTML
 
 def pedidos_admin(request):
     estado = request.GET.get('estado')
@@ -29,6 +32,14 @@ def imprimir_pedido(request, pedido_id):
     pedido.estado = 'proceso'
     pedido.save(update_fields=['estado'])
     return render(request, 'admin/imprimir_pedido.html', {'pedido': pedido})
+
+def imprimir_pedido_pdf(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    html_string = render_to_string('admin/ticket_pedido_pdf.html', {'pedido': pedido})
+    pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="pedido_{pedido.id}.pdf"'
+    return response
 
 def agregar_producto_admin(request):
     if request.method == 'POST':
