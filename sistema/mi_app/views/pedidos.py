@@ -63,7 +63,7 @@ def realizar_pedido(request):
         request.session['carrito'] = []
         request.session.modified = True
         messages.success(request, 'Pedido realizado con éxito.')
-        return redirect('catalogo_cliente')
+        return redirect('pedido_realizado')
 
 def checkout(request):
     carrito = request.session.get('carrito', [])
