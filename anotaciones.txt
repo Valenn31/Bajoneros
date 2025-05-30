@@ -12,6 +12,8 @@ PAGINA ADMIN IDEAS
 
         🔲Animacion / Sonido al entrar un pedido nuevo
 
+        🔲La tabla ya aparecec filtrada sin los entregados y cancelados por mas que esten todos los filtros puestos
+
         ✔Al agregar personalizaciones solo se agregan de a 1 los itemsPoder borrar productos y personalizaciones
         ✔Al agregar personalizaciones solo se agregan de a 1 los items
         ✔Editar las personalizaciones ya creadas
