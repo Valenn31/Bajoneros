@@ -22,7 +22,7 @@ PAGINA ADMIN IDEAS
         ✔Agragar las funciones del admin desde el panel de pedidos
 
         
-
+        
 PAGINA CLIENTE IDEAS
 
     🔲Pedir la direccion de la persona al abrir la app luego del login
