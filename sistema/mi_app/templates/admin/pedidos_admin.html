@@ -3,7 +3,6 @@
 <!-- Menú horizontal arriba -->
 <nav class="admin-menu">
   <a href="{% url 'pedidos_admin' %}">Pedidos</a>
-  <a href="{% url 'pedidos_entregados_admin' %}">Entregados</a>
   <a href="{% url 'productos_admin' %}">Productos</a>
 </nav>
 
@@ -14,18 +13,30 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/pedidos_admin.css' %}">
-
-<form method="get" style="margin-bottom: 20px;">
-  <label for="estado">Filtrar por estado:</label>
-  <select id="estado" name="estado" onchange="this.form.submit()">
-    <option value="">Todos</option>
+<form id="filtros-form" method="get" style="margin-bottom: 20px;">
+  <label style="font-weight:600;">Filtrar por estado:</label>
+  <div style="display:flex; gap:18px; flex-wrap:wrap; margin-top:8px; align-items:center;">
+    <label style="display:flex; align-items:center; gap:4px;">
+      <input type="checkbox" id="mostrar-todo-estados">
+      Mostrar todo
+    </label>
     {% for key, label in pedidos.0.ESTADOS %}
-      <option value="{{ key }}" {% if request.GET.estado == key %}selected{% endif %}>{{ label }}</option>
+      <label style="display:flex; align-items:center; gap:4px;">
+        <input type="checkbox" name="estado" value="{{ key }}"
+          {% if key in estados_seleccionados or not estados_seleccionados %}checked{% endif %}>
+        {{ label }}
+      </label>
     {% endfor %}
-  </select>
+
+    <!-- Filtro por fecha -->
+    <label style="margin-left:24px; font-weight:600;">Desde:</label>
+    <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}" style="padding:6px; border-radius:6px; border:1px solid #ccc;">
+    <label style="margin-left:8px; font-weight:600;">Hasta:</label>
+    <input type="date" name="fecha_fin" value="{{ fecha_fin }}" style="padding:6px; border-radius:6px; border:1px solid #ccc;">
+  </div>
 </form>
 
-  <div class="pedidos-grid">
+  <div id="pedidos-grid" class="pedidos-grid">
     {% for pedido in pedidos %}
       <div class="recibo-pedido-admin">
         <div class="recibo-header-admin">
@@ -95,18 +106,79 @@
   </div>
 
 <script>
-const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
-const ws = new WebSocket(
-    ws_scheme + '://' + window.location.host + '/ws/pedidos/'
-);
+function actualizarPedidosPorAjax() {
+    const form = document.getElementById('filtros-form');
+    const grid = document.getElementById('pedidos-grid');
+    const formData = new FormData(form);
+    const params = new URLSearchParams(formData).toString();
 
-ws.onmessage = function(event) {
-    const data = JSON.parse(event.data);
-    if (data.message === 'nuevo_pedido') {
-        // Recarga si la URL es /panel/pedidos o /panel/pedidos/
-        if (window.location.pathname.startsWith('/panel/pedidos')) {
-            window.location.reload();
+    fetch(window.location.pathname + '?' + params, {
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    })
+    .then(response => response.text())
+    .then(html => {
+        // Extrae solo el HTML de los pedidos
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+        const nuevosPedidos = temp.querySelector('#pedidos-grid');
+        if (nuevosPedidos) {
+            grid.innerHTML = nuevosPedidos.innerHTML;
         }
+        // Reasigna los listeners después de actualizar el grid
+        asignarListenersFiltros();
+    });
+}
+
+// Asigna listeners a los filtros
+function asignarListenersFiltros() {
+    document.querySelectorAll('#filtros-form input').forEach(function(input) {
+        input.onchange = actualizarPedidosPorAjax;
+    });
+    document.querySelectorAll('#filtros-form input[type="checkbox"][name="estado"]').forEach(function(checkbox) {
+        checkbox.ondblclick = function() {
+            document.querySelectorAll('#filtros-form input[type="checkbox"][name="estado"]').forEach(function(cb) {
+                cb.checked = false;
+            });
+            this.checked = true;
+            actualizarPedidosPorAjax();
+        };
+    });
+
+    // Mostrar todo: activa todos los estados
+    const mostrarTodo = document.getElementById('mostrar-todo-estados');
+    if (mostrarTodo) {
+        mostrarTodo.onchange = function() {
+            const checkboxes = document.querySelectorAll('#filtros-form input[type="checkbox"][name="estado"]');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+            actualizarPedidosPorAjax();
+        };
+    }
+
+    // Sincroniza el estado de "Mostrar todo"
+    const checkboxes = document.querySelectorAll('#filtros-form input[type="checkbox"][name="estado"]');
+    if (mostrarTodo) {
+        const todosMarcados = Array.from(checkboxes).every(cb => cb.checked);
+        mostrarTodo.checked = todosMarcados;
+    }
+}
+
+// Inicializa los listeners al cargar la página
+asignarListenersFiltros();
+</script>
+
+<script>
+const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+const ws_url = ws_scheme + '://' + window.location.host + '/ws/pedidos/';
+const pedidosSocket = new WebSocket(ws_url);
+
+pedidosSocket.onmessage = function(event) {
+    try {
+        const data = JSON.parse(event.data);
+        if (data.message === 'nuevo_pedido') {
+            actualizarPedidosPorAjax();
+        }
+    } catch (e) {
+        // Si no es JSON, ignora
     }
 };
 </script>

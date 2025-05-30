@@ -5,15 +5,42 @@ from ..forms import ProductoForm, PersonalizacionCampoForm,PersonalizacionOpcion
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from weasyprint import HTML
+from datetime import datetime
 
 def pedidos_admin(request):
-    estado = request.GET.get('estado')
-    pedidos = Pedido.objects.exclude(estado='entregado').order_by('-fecha_creacion')
+    estados_seleccionados = request.GET.getlist('estado')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+
+    pedidos = Pedido.objects.all()
+
+    # Filtrado por estados
+    if estados_seleccionados:
+        pedidos = pedidos.filter(estado__in=estados_seleccionados)
+    else:
+        pedidos = pedidos.exclude(estado__in=['entregado', 'cancelado'])
+
+    # Filtrado por fecha
+    if fecha_inicio:
+        try:
+            fecha_inicio_dt = datetime.strptime(fecha_inicio, "%Y-%m-%d")
+            pedidos = pedidos.filter(fecha_creacion__date__gte=fecha_inicio_dt)
+        except ValueError:
+            pass
+    if fecha_fin:
+        try:
+            fecha_fin_dt = datetime.strptime(fecha_fin, "%Y-%m-%d")
+            pedidos = pedidos.filter(fecha_creacion__date__lte=fecha_fin_dt)
+        except ValueError:
+            pass
+
+    pedidos = pedidos.order_by('-fecha_creacion')
     ultimo_pedido_id = pedidos.first().id if pedidos else None
-    if estado:
-        pedidos = pedidos.filter(estado=estado)
     return render(request, 'admin/pedidos_admin.html', {
         'pedidos': pedidos,
+        'estados_seleccionados': estados_seleccionados,
+        'fecha_inicio': fecha_inicio or '',
+        'fecha_fin': fecha_fin or '',
         'ultimo_pedido_id': ultimo_pedido_id,
     })
 
