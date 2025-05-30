@@ -78,6 +78,23 @@ h2 {
     box-shadow: 0 1px 2px rgba(0,0,0,0.04);
   }
   
+  .form-pedido select {
+    padding: 12px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    background: #fff;
+    color: #222;
+    margin-bottom: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-pedido select:focus {
+    border-color: #4a0808;
+}
+  
   .btn-pedido {
     position: fixed;
     bottom: 1500px;
@@ -193,6 +210,23 @@ h2 {
     border-radius: 10px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.04);
   }
+  
+  .form-pedido select {
+    padding: 12px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    background: #fff;
+    color: #222;
+    margin-bottom: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-pedido select:focus {
+    border-color: #4a0808;
+}
   
   .btn-pedido {
     position: fixed;
@@ -312,4 +346,24 @@ h2 {
 }
 .btn-ver-catalogo:hover {
     background: #2e0505;
+}
+
+.btn-agregar-direccion {
+    display: inline-block;
+    margin-top: 8px;
+    color: #4a0808;
+    font-weight: 600;
+    text-decoration: none;
+    background: #ffeaea;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: background 0.2s, color 0.2s;
+    font-size: 1em;
+    box-shadow: 0 1px 4px rgba(74,8,8,0.06);
+}
+.btn-agregar-direccion:hover,
+.btn-agregar-direccion:focus {
+    background: #4a0808;
+    color: #fff;
+    text-decoration: none;
 }

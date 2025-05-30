@@ -54,8 +54,14 @@ PAGINA CLIENTE IDEAS
         ✔Imagenes para los productos
         ✔Las opciones no funcionan bien (los aderezos no se agregan)
 
-    -Pedidos (falta crear)
+    -Checkout
 
+        🔲CSS del select de direccion y el link de abajo
+
+    -Pedidos (✔falta crear)
+
+        ✔Poder ver los pedidos que se hicieron
+        ✔Poder ver el estado del pedido
         ✔Los pedidos aparecen todavia dependiendo del telefono que se ingrese en el ultimo pedido
         ✔Pagina que muestre los pedidos realizados por la persona
 
@@ -70,9 +76,10 @@ FUENTES
 ABRIR SERVIDOR (DAPHNE)
 
     #Maquina virtual
-    -   .\venv\Scripts\Activate     /Activar maquina  virtual
-    -   deactivate                  /Desactivar maquina virtual
-    -   python -m venv venv         /Crear maquina virtual
+    -   .\venv\Scripts\Activate                /Activar maquina  virtual
+    -   deactivate                             /Desactivar maquina virtual
+    -   python -m venv venv                    /Crear maquina virtual
+    -   Remove-Item -Recurse -Force .\venv     /Eliminar maquina virtual
 
     #Abrir Servidor
     -   daphne -b 0.0.0.0 -p 8000 sistema.asgi:application
@@ -80,6 +87,7 @@ ABRIR SERVIDOR (DAPHNE)
 
 
     #Instalar Requerimientos
+    -   pip install --upgrade pip
     -   pip install -r requirements.txt
 
 
