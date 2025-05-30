@@ -35,6 +35,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 15px;
+  align-items: stretch; /* Hace que todos los pedidos tengan la misma altura en el grid */
 }
 
 .pedido-card {
@@ -119,7 +120,7 @@ form select,
 form textarea {
   width: 100%;
   padding: 8px;
-  margin: 6px 0 12px 0;
+  margin: 6px 0 0px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
@@ -258,6 +259,12 @@ button#add-opcion:hover {
   margin-bottom: 24px;
   font-family: 'Menlo', 'Consolas', monospace, Arial, sans-serif;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* Si usas un grid, asegúrate de que tenga altura mínima */
+  min-height: 420px; /* Ajusta según tu contenido */
+  box-sizing: border-box;
 }
 .recibo-header-admin {
   display: flex;
@@ -327,4 +334,29 @@ button#add-opcion:hover {
   color: #d32f2f;
   margin-left: 10px;
   font-size: 1.18em;
+}
+
+.pedido-estado,
+.pedido-actions {
+    margin-top: 8px;
+}
+
+.pedido-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;   /* Ahora en fila */
+    gap: 10px;             /* Espacio entre el select y el botón */
+    align-items: center;   /* Centrado vertical */
+    width: 100%;
+}
+
+.pedido-actions form,
+.pedido-actions a {
+    width: auto;           /* Para que no ocupen todo el ancho */
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.pedido-actions select {
+    width: auto;
 }
