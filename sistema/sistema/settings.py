@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.53', '172.20.10.9','10.0.14.43','192.168.0.36','valenn31-github-io.onrender.com',]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://valenn31-github-io.onrender.com"
+    "https://bajoneros.onrender.com"
 ]
 # O para permitir cualquier IP en desarrollo (no recomendado en producción):
 # ALLOWED_HOSTS = ['*']
