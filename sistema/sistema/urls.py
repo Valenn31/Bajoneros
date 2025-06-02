@@ -57,10 +57,11 @@ urlpatterns = [
     path('direcciones/', views_cliente.mis_direcciones, name='mis_direcciones'),
     path('mis-direcciones/eliminar/<int:direccion_id>/', views.eliminar_direccion, name='eliminar_direccion'),
 
-    path('', lambda request: redirect('login_cliente'), name='root_redirect'),
-
     # Nueva ruta para pedido realizado
     path('pedido-realizado/', views.pedido_realizado, name='pedido_realizado'),
+
+    # Ruta para la pantalla de inicio (splash)
+    path('', views.splash, name='splash'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

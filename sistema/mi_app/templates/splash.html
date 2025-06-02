@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pantalla de carga</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #fff;
+        }
+        body {
+            width: 100vw;
+            height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-splash {
+            width: 100vw;
+            height: 100dvh;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+    <script>
+        // Redirige automáticamente a la app principal después de 3 segundos
+        setTimeout(function() {
+            window.location.href = "{% url 'login_cliente' %}";
+        }, 3000);
+    </script>
+</head>
+<body>
+    <img src="{% static 'icons/logo.png' %}" alt="Logo" class="logo-splash">
+</body>
+</html>

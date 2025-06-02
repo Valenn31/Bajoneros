@@ -151,3 +151,8 @@ def eliminar_direccion(request, direccion_id):
         messages.error(request, "No se encontró la dirección o no tienes permisos para eliminarla")
     
     return redirect('mis_direcciones')
+
+from django.shortcuts import render
+
+def splash(request):
+    return render(request, 'splash.html')
