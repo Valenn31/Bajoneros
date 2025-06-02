@@ -9,7 +9,7 @@
 <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="producto-imagen">
 
 <h1>{{ producto.nombre }}</h1>
-<p>{{ producto.descripcion }}</p>
+<p class="descripcion_prod">{{ producto.descripcion }}</p>
 
 <!-- Botón flotante de regreso al catálogo (cuadrado, flecha solo punta SVG) -->
 <a href="{% url 'catalogo_cliente' %}" class="btn-flecha-atras" title="Volver al catálogo">
@@ -19,7 +19,7 @@
 <form method="post" id="form-detalle-producto">
     {% csrf_token %}
     {% for campo_info in campos_y_opciones %}
-    <br>
+    <legend style="color:  black;">Personaliza tu pedido:</legend>
     <fieldset>
         <legend>{{ campo_info.campo.nombre }}</legend>
         {% for opcion in campo_info.opciones %}

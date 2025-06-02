@@ -28,6 +28,7 @@ h1 {
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.2s ease-in-out;
+    height: 120px; /* Fija el alto igual que la imagen */
 }
 
 .producto-card:hover {
@@ -48,6 +49,9 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 120px; /* Fija el alto igual que la imagen */
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .producto-info h3 {
@@ -60,6 +64,27 @@ h1 {
     margin: 4px 0;
     font-size: 14px;
     color: #555;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;      /* Limita a 2 líneas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 2.8em;              /* Ajusta según font-size y líneas */
+    max-height: 2.8em;
+    word-break: break-word;
+    flex: 1 1 auto; /* <-- Esto evita el colapso */
+}
+
+.producto-info .descripcion {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    height: auto;
+    max-height: none;
 }
 
 .producto-info strong {
