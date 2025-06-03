@@ -6,7 +6,9 @@
 <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
 <!-- Imagen arriba ocupando todo el ancho -->
-<img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="producto-imagen">
+{% if producto.imagen %}
+  <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="producto-imagen">
+{% endif %}
 
 <h1>{{ producto.nombre }}</h1>
 <p class="descripcion_prod">{{ producto.descripcion }}</p>
