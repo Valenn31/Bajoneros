@@ -25,7 +25,11 @@
                 <li class="direccion-item">
                     <div class="direccion-detalles">
                         <strong class="direccion-nombre">{{ direccion.nombre }}</strong>
-                        <p class="direccion-texto">{{ direccion.direccion }}</p>
+                        <p class="direccion-texto">
+                            {{ direccion.calle }} {{ direccion.numero }}
+                            {% if direccion.piso %}, Piso: {{ direccion.piso }}{% endif %}
+                            {% if direccion.departamento %}, Dpto: {{ direccion.departamento }}{% endif %}
+                        </p>
                         {% if direccion.referencia %}
                             <p class="direccion-referencia">Referencia: {{ direccion.referencia }}</p>
                         {% endif %}

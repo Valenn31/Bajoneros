@@ -49,7 +49,7 @@ class RegistroClienteForm(forms.ModelForm):
 class DireccionForm(forms.ModelForm):
     class Meta:
         model = DireccionCliente
-        fields = ['nombre', 'direccion', 'referencia']
+        fields = ['nombre', 'calle', 'numero', 'piso', 'departamento', 'referencia']
         widgets = {
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),
             'referencia': forms.TextInput(attrs={'class': 'form-control'}),
@@ -66,4 +66,4 @@ class CheckoutForm(forms.Form):
     def __init__(self, *args, **kwargs):
         cliente = kwargs.pop('cliente')
         super().__init__(*args, **kwargs)
-        self.fields['direccion'].queryset = DireccionCliente.objects.filter(cliente=cliente)
+        self.fields['direccion'].queryset = DireccionCliente.objects.filter(usuario=cliente)

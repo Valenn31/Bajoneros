@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from ..models import Producto, PersonalizacionOpcion, DireccionCliente, Direccion
+from ..models import Producto, PersonalizacionOpcion, DireccionCliente
 from django.contrib import messages
 from ..forms import RegistroClienteForm
 from django.contrib.auth.decorators import login_required
@@ -80,31 +80,22 @@ def mi_cuenta(request):
 
 @login_required
 def mis_direcciones(request):
-    # Formulario para nuevas direcciones
     if request.method == 'POST':
         form = DireccionForm(request.POST)
         if form.is_valid():
             direccion = form.save(commit=False)
-            
-            # Verificar directamente el modelo del formulario
-            if form.Meta.model == DireccionCliente:
-                direccion.usuario = request.user
-            elif form.Meta.model == Direccion:
-                direccion.cliente = request.user
-            
+            direccion.usuario = request.user  # Solo DireccionCliente
             direccion.save()
             messages.success(request, "Dirección guardada correctamente")
             return redirect('mis_direcciones')
     else:
         form = DireccionForm()
-    
-    # Obtener TODAS las direcciones (de ambos modelos)
-    direcciones_cliente = list(DireccionCliente.objects.filter(usuario=request.user))
-    direcciones_antiguas = list(Direccion.objects.filter(cliente=request.user))
-    todas_direcciones = direcciones_cliente + direcciones_antiguas
-    
+
+    # Solo usa DireccionCliente
+    direcciones = DireccionCliente.objects.filter(usuario=request.user)
+
     return render(request, 'cliente/mis_direcciones.html', {
-        'direcciones': todas_direcciones,
+        'direcciones': direcciones,
         'form': form
     })
 
@@ -133,23 +124,12 @@ def root_redirect(request):
 
 @login_required
 def eliminar_direccion(request, direccion_id):
-    # Primero intenta con DireccionCliente
     try:
         direccion = DireccionCliente.objects.get(id=direccion_id, usuario=request.user)
         direccion.delete()
         messages.success(request, "Dirección eliminada correctamente")
-        return redirect('mis_direcciones')
     except DireccionCliente.DoesNotExist:
-        pass
-        
-    # Si no existe en DireccionCliente, intenta con Direccion
-    try:
-        direccion = Direccion.objects.get(id=direccion_id, cliente=request.user)
-        direccion.delete()
-        messages.success(request, "Dirección eliminada correctamente")
-    except Direccion.DoesNotExist:
         messages.error(request, "No se encontró la dirección o no tienes permisos para eliminarla")
-    
     return redirect('mis_direcciones')
 
 from django.shortcuts import render
