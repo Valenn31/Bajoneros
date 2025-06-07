@@ -4,7 +4,20 @@
 
 <form method="post" class="form-registro">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.nombre.label_tag }} {{ form.nombre }}
+    {{ form.telefono.label_tag }} {{ form.telefono }}
+    {{ form.fecha_nacimiento.label_tag }} {{ form.fecha_nacimiento }}
+    {{ form.password1.label_tag }} {{ form.password1 }}
+    {{ form.password2.label_tag }} {{ form.password2 }}
+    {% if form.errors %}
+        <ul>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    {% endif %}
     <button type="submit">Registrarse</button>
 </form>
 <a href="{% url 'login_cliente' %}">¿Ya tienes cuenta? Iniciar sesión</a>

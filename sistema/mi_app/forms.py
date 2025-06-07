@@ -31,12 +31,13 @@ PersonalizacionOpcionFormSet = inlineformset_factory(
 )
 
 class RegistroClienteForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    password1 = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirmar contraseña")
     fecha_nacimiento = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Fecha de nacimiento")
 
     class Meta:
         model = Cliente
-        fields = ['nombre', 'telefono', 'fecha_nacimiento', 'password']
+        fields = ['nombre', 'telefono', 'fecha_nacimiento']
 
     def clean_fecha_nacimiento(self):
         fecha = self.cleaned_data['fecha_nacimiento']
@@ -45,6 +46,21 @@ class RegistroClienteForm(forms.ModelForm):
         if edad < 18:
             raise forms.ValidationError("Debes ser mayor de 18 años para registrarte.")
         return fecha
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            self.add_error('password2', "Las contraseñas no coinciden")
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
 
 class DireccionForm(forms.ModelForm):
     class Meta:
