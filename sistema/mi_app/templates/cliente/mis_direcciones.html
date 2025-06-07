@@ -8,13 +8,20 @@
 <div class="direcciones-container">
     <h2>Mis direcciones</h2>
 
-    <div class="direcciones-card">
-        <h3>Agregar nueva dirección</h3>
-        <form method="post" class="form-direccion">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn-guardar">Guardar dirección</button>
-        </form>
+    <div class="direcciones-card" style="text-aling: center; justify-content: center;">
+        <p>Agrega, edita o elimina tus direcciones de envío para facilitar tus compras.</p>
+        <h3>
+            <button type="button" id="toggle-direccion" style="background:none;border:none;color:#d32f2f;font-size:1em;cursor:pointer;">
+                + Agregar nueva dirección
+            </button>
+        </h3>
+        <div id="form-direccion" style="display: none;">
+            <form method="post" class="form-direccion">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn-guardar">Guardar dirección</button>
+            </form>
+        </div>
     </div>
 
     <div class="direcciones-card">
@@ -64,21 +71,22 @@
 </div>
 
 <script>
+    // Desplegable para el formulario de dirección
+    document.getElementById('toggle-direccion').onclick = function() {
+        var form = document.getElementById('form-direccion');
+        form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+    };
+
     // JavaScript para manejar el modal de confirmación
     function confirmarBorrado(direccionId) {
-        // Mostrar el modal
         document.getElementById('modal-confirmacion').style.display = 'flex';
-        
-        // Configurar la URL de acción del formulario
         document.getElementById('form-borrar').action = "{% url 'eliminar_direccion' 0 %}".replace('0', direccionId);
     }
 
     function cerrarModal() {
-        // Ocultar el modal
         document.getElementById('modal-confirmacion').style.display = 'none';
     }
 
-    // Cerrar el modal si se hace clic fuera del contenido
     window.onclick = function(event) {
         var modal = document.getElementById('modal-confirmacion');
         if (event.target == modal) {

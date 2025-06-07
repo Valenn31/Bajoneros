@@ -111,6 +111,7 @@ class Cliente(AbstractBaseUser, PermissionsMixin):  # <--- AGREGÁ PermissionsMi
     fecha_nacimiento = models.DateField(null=True, blank=True)  # NUEVO CAMPO
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)  # <-- AGREGA ESTA LÍNEA
 
     USERNAME_FIELD = 'telefono'
     REQUIRED_FIELDS = []
@@ -119,10 +120,6 @@ class Cliente(AbstractBaseUser, PermissionsMixin):  # <--- AGREGÁ PermissionsMi
 
     def __str__(self):
         return self.telefono
-
-    @property
-    def is_staff(self):
-        return self.is_admin
 
     def edad(self):
         if self.fecha_nacimiento:
