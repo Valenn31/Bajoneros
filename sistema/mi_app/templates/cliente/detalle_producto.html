@@ -17,11 +17,11 @@
 <a href="{% url 'catalogo_cliente' %}" class="btn-flecha-atras" title="Volver al catálogo">
     <svg class="flecha" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d32f2f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
 </a>
-
+<legend style="color:  black;   margin-left: 20px;">Personaliza tu pedido:</legend>
 <form method="post" id="form-detalle-producto">
     {% csrf_token %}
     {% for campo_info in campos_y_opciones %}
-    <legend style="color:  black;">Personaliza tu pedido:</legend>
+    
     <fieldset>
         <legend>{{ campo_info.campo.nombre }}</legend>
         {% for opcion in campo_info.opciones %}
@@ -54,33 +54,14 @@
 </form>
 
 <script>
-    const restarBtn = document.getElementById('restar-cantidad');
-    const sumarBtn = document.getElementById('sumar-cantidad');
-    const cantidadMostrar = document.getElementById('cantidad-mostrar');
-    const cantidadInput = document.getElementById('cantidad');
-    let cantidad = 1;
-    restarBtn.addEventListener('click', function() {
-        if (cantidad > 1) {
-            cantidad--;
-            cantidadMostrar.textContent = cantidad;
-            cantidadInput.value = cantidad;
-        }
-    });
-    sumarBtn.addEventListener('click', function() {
-        cantidad++;
-        cantidadMostrar.textContent = cantidad;
-        cantidadInput.value = cantidad;
-    });
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     // Precio base del producto
     const precioBase = parseFloat({{ producto.precio|floatformat:2 }});
-    let cantidad = 1;
-
-    // Elementos
     const totalValor = document.getElementById('total-valor');
     const cantidadInput = document.getElementById('cantidad');
+    const cantidadMostrar = document.getElementById('cantidad-mostrar');
+    const restarBtn = document.getElementById('restar-cantidad');
+    const sumarBtn = document.getElementById('sumar-cantidad');
 
     // Función para obtener el total de personalizaciones seleccionadas
     function obtenerExtras() {
@@ -102,11 +83,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para actualizar el total
     function actualizarTotal() {
-        cantidad = parseInt(cantidadInput.value) || 1;
+        let cantidad = parseInt(cantidadInput.value) || 1;
         const extras = obtenerExtras();
         const total = (precioBase + extras) * cantidad;
         totalValor.textContent = total.toFixed(2);
     }
+
+    // Botones de cantidad
+    restarBtn.addEventListener('click', function() {
+        let cantidad = parseInt(cantidadInput.value) || 1;
+        if (cantidad > 1) {
+            cantidad--;
+            cantidadMostrar.textContent = cantidad;
+            cantidadInput.value = cantidad;
+            actualizarTotal();
+        }
+    });
+    sumarBtn.addEventListener('click', function() {
+        let cantidad = parseInt(cantidadInput.value) || 1;
+        cantidad++;
+        cantidadMostrar.textContent = cantidad;
+        cantidadInput.value = cantidad;
+        actualizarTotal();
+    });
 
     // Escuchar cambios en personalizaciones y cantidad
     document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(function(input) {

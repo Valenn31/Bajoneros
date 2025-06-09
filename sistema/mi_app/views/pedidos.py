@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from ..models import Producto, Pedido, PedidoProducto, Direccion, DireccionCliente
+from ..models import Producto, Pedido, PedidoProducto, DireccionCliente
 from django.contrib import messages
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
@@ -17,18 +17,19 @@ def realizar_pedido(request):
         if not carrito:
             messages.error(request, 'Tu carrito está vacío.')
             return redirect('catalogo_cliente')
-        # Buscar dirección en ambos modelos
-        direccion_obj = None
+        # Buscar dirección solo en DireccionCliente
         try:
-            direccion_obj = Direccion.objects.get(id=direccion_id)
-            direccion_str = f"{direccion_obj.nombre} - {direccion_obj.direccion}"
-        except Direccion.DoesNotExist:
-            try:
-                direccion_cliente = DireccionCliente.objects.get(id=direccion_id)
-                direccion_str = f"{direccion_cliente.nombre} - {direccion_cliente.direccion}"
-            except DireccionCliente.DoesNotExist:
-                messages.error(request, 'La dirección seleccionada no existe.')
-                return redirect('checkout')
+            direccion_cliente = DireccionCliente.objects.get(id=direccion_id, usuario=request.user)
+            direccion_str = f"{direccion_cliente.calle} {direccion_cliente.numero}"
+            if direccion_cliente.piso:
+                direccion_str += f", Piso: {direccion_cliente.piso}"
+            if direccion_cliente.departamento:
+                direccion_str += f", Dpto: {direccion_cliente.departamento}"
+            if direccion_cliente.referencia:
+                direccion_str += f" ({direccion_cliente.referencia})"
+        except DireccionCliente.DoesNotExist:
+            messages.error(request, 'La dirección seleccionada no existe.')
+            return redirect('checkout')
         pedido = Pedido.objects.create(
             cliente=request.user if request.user.is_authenticated else None,
             cliente_nombre=nombre,
@@ -65,15 +66,14 @@ def realizar_pedido(request):
         messages.success(request, 'Pedido realizado con éxito.')
         return redirect('pedido_realizado')
 
+@login_required
 def checkout(request):
     carrito = request.session.get('carrito', [])
     if not carrito:
         messages.error(request, 'Tu carrito está vacío.')
         return redirect('catalogo_cliente')
-    # Obtener direcciones de ambos modelos
-    direcciones_cliente = list(DireccionCliente.objects.filter(usuario=request.user))
-    direcciones_antiguas = list(Direccion.objects.filter(cliente=request.user))
-    direcciones = direcciones_cliente + direcciones_antiguas
+    # Solo obtener direcciones de DireccionCliente
+    direcciones = DireccionCliente.objects.filter(usuario=request.user)
     if request.method == 'POST':
         nombre = request.POST.get('nombre', '').strip()
         direccion_id = request.POST.get('direccion')

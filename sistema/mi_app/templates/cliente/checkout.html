@@ -26,7 +26,12 @@
     <select name="direccion" id="direccion" required>
         <option value="">Selecciona una dirección</option>
         {% for direccion in direcciones %}
-            <option value="{{ direccion.id }}">{{ direccion.nombre }} - {{ direccion.direccion }}</option>
+            <option value="{{ direccion.id }}">
+                {{ direccion.nombre }} - {{ direccion.calle }} {{ direccion.numero }}
+                {% if direccion.piso %}, Piso: {{ direccion.piso }}{% endif %}
+                {% if direccion.departamento %}, Dpto: {{ direccion.departamento }}{% endif %}
+                {% if direccion.referencia %} ({{ direccion.referencia }}){% endif %}
+            </option>
         {% endfor %}
     </select>
     <a href="{% url 'mis_direcciones' %}" class="btn-agregar-direccion">Agregar nueva dirección</a>

@@ -31,12 +31,13 @@ PersonalizacionOpcionFormSet = inlineformset_factory(
 )
 
 class RegistroClienteForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    password1 = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirmar contraseña")
     fecha_nacimiento = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Fecha de nacimiento")
 
     class Meta:
         model = Cliente
-        fields = ['nombre', 'telefono', 'fecha_nacimiento', 'password']
+        fields = ['nombre', 'telefono', 'fecha_nacimiento']
 
     def clean_fecha_nacimiento(self):
         fecha = self.cleaned_data['fecha_nacimiento']
@@ -46,10 +47,25 @@ class RegistroClienteForm(forms.ModelForm):
             raise forms.ValidationError("Debes ser mayor de 18 años para registrarte.")
         return fecha
 
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            self.add_error('password2', "Las contraseñas no coinciden")
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
 class DireccionForm(forms.ModelForm):
     class Meta:
         model = DireccionCliente
-        fields = ['nombre', 'direccion', 'referencia']
+        fields = ['nombre', 'calle', 'numero', 'piso', 'departamento', 'referencia']
         widgets = {
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),
             'referencia': forms.TextInput(attrs={'class': 'form-control'}),
@@ -66,4 +82,4 @@ class CheckoutForm(forms.Form):
     def __init__(self, *args, **kwargs):
         cliente = kwargs.pop('cliente')
         super().__init__(*args, **kwargs)
-        self.fields['direccion'].queryset = DireccionCliente.objects.filter(cliente=cliente)
+        self.fields['direccion'].queryset = DireccionCliente.objects.filter(usuario=cliente)

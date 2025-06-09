@@ -111,6 +111,7 @@ class Cliente(AbstractBaseUser, PermissionsMixin):  # <--- AGREGÁ PermissionsMi
     fecha_nacimiento = models.DateField(null=True, blank=True)  # NUEVO CAMPO
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)  # <-- AGREGA ESTA LÍNEA
 
     USERNAME_FIELD = 'telefono'
     REQUIRED_FIELDS = []
@@ -120,10 +121,6 @@ class Cliente(AbstractBaseUser, PermissionsMixin):  # <--- AGREGÁ PermissionsMi
     def __str__(self):
         return self.telefono
 
-    @property
-    def is_staff(self):
-        return self.is_admin
-
     def edad(self):
         if self.fecha_nacimiento:
             today = date.today()
@@ -132,21 +129,28 @@ class Cliente(AbstractBaseUser, PermissionsMixin):  # <--- AGREGÁ PermissionsMi
             )
         return None
 
-class Direccion(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='direcciones')
-    nombre = models.CharField(max_length=100, help_text="Ej: Casa, Trabajo, etc.")
-    direccion = models.CharField(max_length=200)
-    referencia = models.CharField(max_length=200, blank=True)
-    # Puedes agregar más campos si necesitas (ej: ciudad, provincia)
-    def __str__(self):
-        return f"{self.nombre}: {self.direccion}"
+# class Direccion(models.Model):
+#     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='direcciones')
+#     nombre = models.CharField(max_length=100, help_text="Ej: Casa, Trabajo, etc.")
+#     direccion = models.CharField(max_length=200)
+#     referencia = models.CharField(max_length=200, blank=True)
+#     # Puedes agregar más campos si necesitas (ej: ciudad, provincia)
+#     def __str__(self):
+#         return f"{self.nombre}: {self.direccion}"
 
 class DireccionCliente(models.Model):
     # Usuario usando el modelo personalizado configurado
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='direcciones_cliente')
     nombre = models.CharField(max_length=100)  # Ej: "Casa", "Trabajo"
-    direccion = models.TextField()
+    calle = models.CharField(max_length=100)
+    numero = models.CharField(max_length=10)
+    piso = models.CharField(max_length=10, blank=True, null=True)
+    departamento = models.CharField(max_length=20, blank=True, null=True)
     referencia = models.TextField(blank=True, null=True)
-    
+
     def __str__(self):
         return f"{self.nombre} - {self.usuario.telefono}"  # Usando telefono en lugar de username
+
+    class Meta:
+        verbose_name = "Dirección de Cliente"
+        verbose_name_plural = "Direcciones de Clientes"
