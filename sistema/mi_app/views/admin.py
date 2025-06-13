@@ -8,7 +8,12 @@ from weasyprint import HTML
 from datetime import datetime
 
 def pedidos_admin(request):
-    estados_seleccionados = request.GET.getlist('estado')
+    estado_param = request.GET.get('estado', '')
+    if estado_param:
+        estados_seleccionados = estado_param.split(',')
+    else:
+        estados_seleccionados = []
+
     fecha_inicio = request.GET.get('fecha_inicio')
     fecha_fin = request.GET.get('fecha_fin')
 
@@ -17,8 +22,8 @@ def pedidos_admin(request):
     # Filtrado por estados
     if estados_seleccionados:
         pedidos = pedidos.filter(estado__in=estados_seleccionados)
-    else:
-        pedidos = pedidos.exclude(estado__in=['entregado', 'cancelado'])
+    # else:
+    #     pedidos = pedidos.exclude(estado__in=['entregado', 'cancelado'])
 
     # Filtrado por fecha
     if fecha_inicio:

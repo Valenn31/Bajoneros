@@ -360,3 +360,20 @@ button#add-opcion:hover {
 .pedido-actions select {
     width: auto;
 }
+
+/* Puedes poner esto en tu CSS */
+.estado-pill {
+  border: 1px solid #aaa;
+  background: #f8f8f8;
+  border-radius: 16px;
+  padding: 6px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+  margin-top: 10px;
+}
+.estado-pill.selected {
+  background: #4a0808;
+  color: #fff;
+  border-color: #4a0808;
+}

@@ -14,96 +14,107 @@
 
 <link rel="stylesheet" href="{% static 'css/pedidos_admin.css' %}">
 <form id="filtros-form" method="get" style="margin-bottom: 20px;">
-  <label style="font-weight:600;">Filtrar por estado:</label>
   <div style="display:flex; gap:18px; flex-wrap:wrap; margin-top:8px; align-items:center;">
-    <label style="display:flex; align-items:center; gap:4px;">
-      <input type="checkbox" id="mostrar-todo-estados">
-      Mostrar todo
-    </label>
-    {% for key, label in pedidos.0.ESTADOS %}
-      <label style="display:flex; align-items:center; gap:4px;">
-        <input type="checkbox" name="estado" value="{{ key }}"
-          {% if key in estados_seleccionados or not estados_seleccionados %}checked{% endif %}>
-        {{ label }}
-      </label>
-    {% endfor %}
-
-    <!-- Filtro por fecha -->
-    <label style="margin-left:24px; font-weight:600;">Desde:</label>
+    <label style="margin-left:0; font-weight:600;">Desde:</label>
     <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}" style="padding:6px; border-radius:6px; border:1px solid #ccc;">
     <label style="margin-left:8px; font-weight:600;">Hasta:</label>
     <input type="date" name="fecha_fin" value="{{ fecha_fin }}" style="padding:6px; border-radius:6px; border:1px solid #ccc;">
+    <button type="button" id="limpiar-fechas" style="margin-left:12px; padding:6px 12px;">Limpiar fechas</button>
   </div>
-</form>
-
-  <div id="pedidos-grid" class="pedidos-grid">
-    {% for pedido in pedidos %}
-      <div class="recibo-pedido-admin">
-        <div class="recibo-header-admin">
-          <span class="recibo-numero-admin">Pedido #{{ pedido.id }}</span>
-          <span class="recibo-estado-admin pedido-estado-{{ pedido.estado }}">{{ pedido.get_estado_display }}</span>
-        </div>
-        <div class="recibo-fecha-admin">
-          {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}
-        </div>
-        <div class="recibo-datos-admin">
-          <div><strong>Cliente:</strong> {{ pedido.cliente_nombre }}</div>
-          <div><strong>Dirección:</strong> {{ pedido.cliente_direccion }}</div>
-          <div><strong>Teléfono:</strong> {{ pedido.cliente_telefono }}</div>
-        </div>
-        <div class="recibo-articulos-admin">
-          <h4>Artículos</h4>
-          <ul class="opciones-lista-admin">
-            {% for item in pedido.items.all %}
-              <li>
-                {{ item.cantidad }}x {{ item.nombre_producto }}
-                <span style="color:#888; font-size:0.97em;">
-                  (${{ item.precio_producto|stringformat:".2f" }})
-                </span>
-                {% if item.opciones_seleccionadas.all %}
-                  <ul>
-                    {% for op in item.opciones_seleccionadas.all %}
-                      <li>
-                        {{ op.nombre }}
-                        <span style="color:#888; font-size:0.97em;">
-                          (${{ op.precio_extra|stringformat:".2f" }})
-                        </span>
-                      </li>
-                    {% endfor %}
-                  </ul>
-                {% endif %}
-                <div style="font-weight:600; color:#4a0808;">
-                  Subtotal: ${{ item.subtotal|stringformat:".2f" }}
-                </div>
-              </li>
-            {% empty %}
-              <li>No hay artículos en este pedido.</li>
-            {% endfor %}
-          </ul>
-        </div>
-        <div class="recibo-total-admin">
-          <span>Total:</span>
-          <span class="recibo-total-monto-admin">${{ pedido.total }}</span>
-        </div>
-        <div class="pedido-actions">
-          <div class="pedido-estado" style="margin-top: 0;">
-            <strong>Estado:</strong>
-            <form method="post" action="{% url 'cambiar_estado_pedido' pedido.id %}">
-              {% csrf_token %}
-              <select name="estado" onchange="this.form.submit()">
-                {% for key, label in pedido.ESTADOS %}
-                  <option value="{{ key }}" {% if pedido.estado == key %}selected{% endif %}>{{ label }}</option>
-                {% endfor %}
-              </select>
-            </form>
-          </div>
-          <a href="{% url 'imprimir_pedido_pdf' pedido.id %}" target="_blank">🖨️ Ticket PDF</a>
-        </div>
-      </div>
-    {% empty %}
-      <p>No hay pedidos para mostrar.</p>
+  <div id="estado-filtros" style="display:flex; gap:8px; margin-bottom:12px;">
+    <button type="button" class="estado-pill{% if not estados_seleccionados %} selected{% endif %}" data-estado="all">Todos</button>
+    {% for key, label in pedidos.0.ESTADOS %}
+      <button type="button" class="estado-pill{% if key in estados_seleccionados %} selected{% endif %}" data-estado="{{ key }}">{{ label }}</button>
     {% endfor %}
   </div>
+  <input type="hidden" name="estado" id="estado-input" value="{{ estados_seleccionados|join:',' }}">
+</form>
+
+<div id="pedidos-grid" class="pedidos-grid">
+  {% for pedido in pedidos %}
+    <div class="recibo-pedido-admin">
+      <div class="recibo-header-admin">
+        <span class="recibo-numero-admin">Pedido #{{ pedido.id }}</span>
+        <span class="recibo-estado-admin pedido-estado-{{ pedido.estado }}">{{ pedido.get_estado_display }}</span>
+      </div>
+      <div class="recibo-fecha-admin">
+        {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}
+      </div>
+      <div class="recibo-datos-admin">
+        <div><strong>Cliente:</strong> {{ pedido.cliente_nombre }}</div>
+        <div><strong>Dirección:</strong> {{ pedido.cliente_direccion }}</div>
+        <div><strong>Teléfono:</strong> {{ pedido.cliente_telefono }}</div>
+      </div>
+      <div class="recibo-articulos-admin">
+        <h4>Artículos</h4>
+        <ul class="opciones-lista-admin">
+          {% for item in pedido.items.all %}
+            <li>
+              {{ item.cantidad }}x {{ item.nombre_producto }}
+              <span style="color:#888; font-size:0.97em;">
+                (${{ item.precio_producto|stringformat:".2f" }})
+              </span>
+              {% if item.opciones_seleccionadas.all %}
+                <ul>
+                  {% for op in item.opciones_seleccionadas.all %}
+                    <li>
+                      {{ op.nombre }}
+                      <span style="color:#888; font-size:0.97em;">
+                        (${{ op.precio_extra|stringformat:".2f" }})
+                      </span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+              <div style="font-weight:600; color:#4a0808;">
+                Subtotal: ${{ item.subtotal|stringformat:".2f" }}
+              </div>
+            </li>
+          {% empty %}
+            <li>No hay artículos en este pedido.</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="recibo-total-admin">
+        <span>Total:</span>
+        <span class="recibo-total-monto-admin">${{ pedido.total }}</span>
+      </div>
+      <div class="pedido-actions">
+        <div class="pedido-estado" style="margin-top: 0;">
+          <strong>Estado:</strong>
+          <form method="post" action="{% url 'cambiar_estado_pedido' pedido.id %}">
+            {% csrf_token %}
+            <select name="estado" onchange="this.form.submit()">
+              {% for key, label in pedido.ESTADOS %}
+                <option value="{{ key }}" {% if pedido.estado == key %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </form>
+        </div>
+        <a href="{% url 'imprimir_pedido_pdf' pedido.id %}" target="_blank">🖨️ Ticket PDF</a>
+      </div>
+    </div>
+  {% empty %}
+    <p>No hay pedidos para mostrar.</p>
+  {% endfor %}
+</div>
+
+<style>
+.estado-pill {
+  border: 1px solid #aaa;
+  background: #f8f8f8;
+  border-radius: 16px;
+  padding: 6px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.estado-pill.selected {
+  background: #4a0808;
+  color: #fff;
+  border-color: #4a0808;
+}
+</style>
 
 <script>
 function actualizarPedidosPorAjax() {
@@ -117,7 +128,6 @@ function actualizarPedidosPorAjax() {
     })
     .then(response => response.text())
     .then(html => {
-        // Extrae solo el HTML de los pedidos
         const temp = document.createElement('div');
         temp.innerHTML = html;
         const nuevosPedidos = temp.querySelector('#pedidos-grid');
@@ -126,44 +136,78 @@ function actualizarPedidosPorAjax() {
         }
         // Reasigna los listeners después de actualizar el grid
         asignarListenersFiltros();
+        asignarListenersEstados();
     });
 }
 
-// Asigna listeners a los filtros
+// Asigna listeners a los filtros de fecha
 function asignarListenersFiltros() {
-    document.querySelectorAll('#filtros-form input').forEach(function(input) {
+    document.querySelectorAll('#filtros-form input[type="date"]').forEach(function(input) {
         input.onchange = actualizarPedidosPorAjax;
     });
-    document.querySelectorAll('#filtros-form input[type="checkbox"][name="estado"]').forEach(function(checkbox) {
-        checkbox.ondblclick = function() {
-            document.querySelectorAll('#filtros-form input[type="checkbox"][name="estado"]').forEach(function(cb) {
-                cb.checked = false;
-            });
-            this.checked = true;
+
+    // Botón para limpiar fechas
+    const limpiarFechas = document.getElementById('limpiar-fechas');
+    if (limpiarFechas) {
+        limpiarFechas.onclick = function() {
+            document.querySelector('input[name="fecha_inicio"]').value = '';
+            document.querySelector('input[name="fecha_fin"]').value = '';
+            actualizarPedidosPorAjax();
+        };
+    }
+}
+
+// Asigna listeners a los botones de estado
+function asignarListenersEstados() {
+    let clickTimeout = null;
+    document.querySelectorAll('.estado-pill').forEach(pill => {
+        pill.onclick = function(e) {
+            if (clickTimeout) return; // Si hay timeout, es porque viene un posible doble click
+            clickTimeout = setTimeout(() => {
+                clickTimeout = null;
+                if (this.dataset.estado === 'all') {
+                    document.querySelectorAll('.estado-pill').forEach(p => p.classList.remove('selected'));
+                    this.classList.add('selected');
+                    document.getElementById('estado-input').value = '';
+                } else {
+                    this.classList.toggle('selected');
+                    document.querySelector('.estado-pill[data-estado="all"]').classList.remove('selected');
+                    // Si no hay ninguno seleccionado, activa "Todos"
+                    if (!document.querySelector('.estado-pill.selected:not([data-estado="all"])')) {
+                        document.querySelector('.estado-pill[data-estado="all"]').classList.add('selected');
+                        document.getElementById('estado-input').value = '';
+                    } else {
+                        // Actualiza el input hidden con los estados seleccionados
+                        let seleccionados = [];
+                        document.querySelectorAll('.estado-pill.selected:not([data-estado="all"])').forEach(p => {
+                            seleccionados.push(p.dataset.estado);
+                        });
+                        document.getElementById('estado-input').value = seleccionados.join(',');
+                    }
+                }
+                actualizarPedidosPorAjax();
+            }, 250); // Espera corta para ver si es doble click
+        };
+
+        pill.ondblclick = function(e) {
+            e.preventDefault();
+            if (clickTimeout) clearTimeout(clickTimeout);
+            clickTimeout = null;
+            document.querySelectorAll('.estado-pill').forEach(p => p.classList.remove('selected'));
+            this.classList.add('selected');
+            if (this.dataset.estado === 'all') {
+                document.getElementById('estado-input').value = '';
+            } else {
+                document.getElementById('estado-input').value = this.dataset.estado;
+            }
             actualizarPedidosPorAjax();
         };
     });
-
-    // Mostrar todo: activa todos los estados
-    const mostrarTodo = document.getElementById('mostrar-todo-estados');
-    if (mostrarTodo) {
-        mostrarTodo.onchange = function() {
-            const checkboxes = document.querySelectorAll('#filtros-form input[type="checkbox"][name="estado"]');
-            checkboxes.forEach(cb => cb.checked = this.checked);
-            actualizarPedidosPorAjax();
-        };
-    }
-
-    // Sincroniza el estado de "Mostrar todo"
-    const checkboxes = document.querySelectorAll('#filtros-form input[type="checkbox"][name="estado"]');
-    if (mostrarTodo) {
-        const todosMarcados = Array.from(checkboxes).every(cb => cb.checked);
-        mostrarTodo.checked = todosMarcados;
-    }
 }
 
 // Inicializa los listeners al cargar la página
 asignarListenersFiltros();
+asignarListenersEstados();
 </script>
 
 <script>

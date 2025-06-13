@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     '192.168.0.203',
     '192.168.1.12',
     'bajoneros.onrender.com',
+    '192.168.3.37',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
