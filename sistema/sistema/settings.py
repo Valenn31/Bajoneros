@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(ymh*b1bj6-#t^a_hcwgmg+wosfy0zsa%sr-s@!8xbc=rh+rz%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -161,3 +161,6 @@ LOGIN_URL = '/login/'
 
 # Whitenoise
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
