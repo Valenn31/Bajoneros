@@ -12,10 +12,9 @@ PAGINA ADMIN IDEAS
 
         🔲Animacion / Sonido al entrar un pedido nuevo
 
-        🔲La tabla ya aparecec filtrada sin los entregados y cancelados por mas que esten todos los filtros puestos
-
-        ✔Al agregar personalizaciones solo se agregan de a 1 los itemsPoder borrar productos y personalizaciones
+        ✔La tabla ya aparecec filtrada sin los entregados y cancelados por mas que esten todos los filtros puestos
         ✔Al agregar personalizaciones solo se agregan de a 1 los items
+        ✔Poder borrar productos y personalizaciones
         ✔Editar las personalizaciones ya creadas
         ✔Cambio de color segun el estado de la orden
         ✔Actualizar el admin productos cuando se hace una nueva orden
@@ -23,12 +22,10 @@ PAGINA ADMIN IDEAS
         ✔Distintas tablas 
         ✔Agragar las funciones del admin desde el panel de pedidos
 
-        
-        
 PAGINA CLIENTE IDEAS
 
-    🔲Pedir la direccion de la persona al abrir la app luego del login
-    y autocompletar en el pedido
+    🔲Pedir la direccion de la persona al abrir la app luego del login 
+    y autocompletar en el pedido (Con un mapa integrado o que la persona pueda elegir la direccion)
 
     ✔Agregar a mi cuenta: Direcciones, fecha de nacimiento
 
@@ -62,6 +59,8 @@ PAGINA CLIENTE IDEAS
 
     -Pedidos (✔falta crear)
 
+        🔲Poder cancelar el pedido antes de que sea enviado
+
         ✔Poder ver los pedidos que se hicieron
         ✔Poder ver el estado del pedido
         ✔Los pedidos aparecen todavia dependiendo del telefono que se ingrese en el ultimo pedido
@@ -70,6 +69,28 @@ PAGINA CLIENTE IDEAS
     -Login / Register
 
         ✔Agregar un login
+
+COSAS A AGREGAR EN UN FUTURO
+
+-Clientes
+
+    - Ver historial de pedidos de un cliente.
+
+    - Información de contacto.
+
+    - Búsqueda por nombre, teléfono o DNI.
+
+-Estadísticas y reportes (opcional)
+
+    - Total de ventas por día/semana/mes.
+
+    - Productos más vendidos.
+
+    - Horarios pico.
+
+    - Pedidos cancelados.
+    
+    - Ventas Totales
 
 FUENTES
 
@@ -97,3 +118,4 @@ ABRIR SERVIDOR (DAPHNE)
 Instalar para los tickets digitales
 
     https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases
+
