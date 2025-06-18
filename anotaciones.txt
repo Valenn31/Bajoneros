@@ -72,7 +72,15 @@ PAGINA CLIENTE IDEAS
 
 COSAS A AGREGAR EN UN FUTURO
 
--Clientes
+    -Desde la app del cliente mejorar la parte de pedidos,
+    que el estado se actualize solo, poder entrar en el pedido y 
+    poder modificarlo, agregarle productos, etc. Y poder cancelarlo
+    si todavia no se envio o preparo.
+
+    -Agregar un mapa para que la persona pueda elegir la direccion de entrega
+
+
+-Clientes(desde el admin)
 
     - Ver historial de pedidos de un cliente.
 
@@ -80,7 +88,7 @@ COSAS A AGREGAR EN UN FUTURO
 
     - Búsqueda por nombre, teléfono o DNI.
 
--Estadísticas y reportes (opcional)
+-Estadísticas y reportes
 
     - Total de ventas por día/semana/mes.
 
