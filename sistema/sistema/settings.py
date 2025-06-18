@@ -41,7 +41,9 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://bajoneros.onrender.com"
+    "https://bajoneros.onrender.com",
+    "http://192.168.1.134:8000",  # tu IP y puerto
+
 ]
 # O para permitir cualquier IP en desarrollo (no recomendado en producción):
 # ALLOWED_HOSTS = ['*']
@@ -163,5 +165,9 @@ LOGIN_URL = '/login/'
 # Whitenoise
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+if DEBUG:
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+else:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
