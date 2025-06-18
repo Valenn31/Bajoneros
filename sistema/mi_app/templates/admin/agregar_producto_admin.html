@@ -10,5 +10,10 @@
 <form method="post" enctype="multipart/form-data" style="max-width: 500px;">
   {% csrf_token %}
   {{ form.as_p }}
+  {% if form.instance.imagen %}
+    <div style="margin-bottom:10px;">
+      <img src="{{ form.instance.imagen.url }}" alt="Imagen actual" style="max-width:180px;max-height:120px;border-radius:6px;">
+    </div>
+  {% endif %}
   <button type="submit" style="margin-top: 10px; background: #2a9d8f; color: white; border: none; padding: 8px 16px; border-radius: 4px;">Guardar</button>
 </form>

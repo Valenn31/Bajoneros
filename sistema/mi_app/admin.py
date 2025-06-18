@@ -1,5 +1,7 @@
 from django.contrib import admin
 from .models import Producto, PersonalizacionCampo, PersonalizacionOpcion, Pedido, PedidoProducto
+from django.shortcuts import render, redirect
+from .forms import ProductoForm
 
 # Inline para mostrar Opciones dentro de cada Campo
 class PersonalizacionOpcionInline(admin.TabularInline):
@@ -41,3 +43,13 @@ class PedidoAdmin(admin.ModelAdmin):
     search_fields = ('cliente_nombre', 'cliente_direccion')
     inlines = [PedidoProductoInline]
     readonly_fields = ('total',)  # 👈 Esto lo hace de solo lectura
+
+def agregar_producto_admin(request):
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('productos_admin')
+    else:
+        form = ProductoForm()
+    return render(request, 'admin/agregar_producto_admin.html', {'form': form})
